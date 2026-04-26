@@ -24,7 +24,7 @@ export type TrustStat = {
 };
 
 export const TRUST_STATS: TrustStat[] = [
-  { value: 10, suffix: "+", label: "Projects Built" },
+  { value: 50, suffix: "+", label: "Projects Built" },
   { value: 2, suffix: "+", label: "Years Experience" },
   { value: 6, suffix: "+", label: "Technologies" },
   { value: 100, suffix: "%", label: "Scalable Systems" },
