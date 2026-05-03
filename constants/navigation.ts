@@ -11,6 +11,7 @@ export const NAV_LINKS: NavLink[] = [
     href: "/services",
     children: [
       { label: "Web Development", href: "/services/web-development" },
+      { label: "Backend & API Development", href: "/services/backend-api-development" },
       { label: "Mobile App Development", href: "/services/mobile-app-development" },
       { label: "SEO", href: "/services/seo" },
       { label: "Digital Marketing", href: "/services/digital-marketing" },
