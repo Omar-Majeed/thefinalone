@@ -1,127 +1,147 @@
 "use client";
 
-import { useRef } from "react";
 import { motion } from "framer-motion";
+import { useRef } from "react";
+import { Search, FileText, Link2, MapPin, ShoppingCart, BarChart2 } from "lucide-react";
 
-const services = [
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const SERVICES = [
   {
-    icon: "🔍",
+    icon: Search,
     title: "Technical SEO Audit",
     description:
-      "Deep crawl of your site's structure, speed, and indexability issues. We find what's hurting your rankings and fix it fast.",
+      "Deep crawl of your site's structure, speed, and indexability. We find what's hurting your rankings and resolve it systematically.",
   },
   {
-    icon: "📝",
+    icon: FileText,
     title: "Content Strategy",
     description:
-      "Keyword-mapped content plans that attract and convert the right audience. Every piece of content has a ranking purpose.",
+      "Keyword-mapped content plans that attract and convert the right audience. Every piece of content has a clear ranking purpose.",
   },
   {
-    icon: "🔗",
+    icon: Link2,
     title: "Link Building",
     description:
-      "High-authority backlinks that boost your domain credibility. We build relationships, not just links.",
+      "High-authority backlinks that boost your domain credibility. We build relationships and earn links that actually move the needle.",
   },
   {
-    icon: "📍",
+    icon: MapPin,
     title: "Local SEO",
     description:
       "Dominate local search results and Google Maps rankings. Capture customers searching in your area right now.",
   },
   {
-    icon: "🛒",
+    icon: ShoppingCart,
     title: "E-commerce SEO",
     description:
-      "Product and category optimization for maximum organic sales. Turn search traffic into revenue.",
+      "Product and category page optimization for maximum organic sales. Turn search traffic into measurable revenue.",
   },
   {
-    icon: "📊",
+    icon: BarChart2,
     title: "SEO Analytics",
     description:
-      "Monthly reporting with clear KPIs and actionable insights. You always know exactly what's working and why.",
+      "Monthly reporting with clear KPIs and actionable insights. You always know exactly what is working and why.",
   },
 ];
 
-export default function WhatWeDo() {
-  const dragRef = useRef<HTMLDivElement>(null);
+export function WhatWeDo() {
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const dragRef = useRef({ isDown: false, startX: 0, startScroll: 0, moved: false });
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    if (e.pointerType === "touch") return;
+    if (e.button !== 0) return;
+    const el = railRef.current;
+    if (!el) return;
+    dragRef.current = { isDown: true, moved: false, startX: e.clientX, startScroll: el.scrollLeft };
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = railRef.current;
+    if (!el || !dragRef.current.isDown) return;
+    const dx = e.clientX - dragRef.current.startX;
+    if (!dragRef.current.moved && Math.abs(dx) > 5) {
+      dragRef.current.moved = true;
+      el.classList.add("is-dragging");
+      try { el.setPointerCapture(e.pointerId); } catch { /* noop */ }
+    }
+    if (dragRef.current.moved) { el.scrollLeft = dragRef.current.startScroll - dx; e.preventDefault(); }
+  };
+
+  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = railRef.current;
+    if (!el) return;
+    dragRef.current.isDown = false;
+    if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    el.classList.remove("is-dragging");
+  };
 
   return (
-    <section className="bg-white py-24 px-6 overflow-hidden">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mb-12"
-        >
-          <span className="text-[#5ABB4A] text-sm font-semibold uppercase tracking-widest">
-            Our Services
-          </span>
-          <h2 className="text-4xl lg:text-5xl font-black text-black mt-3">
-            What We Do
+    <section className="bg-background py-20 sm:py-24 lg:py-28">
+      <div className="container px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-sm font-semibold text-primary">Our Services</span>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Full-spectrum SEO across every growth channel
           </h2>
-          <p className="text-gray-600 mt-4 max-w-xl">
-            Full-spectrum SEO services engineered to grow your organic presence
-            from every angle.
+          <p className="mt-4 text-base leading-8 text-[#6B7280] sm:text-lg">
+            Drag across the services to explore how we approach each layer of
+            your organic search presence.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Drag hint */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="text-sm text-gray-400 mb-4 flex items-center gap-2"
+        <div
+          ref={railRef}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onPointerLeave={endDrag}
+          className="seo-services-rail -mx-6 mt-12 flex items-stretch gap-5 overflow-x-auto px-6 pb-2 md:mx-0 md:px-0"
         >
-          <span>←</span> Drag to explore <span>→</span>
-        </motion.p>
+          {SERVICES.map((service, index) => {
+            const Icon = service.icon;
+            return (
+              <motion.article
+                key={service.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.45, ease: EASE, delay: index * 0.08 }}
+                className="flex snap-start self-stretch"
+              >
+                <div className="flex h-full w-[82vw] max-w-[320px] shrink-0 flex-col rounded-[28px] border border-[#E5E7EB] bg-white p-6 shadow-[0_22px_50px_-38px_rgba(15,23,42,0.28)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/50 hover:shadow-[0_26px_54px_-38px_rgba(15,23,42,0.32)] sm:w-[320px]">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Icon className="h-5 w-5" strokeWidth={2} />
+                  </span>
+                  <h3 className="mt-5 text-xl font-semibold tracking-tight text-foreground">
+                    {service.title}
+                  </h3>
+                  <p className="mt-3 flex-1 text-sm leading-7 text-[#6B7280] sm:text-base">
+                    {service.description}
+                  </p>
+                </div>
+              </motion.article>
+            );
+          })}
+        </div>
 
-        {/* Horizontal scroll container */}
-        <motion.div
-          ref={dragRef}
-          className="flex gap-5 overflow-x-scroll pb-4 cursor-grab active:cursor-grabbing"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-          drag="x"
-          dragConstraints={dragRef}
-          whileTap={{ cursor: "grabbing" }}
-        >
-          {services.map((service, i) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: i * 0.08 }}
-              whileHover={{ y: -6, boxShadow: "0 20px 40px rgba(0,0,0,0.1)" }}
-              className="min-w-[280px] max-w-[280px] bg-white border border-gray-100 rounded-2xl p-6 shadow-sm flex flex-col gap-4 select-none"
-            >
-              <div className="w-12 h-12 bg-[#f0faf0] rounded-xl flex items-center justify-center text-2xl">
-                {service.icon}
-              </div>
-              <div>
-                <h3 className="text-lg font-bold text-black">{service.title}</h3>
-                <p className="text-gray-600 text-sm mt-2 leading-relaxed">
-                  {service.description}
-                </p>
-              </div>
-              <div className="mt-auto pt-2">
-                <span className="text-[#5ABB4A] text-sm font-semibold flex items-center gap-1 group-hover:gap-2 transition-all">
-                  Learn more →
-                </span>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <style>{`
+          .seo-services-rail {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+            cursor: grab;
+            touch-action: pan-x pan-y;
+            overscroll-behavior-x: contain;
+            scroll-snap-type: x mandatory;
+          }
+          .seo-services-rail::-webkit-scrollbar { display: none; }
+          .seo-services-rail.is-dragging { cursor: grabbing; }
+          .seo-services-rail.is-dragging * { pointer-events: none; user-select: none; }
+        `}</style>
       </div>
-
-      <style jsx>{`
-        div::-webkit-scrollbar {
-          display: none;
-        }
-      `}</style>
     </section>
   );
 }

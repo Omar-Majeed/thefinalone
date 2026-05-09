@@ -2,139 +2,91 @@
 
 import { motion } from "framer-motion";
 
-const steps = [
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const STEPS = [
   {
     number: "01",
     title: "Discovery & Audit",
     description:
-      "We analyze your current site, competitors, and target keywords to build a clear picture of opportunities. No assumptions — only data.",
-    icon: "🔎",
+      "We analyze your current site, competitors, and target keywords to build a clear picture of opportunities. No assumptions — only data and verified findings.",
   },
   {
     number: "02",
     title: "Strategy Blueprint",
     description:
-      "A custom 90-day SEO roadmap tailored to your business goals and industry. You'll know exactly what we're doing and when.",
-    icon: "🗺️",
+      "A custom 90-day SEO roadmap tailored to your business goals and industry. You will know exactly what we are doing, when, and why.",
   },
   {
     number: "03",
     title: "On-Page Optimization",
     description:
-      "We optimize every page — titles, meta, content, internal links, schema markup. The technical foundation that search engines reward.",
-    icon: "⚙️",
+      "We optimize every page — titles, meta descriptions, content, internal links, and schema markup. The technical foundation that search engines reward.",
   },
   {
     number: "04",
     title: "Authority Building",
     description:
-      "Targeted outreach and content marketing to earn high-quality backlinks. We build your domain's trust, one quality link at a time.",
-    icon: "🔗",
+      "Targeted outreach and content marketing to earn high-quality backlinks. We build domain trust one quality link at a time.",
   },
   {
     number: "05",
     title: "Monitor & Scale",
     description:
-      "Monthly reporting, algorithm updates tracking, and continuous iteration. SEO is a long game — we stay in it with you.",
-    icon: "📊",
+      "Monthly reporting, algorithm update tracking, and continuous iteration. SEO is a long game and we stay in it with you for the long run.",
   },
 ];
 
-export default function ProcessSection() {
+export function ProcessSection() {
   return (
-    <section className="bg-[#F9F9F9] py-24 px-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-20"
-        >
-          <span className="text-[#5ABB4A] text-sm font-semibold uppercase tracking-widest">
-            How We Work
-          </span>
-          <h2 className="text-4xl lg:text-5xl font-black text-black mt-3">
-            Our SEO Process
+    <section className="bg-background-alt py-20 sm:py-24 lg:py-28">
+      <div className="container px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-sm font-semibold text-primary">Our Process</span>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            A proven SEO workflow built for measurable, lasting results
           </h2>
-          <p className="text-gray-600 mt-4 max-w-xl mx-auto">
-            A proven 5-step framework that turns struggling websites into
-            ranking machines.
-          </p>
-        </motion.div>
+        </div>
 
-        {/* Zig-zag steps */}
-        <div className="flex flex-col gap-0">
-          {steps.map((step, i) => {
-            const isEven = i % 2 === 0;
-            return (
-              <div key={step.number} className="relative">
-                {/* Connector line */}
-                {i < steps.length - 1 && (
-                  <div className="absolute left-1/2 -translate-x-1/2 top-full w-px h-12 bg-gradient-to-b from-[#5ABB4A]/40 to-transparent z-10 hidden lg:block" />
-                )}
+        <div className="relative mx-auto mt-14 max-w-4xl">
+          {/* Static track line */}
+          <div className="absolute left-5 top-0 h-full w-px bg-[#D1D5DB] sm:left-8" />
+          {/* Animated fill line */}
+          <motion.div
+            initial={{ scaleY: 0 }}
+            whileInView={{ scaleY: 1 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.95, ease: EASE }}
+            className="absolute left-5 top-0 h-full w-px origin-top bg-primary sm:left-8"
+          />
 
-                <div
-                  className={`grid grid-cols-1 lg:grid-cols-2 gap-8 items-center py-10 ${
-                    !isEven ? "lg:direction-rtl" : ""
-                  }`}
-                >
-                  {/* Content block */}
-                  <motion.div
-                    initial={{ opacity: 0, x: isEven ? -50 : 50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ duration: 0.65, ease: "easeOut" }}
-                    className={`${!isEven ? "lg:order-2" : ""}`}
-                  >
-                    <div className="bg-white rounded-2xl p-8 shadow-sm border border-gray-100 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                      <div className="flex items-start gap-4">
-                        <div className="text-3xl">{step.icon}</div>
-                        <div>
-                          <h3 className="text-xl font-black text-black">
-                            {step.title}
-                          </h3>
-                          <p className="text-gray-600 mt-2 leading-relaxed">
-                            {step.description}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </motion.div>
+          <ol className="space-y-8 sm:space-y-10">
+            {STEPS.map((step, index) => (
+              <motion.li
+                key={step.title}
+                initial={{ opacity: 0, x: 24 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.55, ease: EASE, delay: index * 0.1 }}
+                className="relative pl-16 sm:pl-24"
+              >
+                {/* Step number badge */}
+                <span className="absolute left-0 top-7 inline-flex h-10 w-10 items-center justify-center rounded-full border border-primary/20 bg-white text-xs font-semibold text-primary shadow-[0_12px_24px_-18px_rgba(90,187,74,0.8)] sm:left-[13px]">
+                  {step.number}
+                </span>
 
-                  {/* Number badge */}
-                  <motion.div
-                    initial={{ opacity: 0, x: isEven ? 50 : -50 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-80px" }}
-                    transition={{ duration: 0.65, ease: "easeOut", delay: 0.1 }}
-                    className={`flex items-center justify-center ${
-                      !isEven ? "lg:order-1" : ""
-                    }`}
-                  >
-                    <motion.div
-                      whileHover={{ scale: 1.08 }}
-                      transition={{ type: "spring", stiffness: 300 }}
-                      className="relative"
-                    >
-                      {/* Outer ring */}
-                      <div className="w-32 h-32 rounded-full border-2 border-[#5ABB4A]/20 flex items-center justify-center">
-                        {/* Inner circle */}
-                        <div className="w-24 h-24 rounded-full bg-[#5ABB4A] flex items-center justify-center shadow-lg shadow-[#5ABB4A]/30">
-                          <span className="text-white text-3xl font-black">
-                            {step.number}
-                          </span>
-                        </div>
-                      </div>
-                      {/* Pulse ring */}
-                      <div className="absolute inset-0 rounded-full border border-[#5ABB4A]/20 animate-ping opacity-30" />
-                    </motion.div>
-                  </motion.div>
+                <div className="rounded-[28px] border border-[#E5E7EB] bg-white p-6 shadow-[0_22px_50px_-38px_rgba(15,23,42,0.28)] sm:p-7">
+                  <p className="text-sm font-semibold text-primary">{step.title}</p>
+                  <p className="mt-3 text-lg font-semibold tracking-tight text-foreground sm:text-xl">
+                    {step.title}
+                  </p>
+                  <p className="mt-4 text-sm leading-7 text-[#6B7280] sm:text-base">
+                    {step.description}
+                  </p>
                 </div>
-              </div>
-            );
-          })}
+              </motion.li>
+            ))}
+          </ol>
         </div>
       </div>
     </section>

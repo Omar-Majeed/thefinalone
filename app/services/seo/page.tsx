@@ -1,21 +1,23 @@
-import HeroSection from "@/components/seo/HeroSection";
-import GrowthDashboard from "@/components/seo/GrowthDashboard";
-import WhatWeDo from "@/components/seo/WhatWeDo";
-import ProcessSection from "@/components/seo/ProcessSection";
-import ResultsSection from "@/components/seo/ResultsSection";
-import WhyChooseUs from "@/components/seo/WhyChooseUs";
-import ToolsTech from "@/components/seo/ToolsTech";
-import FinalCTA from "@/components/seo/FinalCTA";
+import type { Metadata } from "next";
+import { Footer } from "@/components/Footer";
+import { HeroSection } from "@/components/services/seo/HeroSection";
+import { GrowthDashboard } from "@/components/services/seo/GrowthDashboard";
+import { WhatWeDo } from "@/components/services/seo/WhatWeDo";
+import { ProcessSection } from "@/components/services/seo/ProcessSection";
+import { ResultsSection } from "@/components/services/seo/ResultsSection";
+import { WhyChooseUs } from "@/components/services/seo/WhyChooseUs";
+import { ToolsTech } from "@/components/services/seo/ToolsTech";
+import { FinalCTA } from "@/components/services/seo/FinalCTA";
 
-export const metadata = {
-  title: "SEO Services | Rank Higher & Grow Faster",
+export const metadata: Metadata = {
+  title: "SEO Services",
   description:
-    "Data-driven SEO strategies that put your business at the top of search results. Technical SEO, content strategy, link building, and more.",
+    "Data-driven SEO strategies that put your business at the top of search results and keep it there. Technical SEO, content strategy, link building, and more.",
 };
 
 export default function SEOPage() {
   return (
-    <main>
+    <main className="bg-background text-foreground">
       <HeroSection />
       <GrowthDashboard />
       <WhatWeDo />
@@ -24,6 +26,7 @@ export default function SEOPage() {
       <WhyChooseUs />
       <ToolsTech />
       <FinalCTA />
+      <Footer />
     </main>
   );
 }

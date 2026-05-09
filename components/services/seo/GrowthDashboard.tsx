@@ -2,8 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
+import { TrendingUp, Target, ShieldCheck } from "lucide-react";
 
-function useCountUp(target: number, duration: number = 2000, inView: boolean = false) {
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+function useCountUp(target: number, inView: boolean, duration = 1800) {
   const [count, setCount] = useState(0);
   useEffect(() => {
     if (!inView) return;
@@ -11,153 +14,133 @@ function useCountUp(target: number, duration: number = 2000, inView: boolean = f
     const step = target / (duration / 16);
     const timer = setInterval(() => {
       start += step;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
+      if (start >= target) { setCount(target); clearInterval(timer); }
+      else setCount(Math.floor(start));
     }, 16);
     return () => clearInterval(timer);
   }, [inView, target, duration]);
   return count;
 }
 
-const metrics = [
-  { label: "Organic Traffic Increase", value: 312, suffix: "%", icon: "📈" },
-  { label: "Keywords in Top 10", value: 1400, suffix: "+", icon: "🔑" },
-  { label: "Domain Authority Gained", value: 33, suffix: " pts", icon: "🏆" },
+const METRICS = [
+  { icon: TrendingUp, label: "Organic Traffic Increase", value: 312, suffix: "%", caption: "average across all clients" },
+  { icon: Target,     label: "Keywords in Top 10",        value: 1400, suffix: "+", caption: "across active campaigns" },
+  { icon: ShieldCheck,label: "Domain Authority Gained",   value: 33,   suffix: " pts", caption: "avg. gain over 12 months" },
 ];
 
-const bars = [
-  { label: "Q1", value: 28 },
-  { label: "Q2", value: 47 },
-  { label: "Q3", value: 68 },
-  { label: "Q4", value: 91 },
-  { label: "Now", value: 100 },
+const BARS = [
+  { label: "Q1", pct: 28 },
+  { label: "Q2", pct: 47 },
+  { label: "Q3", pct: 62 },
+  { label: "Q4", pct: 81 },
+  { label: "Now", pct: 100 },
 ];
 
-export default function GrowthDashboard() {
+export function GrowthDashboard() {
   const ref = useRef<HTMLDivElement>(null);
   const inView = useInView(ref, { once: true, margin: "-100px" });
 
-  const v1 = useCountUp(312, 2000, inView);
-  const v2 = useCountUp(1400, 2000, inView);
-  const v3 = useCountUp(33, 2000, inView);
-  const counts = [v1, v2, v3];
+  const v0 = useCountUp(312,  inView);
+  const v1 = useCountUp(1400, inView);
+  const v2 = useCountUp(33,   inView);
+  const counts = [v0, v1, v2];
 
   return (
-    <section ref={ref} className="bg-[#0c0c0c] py-24 px-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="text-[#5ABB4A] text-xs font-semibold uppercase tracking-[0.22em]">
-            Real Results. Real Data.
-          </span>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mt-3 tracking-tight">
-            Numbers That Speak for Themselves
+    <section ref={ref} className="bg-background-alt py-20 sm:py-24 lg:py-28">
+      <div className="container px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-sm font-semibold text-primary">Real Results. Real Data.</span>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Numbers that speak for themselves
           </h2>
-          <p className="text-base sm:text-lg text-gray-400 mt-4 max-w-xl mx-auto">
-            Average results across our SEO clients over 12 months of engagement.
+          <p className="mt-4 text-base leading-8 text-[#6B7280] sm:text-lg">
+            Average results across our SEO clients measured over a 12-month
+            engagement period.
           </p>
-        </motion.div>
+        </div>
 
-        {/* Dashboard card */}
+        {/* Metric cards */}
+        <div className="mt-12 grid gap-6 md:grid-cols-3">
+          {METRICS.map((m, i) => {
+            const Icon = m.icon;
+            return (
+              <motion.div
+                key={m.label}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.5, ease: EASE, delay: i * 0.1 }}
+                className="rounded-[28px] border border-[#E5E7EB] bg-white p-6 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.24)] sm:p-7"
+              >
+                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                  <Icon className="h-5 w-5" strokeWidth={2} />
+                </span>
+                <p className="mt-5 text-4xl font-semibold tracking-tight text-foreground">
+                  {counts[i].toLocaleString()}
+                  <span className="text-primary">{m.suffix}</span>
+                </p>
+                <p className="mt-2 text-base font-semibold tracking-tight text-foreground">
+                  {m.label}
+                </p>
+                <p className="mt-1 text-sm text-[#6B7280]">{m.caption}</p>
+              </motion.div>
+            );
+          })}
+        </div>
+
+        {/* Bar chart card */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, delay: 0.2 }}
-          className="bg-[#161616] border border-white/10 rounded-3xl p-8 lg:p-12"
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.55, ease: EASE, delay: 0.25 }}
+          className="mt-6 rounded-[28px] border border-[#E5E7EB] bg-white p-6 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.24)] sm:p-8"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left — Metric cards */}
-            <div className="flex flex-col gap-4">
-              {metrics.map((m, i) => (
-                <motion.div
-                  key={m.label}
-                  initial={{ opacity: 0, x: -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.3 + i * 0.15 }}
-                  className="flex items-center gap-5 bg-white/5 rounded-2xl px-6 py-5 border border-white/5 hover:border-[#5ABB4A]/30 transition-all duration-300"
-                >
-                  <span className="text-3xl">{m.icon}</span>
-                  <div>
-                    <div className="text-4xl font-black text-white">
-                      {counts[i].toLocaleString()}
-                      <span className="text-[#5ABB4A]">{m.suffix}</span>
-                    </div>
-                    <div className="text-xs text-gray-400 mt-0.5 uppercase tracking-[0.18em]">{m.label}</div>
-                  </div>
-                </motion.div>
-              ))}
+          <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:gap-12">
+            <div className="lg:max-w-xs">
+              <p className="text-sm font-semibold text-primary">Growth Timeline</p>
+              <h3 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
+                Organic traffic growth over a 12-month period
+              </h3>
+              <p className="mt-3 text-sm leading-7 text-[#6B7280]">
+                Consistent quarter-over-quarter gains driven by compounding
+                content, authority, and technical improvements.
+              </p>
             </div>
 
-            {/* Right — Animated bar graph */}
-            <div>
-              <p className="text-xs text-gray-400 font-semibold uppercase tracking-[0.18em] mb-6">
-                Organic Traffic Growth Timeline
-              </p>
-              <div className="flex items-end gap-4 h-48">
-                {bars.map((bar, i) => (
-                  <div
-                    key={bar.label}
-                    className="flex flex-col items-center gap-2 flex-1"
-                  >
-                    <motion.div
-                      className="w-full rounded-t-xl relative overflow-hidden"
-                      style={{
-                        background:
-                          bar.label === "Now"
-                            ? "#5ABB4A"
-                            : "rgba(90,187,74,0.25)",
-                        height: `${bar.value}%`,
-                      }}
-                      initial={{ scaleY: 0, originY: 1 }}
-                      whileInView={{ scaleY: 1 }}
-                      viewport={{ once: true }}
-                      transition={{
-                        duration: 0.7,
-                        delay: 0.4 + i * 0.12,
-                        ease: "easeOut",
-                      }}
-                    >
-                      {bar.label === "Now" && (
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#5ABB4A] to-[#7dd96f]" />
-                      )}
-                    </motion.div>
-                    <span className="text-xs text-gray-500 font-semibold uppercase tracking-[0.18em]">
-                      {bar.label}
-                    </span>
-                  </div>
-                ))}
-              </div>
-
-              {/* Domain Authority progress */}
-              <div className="mt-8">
-                <div className="flex justify-between text-sm mb-2">
-                  <span className="text-gray-400">Domain Authority</span>
-                  <span className="text-white font-bold">28 → 61</span>
+            <div className="flex flex-1 flex-col gap-3">
+              {/* DA progress bar */}
+              <div>
+                <div className="flex justify-between text-sm mb-1.5">
+                  <span className="text-[#6B7280]">Domain Authority</span>
+                  <span className="font-semibold text-foreground">28 → 61</span>
                 </div>
-                <div className="h-3 bg-white/10 rounded-full overflow-hidden">
+                <div className="h-2.5 overflow-hidden rounded-full bg-[#F3F4F6]">
                   <motion.div
-                    className="h-full bg-gradient-to-r from-[#5ABB4A] to-[#7dd96f] rounded-full"
+                    className="h-full rounded-full bg-primary"
                     initial={{ width: 0 }}
                     whileInView={{ width: "81%" }}
                     viewport={{ once: true }}
-                    transition={{ duration: 1.2, delay: 0.8, ease: "easeOut" }}
+                    transition={{ duration: 1.2, delay: 0.6, ease: "easeOut" }}
                   />
                 </div>
-                <p className="text-xs text-gray-600 mt-2 uppercase tracking-[0.18em]">
-                  Scale: 0–75 (industry competitive range)
-                </p>
+              </div>
+
+              {/* Bar chart */}
+              <div className="flex items-end gap-3 h-36 pt-4">
+                {BARS.map((bar, i) => (
+                  <div key={bar.label} className="flex flex-1 flex-col items-center gap-2">
+                    <motion.div
+                      className="w-full rounded-t-xl bg-primary/85"
+                      initial={{ height: 0 }}
+                      whileInView={{ height: `${bar.pct}%` }}
+                      viewport={{ once: true }}
+                      transition={{ duration: 0.7, delay: 0.4 + i * 0.1, ease: "easeOut" }}
+                      style={{ minHeight: 4 }}
+                    />
+                    <span className="text-xs text-[#9CA3AF]">{bar.label}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>

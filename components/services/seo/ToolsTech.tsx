@@ -2,82 +2,72 @@
 
 import { motion } from "framer-motion";
 
-const tools = [
-  { name: "Google Search Console", abbr: "GSC", category: "Analytics" },
-  { name: "SEMrush", abbr: "SEM", category: "Research" },
-  { name: "Ahrefs", abbr: "AHR", category: "Backlinks" },
-  { name: "Google Analytics 4", abbr: "GA4", category: "Analytics" },
-  { name: "Screaming Frog", abbr: "SCF", category: "Technical" },
-  { name: "Surfer SEO", abbr: "SRF", category: "Content" },
-  { name: "Moz Pro", abbr: "MOZ", category: "Authority" },
-  { name: "PageSpeed Insights", abbr: "PSI", category: "Performance" },
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const TOOL_GROUPS = [
+  {
+    title: "Research & Analysis",
+    items: ["SEMrush", "Ahrefs", "Moz Pro"],
+  },
+  {
+    title: "Google Tools",
+    items: ["Google Search Console", "Google Analytics 4", "PageSpeed Insights"],
+  },
+  {
+    title: "Technical Auditing",
+    items: ["Screaming Frog", "Sitebulb"],
+  },
+  {
+    title: "Content Optimization",
+    items: ["Surfer SEO", "Clearscope"],
+  },
+  {
+    title: "Reporting",
+    items: ["Looker Studio", "Custom Dashboards"],
+  },
 ];
 
-export default function ToolsTech() {
+export function ToolsTech() {
   return (
-    <section className="bg-white py-24 px-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
-        >
-          <span className="text-[#5ABB4A] text-sm font-semibold uppercase tracking-widest">
-            Our Arsenal
-          </span>
-          <h2 className="text-4xl lg:text-5xl font-black text-black mt-3">
-            Tools & Technologies
+    <section id="tech-stack" className="bg-background py-20 sm:py-24 lg:py-28">
+      <div className="mx-auto max-w-6xl px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-sm font-semibold text-primary">Our Arsenal</span>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Tools &amp; Technologies
           </h2>
-          <p className="text-gray-600 mt-4 max-w-xl mx-auto">
-            Industry-leading tools that give us — and your site — a competitive
-            edge in search.
+          <p className="mt-4 text-base leading-8 text-[#6B7280] sm:text-lg">
+            Industry-leading tools combined with proprietary workflows built to
+            give your site a genuine competitive edge.
           </p>
-        </motion.div>
-
-        {/* Tools grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-          {tools.map((tool, i) => (
-            <motion.div
-              key={tool.name}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{ duration: 0.4, delay: i * 0.07 }}
-              whileHover={{ borderColor: "#5ABB4A", y: -4 }}
-              className="group flex flex-col items-center gap-3 p-6 bg-white border-2 border-gray-100 rounded-2xl shadow-sm cursor-default transition-all duration-300"
-            >
-              {/* Abbr badge */}
-              <div className="w-14 h-14 rounded-xl bg-gray-50 group-hover:bg-[#f0faf0] flex items-center justify-center transition-colors duration-300">
-                <span className="text-sm font-black text-gray-400 group-hover:text-[#5ABB4A] transition-colors duration-300 tracking-wider">
-                  {tool.abbr}
-                </span>
-              </div>
-
-              <div className="text-center">
-                <p className="text-sm font-bold text-black group-hover:text-[#5ABB4A] transition-colors duration-300 leading-tight">
-                  {tool.name}
-                </p>
-                <span className="text-xs text-gray-400 mt-0.5 inline-block">
-                  {tool.category}
-                </span>
-              </div>
-            </motion.div>
-          ))}
         </div>
 
-        {/* Bottom note */}
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
-          className="text-center text-gray-400 text-sm mt-10"
-        >
-          Combined with proprietary tracking workflows built for maximum results
-        </motion.p>
+        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+          {TOOL_GROUPS.map((group, index) => (
+            <motion.article
+              key={group.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.5, ease: EASE, delay: index * 0.08 }}
+              className="rounded-[24px] border border-[#E5E7EB] bg-white p-6 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.22)] sm:p-7"
+            >
+              <h3 className="text-lg font-semibold tracking-tight text-foreground">
+                {group.title}
+              </h3>
+
+              <ul className="mt-5 flex flex-wrap gap-3">
+                {group.items.map((item) => (
+                  <li key={item}>
+                    <span className="inline-flex rounded-full border border-[#E5E7EB] bg-background-alt px-4 py-2 text-sm font-medium text-[#4B5563] transition-all duration-300 hover:border-primary hover:bg-primary/5 hover:text-foreground">
+                      {item}
+                    </span>
+                  </li>
+                ))}
+              </ul>
+            </motion.article>
+          ))}
+        </div>
       </div>
     </section>
   );

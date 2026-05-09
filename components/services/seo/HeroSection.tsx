@@ -1,189 +1,196 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
+import { ArrowRight, Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const fadeLeft = {
-  hidden: { opacity: 0, x: -50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: "easeOut" } },
-};
+const EASE = [0.22, 1, 0.36, 1] as const;
 
-const fadeRight = {
-  hidden: { opacity: 0, x: 50 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.7, ease: "easeOut" } },
-};
+const BULLETS = [
+  "Technical SEO & Site Architecture",
+  "Content Strategy & Link Building",
+  "Local, E-commerce & Enterprise SEO",
+];
 
-const drawLine = {
-  hidden: { pathLength: 0, opacity: 0 },
-  visible: {
-    pathLength: 1,
-    opacity: 1,
-    transition: { duration: 1.4, ease: "easeInOut", delay: 0.3 },
-  },
-};
-
-export default function HeroSection() {
+export function HeroSection() {
   return (
-    <section className="bg-[#F9F9F9] pt-32 pb-24 px-6 overflow-hidden relative">
-      {/* Subtle dot grid background */}
+    <section className="relative isolate overflow-hidden bg-background py-24 sm:py-28 lg:py-32">
+      {/* Background gradient — mirrors mobile hero exactly */}
       <div
-        className="absolute inset-0 opacity-40"
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10"
         style={{
-          backgroundImage:
-            "radial-gradient(circle, #5ABB4A 1px, transparent 1px)",
-          backgroundSize: "32px 32px",
+          background:
+            "radial-gradient(circle at top right, rgba(90,187,74,0.18), transparent 32%), linear-gradient(180deg, #FFFFFF 0%, #F9F9F9 100%)",
         }}
       />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute right-[-5rem] top-20 -z-10 h-64 w-64 rounded-full bg-primary/10 blur-3xl"
+      />
 
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+      <div className="container px-6">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12">
           {/* LEFT — Text */}
           <motion.div
-            variants={fadeLeft}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col gap-6"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.6, ease: EASE }}
+            className="relative z-10 max-w-xl"
           >
-            {/* Badge */}
-            <span className="inline-flex items-center gap-2 bg-white border border-[#5ABB4A]/30 text-[#5ABB4A] text-xs font-semibold uppercase tracking-[0.22em] px-4 py-2 rounded-full w-fit shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-[#5ABB4A] animate-pulse" />
+            <span className="inline-flex items-center rounded-full bg-primary/10 px-3 py-1 text-sm font-semibold text-primary">
               Search Engine Optimization
             </span>
 
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-black leading-tight tracking-tight">
-              Rank Higher.{" "}
-              <span className="text-[#5ABB4A]">Get Found.</span>{" "}
-              Grow Faster.
+            <h1 className="mt-6 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-[3.35rem] lg:leading-[1.08]">
+              Rank higher, get found, and grow faster
             </h1>
 
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed max-w-lg">
+            <p className="mt-5 text-base leading-8 text-[#6B7280] sm:text-lg">
               We engineer data-driven SEO strategies that put your business at
-              the top of search results — and keep it there. No shortcuts, no
-              black-hat tricks. Just results.
+              the top of search results and keep it there. No shortcuts, no
+              black-hat tricks — just sustainable, compounding growth.
             </p>
 
-            <div className="flex flex-wrap gap-4 pt-2">
-              <button className="bg-[#5ABB4A] text-white px-8 py-4 rounded-full font-semibold text-base hover:bg-[#4aa83b] transition-all duration-300 hover:shadow-lg hover:scale-105">
-                Get Free SEO Audit
-              </button>
-              <button className="border-2 border-black text-black px-8 py-4 rounded-full font-semibold text-base hover:bg-black hover:text-white transition-all duration-300">
-                View Case Studies
-              </button>
-            </div>
-
-            {/* Trust row */}
-            <div className="flex items-center gap-6 pt-4">
-              {[
-                { value: "312%", label: "Avg. Traffic Growth" },
-                { value: "1,400+", label: "Keywords Ranked" },
-                { value: "94%", label: "Client Retention" },
-              ].map((stat) => (
-                <div key={stat.label} className="text-center">
-                  <div className="text-2xl font-black text-[#5ABB4A]">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-gray-500 mt-0.5 uppercase tracking-[0.18em]">{stat.label}</div>
-                </div>
+            <ul className="mt-8 space-y-3">
+              {BULLETS.map((item) => (
+                <li
+                  key={item}
+                  className="flex items-start gap-3 text-sm text-[#374151] sm:text-base"
+                >
+                  <span className="mt-0.5 inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <Check className="h-3.5 w-3.5" strokeWidth={3} />
+                  </span>
+                  <span>{item}</span>
+                </li>
               ))}
+            </ul>
+
+            <div className="mt-10 flex flex-wrap items-center gap-4">
+              <Link
+                href="/#contact"
+                className={cn(
+                  "inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-semibold text-white",
+                  "shadow-[0_16px_30px_-18px_rgba(90,187,74,0.95)] transition-all duration-300",
+                  "hover:-translate-y-0.5 hover:bg-primary-600 hover:shadow-[0_20px_38px_-18px_rgba(90,187,74,0.9)]",
+                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                )}
+              >
+                Get Free SEO Audit
+              </Link>
+
+              <Link
+                href="#seo-results"
+                className="group inline-flex items-center gap-2 rounded-full border border-[#D1D5DB] bg-white px-5 py-3 text-sm font-semibold text-foreground transition-colors duration-300 hover:border-primary/40 hover:text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
+                View Results
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+              </Link>
             </div>
           </motion.div>
 
-          {/* RIGHT — Animated SVG ranking graph */}
+          {/* RIGHT — SEO Dashboard Visual */}
           <motion.div
-            variants={fadeRight}
-            initial="hidden"
-            animate="visible"
-            className="flex justify-center items-center"
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.65, ease: EASE, delay: 0.1 }}
+            className="relative mx-auto hidden h-[420px] w-full max-w-[390px] sm:h-[500px] sm:max-w-[500px] lg:block"
           >
-            <div className="relative bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md border border-gray-100">
-              {/* Card header */}
-              <div className="flex items-center justify-between mb-6">
-                <div>
-                  <p className="text-xs text-gray-400 font-semibold uppercase tracking-[0.18em]">
-                    Keyword Rankings
-                  </p>
-                  <p className="text-lg font-bold text-black mt-0.5">
-                    Your Growth Chart
-                  </p>
-                </div>
-                <span className="bg-[#f0faf0] text-[#5ABB4A] text-sm font-bold px-3 py-1 rounded-full">
-                  ↑ Live
-                </span>
-              </div>
-
-              {/* Ranking bars visual */}
-              <div className="flex items-end gap-3 h-40 mb-4">
-                {[
-                  { month: "Jan", height: 30, pos: 18 },
-                  { month: "Feb", height: 45, pos: 14 },
-                  { month: "Mar", height: 55, pos: 11 },
-                  { month: "Apr", height: 70, pos: 8 },
-                  { month: "May", height: 85, pos: 5 },
-                  { month: "Jun", height: 95, pos: 3 },
-                  { month: "Jul", height: 100, pos: 1 },
-                ].map((bar, i) => (
-                  <div
-                    key={bar.month}
-                    className="flex flex-col items-center gap-1 flex-1"
-                  >
-                    <span className="text-xs font-bold text-[#5ABB4A]">
-                      #{bar.pos}
-                    </span>
-                    <motion.div
-                      className="w-full rounded-t-lg bg-gradient-to-t from-[#5ABB4A] to-[#7dd96f]"
-                      initial={{ height: 0 }}
-                      animate={{ height: `${bar.height}%` }}
-                      transition={{
-                        duration: 0.8,
-                        delay: 0.5 + i * 0.1,
-                        ease: "easeOut",
-                      }}
-                      style={{ height: `${bar.height}%` }}
-                    />
-                    <span className="text-xs text-gray-400 uppercase tracking-[0.18em]">{bar.month}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* SVG trend line */}
-              <svg
-                viewBox="0 0 300 60"
-                className="w-full"
-                preserveAspectRatio="none"
-              >
-                <motion.path
-                  d="M0,55 C40,50 60,40 90,32 C120,24 140,18 170,12 C200,6 230,3 300,1"
-                  fill="none"
-                  stroke="#5ABB4A"
-                  strokeWidth="2.5"
-                  strokeLinecap="round"
-                  variants={drawLine}
-                  initial="hidden"
-                  animate="visible"
-                />
-                <motion.circle
-                  cx="300"
-                  cy="1"
-                  r="4"
-                  fill="#5ABB4A"
-                  initial={{ scale: 0, opacity: 0 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ delay: 1.7, duration: 0.3 }}
-                />
-              </svg>
-
-              {/* Bottom tag */}
-              <div className="mt-4 bg-[#f0faf0] rounded-xl px-4 py-3 flex items-center justify-between">
-                <span className="text-sm text-gray-600">
-                  Avg. position improvement
-                </span>
-                <span className="text-lg font-black text-[#5ABB4A]">
-                  #18 → #1
-                </span>
-              </div>
-            </div>
+            <SEODashboardVisual />
           </motion.div>
         </div>
       </div>
     </section>
+  );
+}
+
+function SEODashboardVisual() {
+  const bars = [28, 42, 55, 61, 74, 88, 100];
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"];
+
+  return (
+    <div className="relative h-full w-full">
+      {/* Main ranking card */}
+      <motion.div
+        animate={{ y: [0, -10, 0] }}
+        transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute left-1/2 top-4 z-20 w-[260px] -translate-x-1/2"
+      >
+        <div className="overflow-hidden rounded-[34px] border border-white/70 bg-white/95 p-3 shadow-[0_34px_70px_-36px_rgba(15,23,42,0.4)] backdrop-blur">
+          <div className="mx-auto h-1.5 w-16 rounded-full bg-[#D1D5DB]" />
+          <div className="mt-3 overflow-hidden rounded-[26px] bg-[#F8FAFC] p-4">
+            <div className="flex items-center justify-between">
+              <span className="text-[11px] font-semibold uppercase tracking-[0.18em] text-[#6B7280]">
+                Rankings
+              </span>
+              <span className="rounded-full bg-primary/10 px-2 py-1 text-[10px] font-semibold text-primary">
+                Live
+              </span>
+            </div>
+            <div className="mt-4 flex items-end gap-1.5 h-20">
+              {bars.map((h, i) => (
+                <motion.span
+                  key={i}
+                  className="flex-1 rounded-t-full bg-primary/85"
+                  initial={{ height: 0 }}
+                  animate={{ height: `${h}%` }}
+                  transition={{ duration: 0.8, delay: 0.6 + i * 0.1, ease: "easeOut" }}
+                  style={{ display: "block" }}
+                />
+              ))}
+            </div>
+            <div className="mt-2 flex justify-between">
+              {months.map((m) => (
+                <span key={m} className="flex-1 text-center text-[9px] text-[#9CA3AF]">{m}</span>
+              ))}
+            </div>
+            <div className="mt-4 rounded-2xl bg-white px-3 py-3 shadow-sm flex items-center justify-between">
+              <span className="text-[11px] text-[#6B7280]">Avg. position</span>
+              <span className="text-lg font-semibold text-foreground">#18 → <span className="text-primary">#1</span></span>
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Traffic card — bottom left */}
+      <motion.div
+        animate={{ y: [0, 10, 0], rotate: [-4, -2, -4] }}
+        transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+        className="absolute bottom-10 left-0 z-10 w-[185px]"
+      >
+        <div className="overflow-hidden rounded-[28px] border border-white/70 bg-white/95 p-3 shadow-[0_28px_60px_-34px_rgba(15,23,42,0.34)] backdrop-blur">
+          <div className="overflow-hidden rounded-[22px] bg-[#F8FAFC] p-4">
+            <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[#6B7280]">Organic Traffic</p>
+            <p className="mt-2 text-2xl font-semibold text-foreground">+312%</p>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-[#E5E7EB]">
+              <motion.div
+                className="h-full rounded-full bg-primary"
+                initial={{ width: 0 }}
+                animate={{ width: "78%" }}
+                transition={{ duration: 1.2, delay: 1, ease: "easeOut" }}
+              />
+            </div>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Keywords card — bottom right */}
+      <motion.div
+        animate={{ y: [0, 12, 0], rotate: [4, 6, 4] }}
+        transition={{ duration: 7.2, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+        className="absolute bottom-6 right-0 z-10 w-[175px]"
+      >
+        <div className="overflow-hidden rounded-[28px] border border-white/70 bg-white/95 p-3 shadow-[0_28px_60px_-34px_rgba(15,23,42,0.34)] backdrop-blur">
+          <div className="overflow-hidden rounded-[22px] bg-foreground p-4">
+            <p className="text-[11px] uppercase tracking-[0.16em] text-white/70">Keywords</p>
+            <p className="mt-2 text-2xl font-semibold text-white">1,400+</p>
+            <p className="mt-1 text-[10px] text-white/50">in top 10 results</p>
+          </div>
+        </div>
+      </motion.div>
+    </div>
   );
 }
