@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   MousePointer2, Mail, Share2, Search, BarChart2, Megaphone,
@@ -211,7 +212,7 @@ export function ServicesTabs() {
                     Book a free strategy call and we will audit your current
                     marketing in 48 hours.
                   </p>
-                  <a
+                  <Link
                     href="/#contact"
                     className={cn(
                       "group relative mt-5 inline-flex w-full items-center justify-center overflow-hidden rounded-full",
@@ -225,7 +226,7 @@ export function ServicesTabs() {
                       className="absolute inset-0 origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
                     />
                     <span className="relative z-10">Get a Free Audit</span>
-                  </a>
+                  </Link>
                 </div>
               </div>
             </motion.div>

@@ -3,7 +3,7 @@
 import { useRef } from "react";
 import { useInView, motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { cn } from "@/lib/utils";
+
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -23,33 +23,6 @@ function useCountUp(target: number, inView: boolean, duration = 1600) {
   return count;
 }
 
-const STATS = [
-  {
-    value: 4.8, suffix: "x",   prefix: "",  label: "Average ROAS",
-    sub: "Return on ad spend across paid campaigns",
-    size: "lg",
-  },
-  {
-    value: 42,  suffix: "%",   prefix: "",  label: "Email open rate",
-    sub: "Avg. open rate — 3× industry benchmark",
-    size: "sm",
-  },
-  {
-    value: 120, suffix: "k+",  prefix: "",  label: "Leads generated",
-    sub: "Qualified leads across all client accounts",
-    size: "sm",
-  },
-  {
-    value: 68,  suffix: "%",   prefix: "",  label: "CPL improvement",
-    sub: "Clients see lower CPL within first 90 days",
-    size: "sm",
-  },
-  {
-    value: 340, suffix: "+",   prefix: "",  label: "Campaigns launched",
-    sub: "Across paid, email, social, and content",
-    size: "lg",
-  },
-];
 
 export function ResultsSection() {
   const ref = useRef<HTMLDivElement>(null);

@@ -20,7 +20,7 @@ export function FinalCTA() {
   const doubled = [...TICKER_ITEMS, ...TICKER_ITEMS];
 
   return (
-    <section id="final-cta" className="relative bg-[#0d1f0a] py-20 sm:py-24 lg:py-28 overflow-hidden">
+    <section id="final-cta" className="bg-foreground py-20 sm:py-24 lg:py-28 overflow-hidden">
       {/* Glow */}
       <div
         aria-hidden
@@ -28,7 +28,7 @@ export function FinalCTA() {
       />
 
       {/* Live activity ticker */}
-      <div className="mb-14 overflow-hidden border-y border-white/10 py-3">
+      <div className="mb-14 overflow-hidden border-y border-white/8 py-3">
         <motion.div
           className="flex gap-8 whitespace-nowrap"
           animate={{ x: ["0%", "-50%"] }}
@@ -76,7 +76,7 @@ export function FinalCTA() {
                 "group relative inline-flex items-center justify-center overflow-hidden rounded-full",
                 "border border-[#D1D5DB] bg-white px-8 py-3.5 text-sm font-semibold text-foreground",
                 "transition-colors duration-300 hover:text-white",
-                "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#0d1f0a]",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-foreground",
               )}
             >
               <span
