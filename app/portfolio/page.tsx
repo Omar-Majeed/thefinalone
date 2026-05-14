@@ -68,23 +68,6 @@ function ArrowIcon({ className }: { className?: string }) {
   );
 }
 
-function CheckIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 20 20"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M4 10.5 L8 14.5 L16 5.5" />
-    </svg>
-  );
-}
-
 function BriefcaseIcon({ className }: { className?: string }) {
   return (
     <svg
@@ -333,7 +316,7 @@ function PortfolioHero() {
   return (
     <section
       aria-label="Portfolio hero"
-      className="relative isolate min-h-screen w-full overflow-hidden bg-foreground"
+      className="relative isolate w-full overflow-hidden bg-foreground min-h-[100svh] lg:min-h-screen"
     >
       {/* Mesh gradient blobs */}
       <div
@@ -383,12 +366,12 @@ function PortfolioHero() {
         className="pointer-events-none absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background to-transparent"
       />
 
-      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 py-32 sm:px-10 lg:grid-cols-2 lg:px-16 lg:py-40 xl:px-24">
+      <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-16 px-6 py-24 sm:px-10 sm:py-32 lg:grid-cols-2 lg:px-16 lg:py-40 xl:px-24">
         {/* LEFT */}
         <div className="hero-children max-w-xl">
           <Eyebrow onDark>Our Portfolio</Eyebrow>
 
-          <h1 className="mt-5 text-5xl font-bold leading-[1.05] tracking-tight sm:text-6xl lg:text-7xl">
+          <h1 className="mt-5 text-4xl font-bold leading-[1.05] tracking-tight sm:text-5xl lg:text-6xl xl:text-7xl">
             <span className="text-white">Work That </span>
             <span className="relative inline-block">
               <span className="relative z-10 text-primary">Speaks</span>
@@ -619,8 +602,90 @@ function HeroOrbit() {
 }
 
 // =====================================================================
-// SECTION 2: FILTER BAR
+// SECTION 2: FILTER BAR — premium horizontal pill carousel
 // =====================================================================
+
+type IconProps = { className?: string };
+
+function GridIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="3" y="3" width="6" height="6" rx="1.5" />
+      <rect x="11" y="3" width="6" height="6" rx="1.5" />
+      <rect x="3" y="11" width="6" height="6" rx="1.5" />
+      <rect x="11" y="11" width="6" height="6" rx="1.5" />
+    </svg>
+  );
+}
+
+function CodeIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M7 6 L3 10 L7 14" />
+      <path d="M13 6 L17 10 L13 14" />
+      <path d="M11.5 4 L8.5 16" />
+    </svg>
+  );
+}
+
+function PhoneIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <rect x="6" y="2" width="8" height="16" rx="2" />
+      <path d="M9 15.5 H11" />
+    </svg>
+  );
+}
+
+function SparkleIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M10 2 L11.6 7.4 L17 9 L11.6 10.6 L10 16 L8.4 10.6 L3 9 L8.4 7.4 Z" />
+      <path d="M16 14 L16.6 15.4 L18 16 L16.6 16.6 L16 18 L15.4 16.6 L14 16 L15.4 15.4 Z" />
+    </svg>
+  );
+}
+
+function ChartIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M3 16 H17" />
+      <path d="M6 16 V11" />
+      <path d="M10 16 V6" />
+      <path d="M14 16 V9" />
+    </svg>
+  );
+}
+
+function PaletteIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M10 17.5 A7.5 7.5 0 1 1 17.5 10 c0 1.4 -1.2 2.5 -2.5 2.5 H13 a1.5 1.5 0 0 0 -1.2 2.4 l0.1 0.2 A1.5 1.5 0 0 1 10 17.5 Z" />
+      <circle cx="6.5" cy="9" r="0.9" />
+      <circle cx="10" cy="6" r="0.9" />
+      <circle cx="13.5" cy="9" r="0.9" />
+    </svg>
+  );
+}
+
+function BagIcon({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M4 7 H16 L15 17 H5 Z" />
+      <path d="M7 7 V5 a3 3 0 0 1 6 0 V7" />
+    </svg>
+  );
+}
+
+const CATEGORY_ICONS: Record<PortfolioCategory, (p: IconProps) => React.JSX.Element> = {
+  All: GridIcon,
+  "Web Development": CodeIcon,
+  "Mobile Apps": PhoneIcon,
+  "Agentic AI": SparkleIcon,
+  "SEO & Marketing": ChartIcon,
+  "UI/UX Design": PaletteIcon,
+  "E-Commerce": BagIcon,
+};
 
 function PortfolioFilter({
   active,
@@ -633,72 +698,187 @@ function PortfolioFilter({
   counts: Record<PortfolioCategory, number>;
   totalVisible: number;
 }) {
+  const scrollerRef = useRef<HTMLDivElement | null>(null);
+  const pillRefs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const [edge, setEdge] = useState<{ left: boolean; right: boolean }>({
+    left: false,
+    right: false,
+  });
+
+  // Edge-fade visibility based on scroll position
+  useEffect(() => {
+    const el = scrollerRef.current;
+    if (!el) return;
+
+    const update = () => {
+      const { scrollLeft, scrollWidth, clientWidth } = el;
+      setEdge({
+        left: scrollLeft > 4,
+        right: scrollLeft + clientWidth < scrollWidth - 4,
+      });
+    };
+
+    update();
+    el.addEventListener("scroll", update, { passive: true });
+    const ro = new ResizeObserver(update);
+    ro.observe(el);
+    return () => {
+      el.removeEventListener("scroll", update);
+      ro.disconnect();
+    };
+  }, []);
+
+  // Auto-center active pill
+  useEffect(() => {
+    const pill = pillRefs.current[active];
+    const scroller = scrollerRef.current;
+    if (!pill || !scroller) return;
+    const pillLeft = pill.offsetLeft;
+    const target =
+      pillLeft - scroller.clientWidth / 2 + pill.clientWidth / 2;
+    scroller.scrollTo({ left: Math.max(0, target), behavior: "smooth" });
+  }, [active]);
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault();
+    const i = PORTFOLIO_CATEGORIES.indexOf(active);
+    const next =
+      e.key === "ArrowRight"
+        ? (i + 1) % PORTFOLIO_CATEGORIES.length
+        : (i - 1 + PORTFOLIO_CATEGORIES.length) % PORTFOLIO_CATEGORIES.length;
+    const nextCat = PORTFOLIO_CATEGORIES[next];
+    onChange(nextCat);
+    pillRefs.current[nextCat]?.focus();
+  };
+
   return (
     <div
-      role="tablist"
       aria-label="Portfolio category filter"
-      className="sticky top-16 z-30 border-b border-gray-100 bg-white/90 shadow-sm backdrop-blur-md"
+      className="sticky top-16 z-30 border-b border-gray-100 bg-white/85 shadow-[0_1px_0_0_rgba(17,24,39,0.04)] backdrop-blur-xl"
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16 xl:px-24">
-        {/* Row 1 */}
-        <div className="flex flex-wrap items-center justify-center gap-2 py-4 sm:gap-3">
-          {PORTFOLIO_CATEGORIES.map((cat) => {
-            const isActive = cat === active;
-            return (
-              <button
-                key={cat}
-                role="tab"
-                type="button"
-                aria-selected={isActive}
-                onClick={() => onChange(cat)}
-                className={cn(
-                  "relative inline-flex cursor-pointer items-center rounded-full px-5 py-2 text-sm transition-all duration-200",
-                  "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                  isActive
-                    ? "border-transparent bg-primary font-semibold text-white shadow-[0_4px_14px_-4px_rgba(90,187,74,0.5)]"
-                    : "border border-gray-200 bg-transparent font-medium text-foreground/50 hover:border-primary/50 hover:bg-primary-50 hover:text-primary",
-                )}
-              >
-                {cat}
-                {isActive && (
-                  <span
-                    className="ml-1.5 inline-flex"
-                    style={{ animation: "checkPop 250ms ease-out both" }}
-                    aria-hidden
-                  >
-                    <CheckIcon className="h-3 w-3" />
-                  </span>
-                )}
-                <span
+        <div className="relative">
+          {/* Edge fade — left */}
+          <div
+            aria-hidden
+            className={cn(
+              "pointer-events-none absolute inset-y-0 left-0 z-10 w-12 bg-gradient-to-r from-white via-white/85 to-transparent transition-opacity duration-300 sm:w-16",
+              edge.left ? "opacity-100" : "opacity-0",
+            )}
+          />
+          {/* Edge fade — right */}
+          <div
+            aria-hidden
+            className={cn(
+              "pointer-events-none absolute inset-y-0 right-0 z-10 w-12 bg-gradient-to-l from-white via-white/85 to-transparent transition-opacity duration-300 sm:w-16",
+              edge.right ? "opacity-100" : "opacity-0",
+            )}
+          />
+
+          {/* Scroller */}
+          <div
+            ref={scrollerRef}
+            role="tablist"
+            aria-label="Portfolio categories"
+            onKeyDown={handleKeyDown}
+            className={cn(
+              "no-scrollbar flex snap-x snap-mandatory items-center gap-2.5 overflow-x-auto py-5 sm:gap-3",
+              // bleed beyond container on mobile so pills can scroll edge-to-edge
+              "-mx-6 px-6 sm:mx-0 sm:px-0",
+              // momentum scroll on iOS
+              "[-webkit-overflow-scrolling:touch]",
+            )}
+          >
+            {PORTFOLIO_CATEGORIES.map((cat) => {
+              const isActive = cat === active;
+              const Icon = CATEGORY_ICONS[cat];
+              return (
+                <button
+                  key={cat}
+                  ref={(el) => {
+                    pillRefs.current[cat] = el;
+                  }}
+                  role="tab"
+                  type="button"
+                  aria-selected={isActive}
+                  aria-controls="portfolio-grid"
+                  tabIndex={isActive ? 0 : -1}
+                  onClick={() => onChange(cat)}
                   className={cn(
-                    "ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-bold",
+                    "group/pill relative inline-flex flex-shrink-0 snap-center cursor-pointer items-center gap-2 whitespace-nowrap rounded-full px-4 py-2.5 text-sm transition-all duration-300 ease-out sm:px-5",
+                    "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                    "[transform:translateZ(0)] will-change-transform",
                     isActive
-                      ? "bg-white/25 text-white"
-                      : "bg-gray-100 text-foreground/40",
+                      ? cn(
+                          "border border-transparent bg-gradient-to-b from-primary to-primary-600 font-semibold text-white",
+                          "shadow-[0_10px_24px_-10px_rgba(90,187,74,0.65),0_2px_4px_-1px_rgba(90,187,74,0.35),inset_0_1px_0_0_rgba(255,255,255,0.18)]",
+                          "scale-[1.02]",
+                        )
+                      : cn(
+                          "border border-gray-200/80 bg-white font-medium text-foreground/65",
+                          "shadow-[0_1px_0_0_rgba(17,24,39,0.02)]",
+                          "hover:-translate-y-0.5 hover:scale-[1.02] hover:border-primary/40 hover:bg-primary-50/60 hover:text-primary hover:shadow-[0_8px_20px_-10px_rgba(90,187,74,0.35)]",
+                        ),
                   )}
                 >
-                  {counts[cat]}
-                </span>
-              </button>
-            );
-          })}
+                  {/* Active glow ring */}
+                  {isActive && (
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-0 rounded-full ring-1 ring-inset ring-white/25"
+                    />
+                  )}
+
+                  <Icon
+                    className={cn(
+                      "h-4 w-4 flex-shrink-0 transition-colors duration-300",
+                      isActive
+                        ? "text-white"
+                        : "text-foreground/35 group-hover/pill:text-primary",
+                    )}
+                  />
+
+                  <span>{cat}</span>
+
+                  <span
+                    className={cn(
+                      "ml-0.5 inline-flex h-5 min-w-[1.25rem] items-center justify-center rounded-full px-1.5 text-[10px] font-bold tabular-nums transition-colors duration-300",
+                      isActive
+                        ? "bg-white/20 text-white"
+                        : "bg-gray-100 text-foreground/45 group-hover/pill:bg-primary-100 group-hover/pill:text-primary",
+                    )}
+                  >
+                    {counts[cat]}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Row 2 */}
-        <div className="flex items-center justify-center gap-2 border-t border-gray-50 py-2 text-xs text-foreground/40">
+        {/* Summary row */}
+        <div className="flex items-center justify-center gap-2 border-t border-gray-50 py-2.5 text-[11px] text-foreground/40 sm:text-xs">
           <span
             key={active}
             className="inline-flex items-center gap-2"
             style={{ animation: "filterFade 350ms ease-out both" }}
           >
             <span>
-              Showing <span className="font-semibold text-foreground/60">{totalVisible}</span>{" "}
+              Showing{" "}
+              <span className="font-semibold text-foreground/70">
+                {totalVisible}
+              </span>{" "}
               {totalVisible === 1 ? "project" : "projects"}
             </span>
-            <span aria-hidden className="h-1 w-1 rounded-full bg-foreground/20" />
+            <span
+              aria-hidden
+              className="h-1 w-1 rounded-full bg-foreground/20"
+            />
             <span>
-              Every result <span className="font-semibold text-primary">measured</span>{" "}
-              and verified
+              Every result{" "}
+              <span className="font-semibold text-primary">measured</span> and
+              verified
             </span>
           </span>
         </div>
@@ -721,7 +901,11 @@ function PortfolioGrid({ activeFilter }: { activeFilter: PortfolioCategory }) {
   const rest = filtered.slice(1);
 
   return (
-    <section aria-label="Portfolio projects" className="bg-background py-16">
+    <section
+      id="portfolio-grid"
+      aria-label="Portfolio projects"
+      className="bg-background py-16"
+    >
       <div className="mx-auto max-w-7xl px-6 sm:px-10 lg:px-16 xl:px-24">
         {filtered.length === 0 ? (
           <EmptyState />
@@ -748,7 +932,11 @@ function PortfolioGrid({ activeFilter }: { activeFilter: PortfolioCategory }) {
 
 function FeaturedCard({ item }: { item: PortfolioItem }) {
   return (
-    <article className="group relative cursor-pointer overflow-hidden rounded-3xl border border-gray-100 shadow-[0_4px_24px_-8px_rgba(17,24,39,0.08)] transition-all duration-700 hover:shadow-[0_24px_64px_-16px_rgba(90,187,74,0.2)]">
+    <Link
+      href="/contact"
+      aria-label={`${item.title} — view case study`}
+      className="group relative block cursor-pointer overflow-hidden rounded-3xl border border-gray-100 shadow-[0_4px_24px_-8px_rgba(17,24,39,0.08)] transition-all duration-700 hover:shadow-[0_24px_64px_-16px_rgba(90,187,74,0.2)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+    >
       <div className="grid lg:grid-cols-5">
         {/* Image side */}
         <div className="relative h-80 overflow-hidden lg:col-span-3 lg:h-full lg:min-h-[400px]">
@@ -816,13 +1004,12 @@ function FeaturedCard({ item }: { item: PortfolioItem }) {
           </div>
 
           <div className="mt-auto flex items-center justify-between border-t border-gray-100 pt-6">
-            <Link
-              href="/contact"
-              className="group/link inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-200 hover:gap-3 focus:outline-none focus-visible:underline"
+            <span
+              className="group/link inline-flex items-center gap-2 text-sm font-semibold text-primary transition-all duration-200 group-hover:gap-3"
             >
               View Case Study
-              <ArrowIcon className="h-4 w-4 transition-transform duration-200 group-hover/link:translate-x-1" />
-            </Link>
+              <ArrowIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+            </span>
 
             <div className="flex items-center">
               <div className="flex">
@@ -851,7 +1038,7 @@ function FeaturedCard({ item }: { item: PortfolioItem }) {
           </div>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 
@@ -863,10 +1050,13 @@ function PortfolioCard({
   index: number;
 }) {
   return (
-    <article
+    <Link
+      href="/contact"
+      aria-label={`${item.title} — start a similar project`}
       className={cn(
-        "portfolio-card-enter group relative cursor-pointer overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm",
+        "portfolio-card-enter group relative block cursor-pointer overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm",
         "transition-all duration-500 hover:-translate-y-2 hover:border-primary/20 hover:shadow-[0_24px_64px_-16px_rgba(90,187,74,0.22)]",
+        "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
       )}
       style={{ animationDelay: `${index * 70}ms` }}
     >
@@ -881,8 +1071,8 @@ function PortfolioCard({
           className="object-cover object-center transition-transform duration-[600ms] ease-out group-hover:scale-[1.06]"
         />
 
-        {/* Result badge (slides in on hover) */}
-        <span className="absolute left-3 top-3 z-10 inline-flex translate-y-1 items-center gap-1.5 rounded-full bg-foreground/75 px-3 py-1.5 opacity-0 backdrop-blur-sm transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100">
+        {/* Result badge — visible by default; on hover-capable devices it hover-reveals */}
+        <span className="absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-foreground/75 px-3 py-1.5 backdrop-blur-sm transition-all duration-300 [@media(hover:hover)]:translate-y-1 [@media(hover:hover)]:opacity-0 [@media(hover:hover)]:group-hover:translate-y-0 [@media(hover:hover)]:group-hover:opacity-100">
           <span className="relative flex h-2 w-2 flex-shrink-0">
             <span
               aria-hidden
@@ -901,19 +1091,19 @@ function PortfolioCard({
           {item.category}
         </span>
 
-        {/* Hover overlay */}
+        {/* Hover overlay — desktop only */}
         <div
           aria-hidden
-          className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/30 to-transparent opacity-0 transition-opacity duration-[400ms] group-hover:opacity-100"
+          className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/30 to-transparent opacity-0 transition-opacity duration-[400ms] [@media(hover:hover)]:group-hover:opacity-100"
         />
-        <Link
-          href="/contact"
-          className="absolute bottom-4 left-4 right-4 flex translate-y-3 items-center justify-center gap-2 rounded-xl bg-white/95 px-4 py-3 text-sm font-semibold text-foreground opacity-0 backdrop-blur-sm transition-all duration-300 ease-out group-hover:translate-y-0 group-hover:opacity-100 focus:outline-none focus-visible:translate-y-0 focus-visible:opacity-100"
+        <span
+          aria-hidden
+          className="absolute bottom-4 left-4 right-4 flex items-center justify-center gap-2 rounded-xl bg-white/95 px-4 py-3 text-sm font-semibold text-foreground opacity-0 backdrop-blur-sm transition-all duration-300 ease-out [@media(hover:hover)]:translate-y-3 [@media(hover:hover)]:group-hover:translate-y-0 [@media(hover:hover)]:group-hover:opacity-100"
           style={{ transitionDelay: "50ms" }}
         >
           Start Similar Project
           <ArrowIcon className="h-4 w-4" />
-        </Link>
+        </span>
       </div>
 
       <div className="p-5">
@@ -949,7 +1139,7 @@ function PortfolioCard({
           </span>
         </div>
       </div>
-    </article>
+    </Link>
   );
 }
 
@@ -1624,6 +1814,14 @@ function GlobalStyles() {
       .marquee-track:hover {
         animation-play-state: paused;
       }
+
+      .no-scrollbar {
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+      }
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
     `}</style>
   );
 }
@@ -1635,6 +1833,10 @@ function GlobalStyles() {
 export default function PortfolioPage() {
   const [activeFilter, setActiveFilter] = useState<PortfolioCategory>("All");
 
+  // Fix: `overflow-x-hidden` on a sticky ancestor breaks `position: sticky` on iOS
+  // (sticky filter would scroll away instead of pinning) and combined with the
+  // hero's transformed mesh blobs can also "trap" momentum scroll. Using
+  // `overflow-x-clip` clips horizontal overflow without breaking sticky.
   const counts = useMemo(() => {
     const base = {} as Record<PortfolioCategory, number>;
     for (const cat of PORTFOLIO_CATEGORIES) {
@@ -1649,7 +1851,7 @@ export default function PortfolioPage() {
   const totalVisible = counts[activeFilter];
 
   return (
-    <main className="overflow-x-hidden bg-background">
+    <main className="bg-background [overflow-x:clip]">
       <PortfolioHero />
       <PortfolioFilter
         active={activeFilter}
