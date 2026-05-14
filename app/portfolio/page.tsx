@@ -316,7 +316,7 @@ function PortfolioHero() {
   return (
     <section
       aria-label="Portfolio hero"
-      className="relative isolate w-full overflow-hidden bg-foreground min-h-[100svh] lg:min-h-screen"
+      className="relative isolate w-full bg-foreground min-h-[100svh] [overflow:clip] lg:min-h-screen"
     >
       {/* Mesh gradient blobs */}
       <div
@@ -783,7 +783,7 @@ function PortfolioFilter({
             aria-label="Portfolio categories"
             onKeyDown={handleKeyDown}
             className={cn(
-              "no-scrollbar flex snap-x snap-mandatory items-center gap-2.5 overflow-x-auto py-5 sm:gap-3",
+              "no-scrollbar flex max-w-full snap-x snap-proximity items-center gap-2.5 overflow-x-auto py-5 [overscroll-behavior-x:contain] sm:gap-3",
               // bleed beyond container on mobile so pills can scroll edge-to-edge
               "-mx-6 px-6 sm:mx-0 sm:px-0",
               // momentum scroll on iOS
@@ -1235,7 +1235,7 @@ function ImpactStrip() {
   return (
     <section
       aria-label="Impact metrics"
-      className="relative overflow-hidden bg-primary py-20"
+      className="relative bg-primary py-20 [overflow:clip]"
     >
       {/* Decorative blobs */}
       <div
@@ -1427,7 +1427,7 @@ function ClientTestimonials() {
   return (
     <section
       aria-label="Client testimonials"
-      className="relative overflow-hidden bg-background-alt py-24"
+      className="relative bg-background-alt py-24 [overflow:clip]"
       onMouseEnter={() => setPaused(true)}
       onMouseLeave={() => setPaused(false)}
     >
@@ -1579,7 +1579,7 @@ function PortfolioCTA() {
   return (
     <section
       aria-label="Get in touch"
-      className="relative isolate overflow-hidden bg-foreground py-28"
+      className="relative isolate bg-foreground py-28 [overflow:clip]"
     >
       {/* Mesh blobs (subtler than hero) */}
       <div
