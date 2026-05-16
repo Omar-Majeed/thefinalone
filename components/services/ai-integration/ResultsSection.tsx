@@ -46,11 +46,24 @@ export function ResultsSection() {
           transition={{ duration: 0.6, ease: EASE }}
           className="mx-auto mb-12 max-w-3xl text-center"
         >
-          <div className="inline-flex overflow-hidden rounded-full border border-[#E5E7EB]">
-            <span className="bg-[#F3F4F6] px-6 py-2 text-sm font-semibold text-[#6B7280]">Without AI</span>
-            <span className="bg-foreground px-6 py-2 text-sm font-semibold text-white">With AI</span>
+          <div className="inline-flex rounded-full">
+            <span className="rounded-l-full border border-r-0 border-[#E5E7EB] bg-[#F3F4F6] px-6 py-2 text-sm font-semibold text-[#6B7280]">
+              Without AI
+            </span>
+            <span className="rounded-r-full border border-l-0 border-transparent bg-white/[0.05] px-6 py-2 text-sm font-semibold text-white">
+              With AI
+            </span>
           </div>
-          <h2 className="mt-6 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+          <h2 
+            className="mt-6 text-3xl font-semibold tracking-tight sm:text-4xl"
+            style={{
+              background: "linear-gradient(to right, #000000 50%, #ffffff 50%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              color: "transparent",
+            }}
+          >
             The difference is measurable
           </h2>
         </motion.div>
@@ -64,37 +77,51 @@ export function ResultsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.3 }}
               transition={{ duration: 0.5, ease: EASE, delay: i * 0.08 }}
-              className="grid grid-cols-[1fr_auto_1fr] items-center gap-px overflow-hidden rounded-[20px]"
+              className="flex flex-col overflow-hidden rounded-[20px]"
             >
-              {/* Before */}
-              <div className="flex flex-col items-end gap-1 rounded-l-[20px] bg-[#F3F4F6] px-6 py-5 sm:px-8">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-[#FEE2E2]">
-                    <X className="h-3 w-3 text-[#EF4444]" strokeWidth={2.5} />
-                  </span>
-                  <span className="text-2xl font-semibold text-[#6B7280] sm:text-3xl">{row.before.stat}</span>
-                </div>
-                <p className="text-xs text-[#9CA3AF]">{row.before.label}</p>
-                <p className="text-[10px] uppercase tracking-widest text-[#D1D5DB]">{row.before.note}</p>
-              </div>
-
-              {/* Center label */}
-              <div className="bg-white px-3 py-5 text-center">
-                <p className="text-[10px] font-semibold uppercase tracking-widest text-[#9CA3AF] [writing-mode:vertical-rl]">
+              {/* Mobile Header */}
+              <div className="bg-white/[0.02] border-b border-white/5 px-4 py-2.5 text-center md:hidden">
+                <p className="text-[10px] font-semibold uppercase tracking-widest text-[#9CA3AF]">
                   {row.area}
                 </p>
               </div>
 
-              {/* After */}
-              <div className="flex flex-col items-start gap-1 rounded-r-[20px] bg-white/[0.05] px-6 py-5 sm:px-8">
-                <div className="flex items-center gap-2">
-                  <span className="inline-flex h-5 w-5 items-center justify-center rounded-full bg-primary/20">
-                    <Check className="h-3 w-3 text-primary" strokeWidth={2.5} />
-                  </span>
-                  <span className="text-2xl font-semibold text-white sm:text-3xl">{row.after.stat}</span>
+              {/* Grid content */}
+              <div className="grid grid-cols-2 items-stretch gap-px md:grid-cols-[1fr_auto_1fr]">
+                {/* Before */}
+                <div className="flex flex-col items-center text-center gap-1.5 bg-[#F3F4F6] px-3 py-6 md:items-end md:text-right sm:px-8">
+                  <div className="flex flex-col items-center gap-2 lg:flex-row">
+                    <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[#FEE2E2]">
+                      <X className="h-3 w-3 text-[#EF4444]" strokeWidth={2.5} />
+                    </span>
+                    <span className="text-xl font-semibold text-[#6B7280] sm:text-3xl">{row.before.stat}</span>
+                  </div>
+                  <div className="mt-1">
+                    <p className="text-xs text-[#9CA3AF]">{row.before.label}</p>
+                    <p className="mt-0.5 text-[10px] uppercase tracking-widest text-[#D1D5DB]">{row.before.note}</p>
+                  </div>
                 </div>
-                <p className="text-xs text-white/40">{row.after.label}</p>
-                <p className="text-[10px] uppercase tracking-widest text-white/20">{row.after.note}</p>
+
+                {/* Center label (Desktop) */}
+                <div className="hidden items-center justify-center bg-white px-3 py-5 md:flex">
+                  <p className="text-[10px] font-semibold uppercase tracking-widest text-[#9CA3AF] [writing-mode:vertical-rl]">
+                    {row.area}
+                  </p>
+                </div>
+
+                {/* After */}
+                <div className="flex flex-col items-center text-center gap-1.5 bg-white/[0.05] px-3 py-6 md:items-start md:text-left sm:px-8">
+                  <div className="flex flex-col items-center gap-2 lg:flex-row">
+                    <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/20">
+                      <Check className="h-3 w-3 text-primary" strokeWidth={2.5} />
+                    </span>
+                    <span className="text-xl font-semibold text-white sm:text-3xl">{row.after.stat}</span>
+                  </div>
+                  <div className="mt-1">
+                    <p className="text-xs text-white/40">{row.after.label}</p>
+                    <p className="mt-0.5 text-[10px] uppercase tracking-widest text-white/20">{row.after.note}</p>
+                  </div>
+                </div>
               </div>
             </motion.div>
           ))}

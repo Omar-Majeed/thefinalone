@@ -17,7 +17,7 @@ const USE_CASES = [
     metrics: [
       { label: "Ticket deflection", value: "68%" },
       { label: "Avg. response time", value: "1.2s" },
-      { label: "CSAT score",         value: "4.7/5" },
+      { label: "CSAT score", value: "4.7/5" },
     ],
     preview: "chatbot",
   },
@@ -29,8 +29,8 @@ const USE_CASES = [
     detail: "Invoices, contracts, forms, medical records — we build extraction pipelines that parse, validate, and route structured data from unstructured documents with 97%+ accuracy, cutting manual processing time by 90%.",
     metrics: [
       { label: "Extraction accuracy", value: "97.4%" },
-      { label: "Processing time",     value: "< 8s"  },
-      { label: "Manual effort saved", value: "90%"   },
+      { label: "Processing time", value: "< 8s" },
+      { label: "Manual effort saved", value: "90%" },
     ],
     preview: "docai",
   },
@@ -42,8 +42,8 @@ const USE_CASES = [
     detail: "We train ML models on your historical data to surface predictions that drive real decisions — demand forecasting, churn prediction, inventory optimisation, and fraud detection — all integrated into your existing dashboards.",
     metrics: [
       { label: "Churn prediction accuracy", value: "89%" },
-      { label: "Forecast horizon",           value: "90 days" },
-      { label: "Revenue impact",             value: "+23%" },
+      { label: "Forecast horizon", value: "90 days" },
+      { label: "Revenue impact", value: "+23%" },
     ],
     preview: "analytics",
   },
@@ -54,9 +54,9 @@ const USE_CASES = [
     summary: "Replace repetitive decisions with intelligent agents.",
     detail: "We design agentic AI systems that can reason over tasks, call external APIs, make conditional decisions, and complete multi-step workflows — without human intervention at every step.",
     metrics: [
-      { label: "Automation rate",   value: "78%" },
-      { label: "Error reduction",   value: "−64%" },
-      { label: "FTE hours saved",   value: "40h/wk" },
+      { label: "Automation rate", value: "78%" },
+      { label: "Error reduction", value: "−64%" },
+      { label: "FTE hours saved", value: "40h/wk" },
     ],
     preview: "automation",
   },
@@ -68,8 +68,8 @@ const USE_CASES = [
     detail: "Quality inspection, product tagging, ID verification, or real-time video analysis — we deploy vision models that process images and video at scale, integrated directly into your production pipeline.",
     metrics: [
       { label: "Detection accuracy", value: "99.1%" },
-      { label: "Processing speed",   value: "30 FPS" },
-      { label: "Defect catch rate",  value: "98.6%" },
+      { label: "Processing speed", value: "30 FPS" },
+      { label: "Defect catch rate", value: "98.6%" },
     ],
     preview: "vision",
   },
@@ -80,9 +80,9 @@ const USE_CASES = [
     summary: "Search by meaning, not just keywords.",
     detail: "We replace keyword search with embedding-based semantic search — users describe what they need in plain language and the system finds the most relevant results, even when exact words don't match.",
     metrics: [
-      { label: "Search relevance",  value: "+44%" },
-      { label: "Zero-result rate",  value: "−71%" },
-      { label: "User engagement",   value: "+38%" },
+      { label: "Search relevance", value: "+44%" },
+      { label: "Zero-result rate", value: "−71%" },
+      { label: "User engagement", value: "+38%" },
     ],
     preview: "search",
   },
@@ -94,9 +94,9 @@ function PreviewPanel({ id }: { id: string }) {
       <div className="space-y-3 p-1">
         {[
           { role: "user", text: "My order hasn't arrived yet" },
-          { role: "ai",   text: "I can see order #4821 is in transit — estimated delivery is tomorrow by 6 PM. Want me to send a tracking link?" },
+          { role: "ai", text: "I can see order #4821 is in transit — estimated delivery is tomorrow by 6 PM. Want me to send a tracking link?" },
           { role: "user", text: "Yes please" },
-          { role: "ai",   text: "Sent to your email. Is there anything else I can help with?" },
+          { role: "ai", text: "Sent to your email. Is there anything else I can help with?" },
         ].map((msg, i) => (
           <motion.div
             key={i}
@@ -138,7 +138,7 @@ function PreviewPanel({ id }: { id: string }) {
       <div className="space-y-3">
         <p className="text-[10px] uppercase tracking-widest text-white/25">Churn risk — next 30 days</p>
         <div className="flex items-end gap-1.5 h-24">
-          {[12,18,14,28,22,35,42,38,51,48,62,58].map((v, i) => (
+          {[12, 18, 14, 28, 22, 35, 42, 38, 51, 48, 62, 58].map((v, i) => (
             <motion.div key={i} className="flex-1 rounded-t-sm bg-primary/50"
               initial={{ height: 0 }} animate={{ height: `${v}%` }}
               transition={{ duration: 0.5, delay: i * 0.05 }} style={{ minHeight: 2 }} />
@@ -160,15 +160,15 @@ function PreviewPanel({ id }: { id: string }) {
         {[
           { step: "Receive request", status: "done" },
           { step: "Classify intent", status: "done" },
-          { step: "Query database",  status: "done" },
+          { step: "Query database", status: "done" },
           { step: "Generate response", status: "active" },
-          { step: "Send & log",      status: "pending" },
+          { step: "Send & log", status: "pending" },
         ].map((s) => (
           <div key={s.step} className="flex items-center gap-3">
             <span className={cn("h-2 w-2 shrink-0 rounded-full",
-              s.status === "done"    ? "bg-primary" :
-              s.status === "active"  ? "bg-primary animate-pulse" :
-              "bg-white/15"
+              s.status === "done" ? "bg-primary" :
+                s.status === "active" ? "bg-primary animate-pulse" :
+                  "bg-white/15"
             )} />
             <span className={cn("text-xs", s.status === "pending" ? "text-white/25" : "text-white/55")}>
               {s.step}
@@ -236,9 +236,7 @@ export function UseCases() {
   const [active, setActive] = useState(0);
 
   return (
-    <section id="ai-usecases" className="bg-foreground py-20 sm:py-24 lg:py-28">
-      {/* Left green rail */}
-      <div className="pointer-events-none absolute left-0 top-0 h-full w-1 bg-gradient-to-b from-transparent via-primary/40 to-transparent" />
+    <section id="ai-usecases" className="relative bg-foreground py-20 sm:py-24 lg:py-28">
 
       <div className="container px-6">
         <div className="mx-auto max-w-3xl text-center">
@@ -253,7 +251,7 @@ export function UseCases() {
 
         <div className="mt-12 grid gap-6 lg:grid-cols-[1fr_380px]">
           {/* Accordion */}
-          <div className="space-y-2">
+          <div className="space-y-2 min-w-0">
             {USE_CASES.map((uc, i) => {
               const Icon = uc.icon;
               const isOpen = active === i;

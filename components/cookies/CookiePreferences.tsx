@@ -527,7 +527,7 @@ export default function CookiePreferences() {
             />
 
             {/* Modal Centering Wrapper */}
-            <div className="fixed inset-0 z-[10000] flex items-end justify-center md:pb-8">
+            <div className="fixed inset-0 z-[10000] flex items-end justify-center pb-4 md:items-center md:pb-0 md:p-8">
               <motion.div
                 ref={modalRef}
                 id="cookie-preferences-modal"
@@ -542,11 +542,10 @@ export default function CookiePreferences() {
                   stiffness: 300,
                   damping: 30,
                 }}
-                className="flex max-h-[85vh] w-full max-w-[720px] flex-col overflow-hidden
-                  rounded-t-3xl border border-black/[0.05] bg-[#FAFAF7]
+                className="flex max-h-[85dvh] w-full max-w-[720px] flex-col overflow-hidden
+                  rounded-3xl border border-black/[0.05] bg-[#FAFAF7]
                   shadow-[0_-8px_60px_rgba(0,0,0,0.12),0_-2px_20px_rgba(0,0,0,0.06)]
-                  md:rounded-3xl
-                  max-md:max-h-[90vh] max-md:max-w-[calc(100vw-24px)]"
+                  max-md:max-w-[calc(100vw-32px)]"
               >
                 {/* ── Header ── */}
                 <div className="flex shrink-0 items-center justify-between border-b border-black/[0.04] px-6 py-5 md:px-8">

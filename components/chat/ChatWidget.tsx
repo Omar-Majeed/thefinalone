@@ -169,7 +169,7 @@ export default function ChatWidget() {
       {/* Floating Button */}
       <AnimatePresence>
         {!isOpen && (
-          <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-3">
+          <div className="fixed bottom-6 right-6 z-[9999] flex flex-col items-end gap-3 max-md:bottom-4 max-md:right-4">
             <AnimatePresence>
               {showTooltip && !hasInteracted && (
                 <motion.div
@@ -199,10 +199,10 @@ export default function ChatWidget() {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 20 }}
               onClick={() => setIsOpen(true)}
-              className="relative flex h-16 w-16 items-center justify-center rounded-full bg-primary-500 text-white shadow-xl hover:bg-primary-600 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary-500"
+              className="relative flex h-14 w-14 items-center justify-center rounded-full bg-primary-500 text-white shadow-[0_4px_20px_rgba(90,187,74,0.35)] transition-shadow duration-300 hover:shadow-[0_8px_32px_rgba(90,187,74,0.5)] focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-500 focus-visible:ring-offset-2 max-md:h-12 max-md:w-12"
               aria-label="Open chat widget"
             >
-              <MessageCircle className="h-8 w-8" />
+              <MessageCircle className="h-7 w-7 max-md:h-6 max-md:w-6" />
               
               {/* Notification Badge */}
               {showTooltip && !hasInteracted && (
