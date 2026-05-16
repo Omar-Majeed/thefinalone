@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { Navbar } from "@/components/Navbar";
 import { SITE_CONFIG } from "@/constants/site";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.variable}>
         <Navbar />
         {children}
+        <Analytics />
       </body>
     </html>
   );
