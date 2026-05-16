@@ -1,119 +1,198 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ShoppingCart, Users, DollarSign, Briefcase, Search, BarChart } from "lucide-react";
 import { useRef } from "react";
+import { motion } from "framer-motion";
+import {
+  ShoppingCart, Users, DollarSign,
+  Briefcase, Search, BarChart2,
+} from "lucide-react";
 
-const cards = [
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const CARDS = [
   {
     icon: ShoppingCart,
-    title: "Ecommerce Products",
-    description: "Extract full product catalogs, variants, and reviews.",
-    code: '{"price": "$49", "stock": 12}',
+    title: "E-commerce Products",
+    desc: "Full product catalogues, variants, pricing history, and reviews from any store.",
+    sample: '{ "price": "$49", "stock": 12, "rating": 4.8 }',
   },
   {
     icon: Users,
     title: "Lead Databases",
-    description: "Build targeted lists of emails, phones, and company info.",
-    code: '{"email": "ceo@acme.co"}',
+    desc: "Targeted lists of emails, phones, job titles, and company info at scale.",
+    sample: '{ "email": "ceo@acme.co", "title": "CEO" }',
   },
   {
     icon: DollarSign,
     title: "Competitor Pricing",
-    description: "Monitor real-time price changes and promotional offers.",
-    code: '{"competitor": "X", "diff": "-5%"}',
+    desc: "Real-time price monitoring and promotional offer tracking across rivals.",
+    sample: '{ "competitor": "X", "diff": "-5%", "ts": "now" }',
   },
   {
     icon: Briefcase,
     title: "Job Listings",
-    description: "Aggregate roles, salaries, and requirements across boards.",
-    code: '{"role": "Engineer"}',
+    desc: "Roles, salaries, requirements, and hiring trends aggregated across job boards.",
+    sample: '{ "role": "Engineer", "salary": "$140k" }',
   },
   {
     icon: Search,
     title: "SEO Metadata",
-    description: "Audit millions of pages for rankings, keywords, and tags.",
-    code: '{"rank": 1, "kw": "data"}',
+    desc: "Bulk audits of rankings, titles, meta descriptions, and structured data.",
+    sample: '{ "rank": 1, "kw": "data scraping" }',
   },
   {
-    icon: BarChart,
+    icon: BarChart2,
     title: "Market Intelligence",
-    description: "Extract unstructured sentiment and trends for analysis.",
-    code: '{"sentiment": "positive"}',
+    desc: "Sentiment signals, trend data, and unstructured insights from across the web.",
+    sample: '{ "sentiment": "positive", "score": 0.84 }',
   },
 ];
 
 export function WhatWeExtractSection() {
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const railRef = useRef<HTMLDivElement | null>(null);
+  const dragRef = useRef({
+    isDown: false,
+    startX: 0,
+    startScroll: 0,
+    moved: false,
+  });
+
+  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
+    // Only mouse/pen left button — let touch use native scrolling.
+    if (e.pointerType === "touch") return;
+    if (e.button !== 0) return;
+    const el = railRef.current;
+    if (!el) return;
+    dragRef.current.isDown = true;
+    dragRef.current.moved = false;
+    dragRef.current.startX = e.clientX;
+    dragRef.current.startScroll = el.scrollLeft;
+  };
+
+  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = railRef.current;
+    if (!el || !dragRef.current.isDown) return;
+    const dx = e.clientX - dragRef.current.startX;
+    // Capture only once we've crossed the drag threshold so plain clicks
+    // still reach the button targets.
+    if (!dragRef.current.moved && Math.abs(dx) > 5) {
+      dragRef.current.moved = true;
+      el.classList.add("is-dragging");
+      try {
+        el.setPointerCapture(e.pointerId);
+      } catch {
+        /* noop */
+      }
+    }
+    if (dragRef.current.moved) {
+      el.scrollLeft = dragRef.current.startScroll - dx;
+      e.preventDefault();
+    }
+  };
+
+  const endDrag = (e: React.PointerEvent<HTMLDivElement>) => {
+    const el = railRef.current;
+    if (!el) return;
+    dragRef.current.isDown = false;
+    if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    el.classList.remove("is-dragging");
+  };
 
   return (
-    <section className="bg-white py-24 px-6 lg:py-32 overflow-hidden">
-      <div className="max-w-7xl mx-auto mb-16">
+    <section className="bg-[#F4F3F0] py-20 sm:py-24 lg:py-28 overflow-hidden">
+      <div className="container px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          viewport={{ once: true, amount: 0.3 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="max-w-xl"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">What We Extract</h2>
-          <p className="text-lg text-gray-600 max-w-2xl">
-            Our systems parse and normalize data from virtually any structure, turning chaotic markup into pristine datasets.
+          <span className="text-sm font-semibold text-primary">What We Extract</span>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Any data. Any structure. Delivered clean.
+          </h2>
+          <p className="mt-4 text-base leading-8 text-[#6B7280]">
+            Our systems parse and normalise data from virtually any markup,
+            turning chaotic sources into pristine, schema-valid datasets.
           </p>
         </motion.div>
-      </div>
 
-      <div className="max-w-7xl mx-auto relative">
-        {/* Horizontal Scroll Container */}
-        <div 
-          ref={scrollRef}
-          className="flex overflow-x-auto gap-6 pb-12 snap-x snap-mandatory hide-scrollbar cursor-grab active:cursor-grabbing"
-          style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        {/* Drag hint */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3 }}
+          className="mt-8 text-sm text-[#9CA3AF]"
         >
-          {cards.map((card, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.6, delay: i * 0.1 }}
-              whileHover={{ y: -10 }}
-              className="min-w-[300px] md:min-w-[350px] bg-white border border-gray-100 rounded-2xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgba(90,187,74,0.15)] hover:border-[#5ABB4A]/30 transition-all duration-300 snap-center flex flex-col group relative overflow-hidden"
-            >
-              {/* Extraction animation on hover */}
-              <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-                <motion.div 
-                  animate={{ y: [0, 10, 0] }} 
-                  transition={{ repeat: Infinity, duration: 2 }}
-                  className="w-12 h-1 bg-[#5ABB4A]/20 rounded-full overflow-hidden"
-                >
-                  <motion.div 
-                    animate={{ x: ['-100%', '100%'] }} 
-                    transition={{ repeat: Infinity, duration: 1 }}
-                    className="w-1/2 h-full bg-[#5ABB4A]"
-                  />
-                </motion.div>
-              </div>
+          ← Drag to explore →
+        </motion.p>
 
-              <div className="w-12 h-12 bg-gray-50 rounded-xl flex items-center justify-center mb-6 text-gray-800 group-hover:text-[#5ABB4A] group-hover:bg-green-50 transition-colors">
-                <card.icon className="w-6 h-6" />
-              </div>
-              
-              <h3 className="text-xl font-bold text-gray-900 mb-3">{card.title}</h3>
-              <p className="text-gray-600 mb-8 flex-grow">{card.description}</p>
-              
-              <div className="mt-auto bg-gray-900 rounded-lg p-4 font-mono text-sm text-green-400 group-hover:bg-[#0B1120] transition-colors">
-                {card.code}
-              </div>
-            </motion.div>
-          ))}
+        {/* Horizontal drag rail */}
+        <div
+          ref={railRef}
+          onPointerDown={onPointerDown}
+          onPointerMove={onPointerMove}
+          onPointerUp={endDrag}
+          onPointerCancel={endDrag}
+          onPointerLeave={endDrag}
+          className="extract-rail -mx-6 mt-4 flex items-stretch gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:px-0"
+          style={{ WebkitUserDrag: "none", userSelect: "none", touchAction: "pan-x" }}
+        >
+          {CARDS.map((card, i) => {
+            const Icon = card.icon;
+            return (
+              <motion.div
+                key={card.title}
+                initial={{ opacity: 0, y: 24 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.2 }}
+                transition={{ duration: 0.45, ease: EASE, delay: i * 0.07 }}
+                className="flex snap-start shrink-0 flex-col"
+                style={{ width: "clamp(280px, 30vw, 340px)", scrollSnapAlign: "start" }}
+              >
+                <div className="flex h-full flex-col rounded-[28px] border border-[#E5E5E0] bg-white p-6 shadow-[0_12px_32px_-12px_rgba(15,23,42,0.12)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 hover:shadow-[0_20px_40px_-12px_rgba(90,187,74,0.15)] sm:p-7">
+
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-[#F3F4F6] text-[#374151] transition-colors duration-300 group-hover:bg-primary/10 group-hover:text-primary">
+                    <Icon className="h-5 w-5" strokeWidth={2} />
+                  </span>
+
+                  <h3 className="mt-5 text-lg font-semibold tracking-tight text-foreground">
+                    {card.title}
+                  </h3>
+                  <p className="mt-2 flex-1 text-sm leading-7 text-[#6B7280]">
+                    {card.desc}
+                  </p>
+
+                  {/* Sample output */}
+                  <div className="mt-5 overflow-hidden rounded-xl border border-[#E5E5E0] bg-[#0d1117]">
+                    <div className="flex items-center gap-1.5 border-b border-white/5 px-4 py-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary animate-pulse" />
+                      <span className="font-mono text-[10px] text-white/25 tracking-wider">output.json</span>
+                    </div>
+                    <p className="p-4 font-mono text-[11px] leading-5 text-primary/70">{card.sample}</p>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
-        
-        {/* CSS to hide scrollbar */}
-        <style dangerouslySetInnerHTML={{__html: `
-          .hide-scrollbar::-webkit-scrollbar {
-            display: none;
+
+        <style>{`
+          .extract-rail {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+            -webkit-overflow-scrolling: touch;
+            cursor: grab;
+            touch-action: pan-x;
+            overscroll-behavior-x: contain;
+            scroll-snap-type: x mandatory;
           }
-        `}} />
+          .extract-rail::-webkit-scrollbar { display: none; }
+          .extract-rail.is-dragging { cursor: grabbing; }
+          .extract-rail.is-dragging * { pointer-events: none; user-select: none; }
+        `}</style>
       </div>
     </section>
   );

@@ -1,93 +1,70 @@
-"use client";
-
-import { motion } from "framer-motion";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export function FinalCtaSection() {
   return (
-    <section className="relative overflow-hidden bg-[#1A1A2E] py-32 px-6">
-      {/* Network Glow & Atmospheric Blur Effects */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-[#5ABB4A] rounded-full blur-[200px] opacity-10 transform -translate-y-1/2" />
-        <div className="absolute top-1/2 right-1/4 w-96 h-96 bg-blue-600 rounded-full blur-[200px] opacity-10 transform -translate-y-1/2" />
-        
-        {/* Animated connection lines */}
-        <svg className="absolute inset-0 w-full h-full opacity-20" xmlns="http://www.w3.org/2000/svg">
-          <motion.path 
-            d="M0,200 Q400,300 800,100 T1600,250" 
-            fill="none" 
-            stroke="#5ABB4A" 
-            strokeWidth="1"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 0.5 }}
-            transition={{ duration: 5, repeat: Infinity, ease: "linear" }}
-          />
-          <motion.path 
-            d="M0,400 Q500,100 1000,400 T2000,300" 
-            fill="none" 
-            stroke="#4A90E2" 
-            strokeWidth="1"
-            initial={{ pathLength: 0, opacity: 0 }}
-            animate={{ pathLength: 1, opacity: 0.3 }}
-            transition={{ duration: 7, repeat: Infinity, ease: "linear", delay: 1 }}
-          />
-        </svg>
-
-        {/* Pulse Nodes */}
-        {[...Array(5)].map((_, i) => (
-           <motion.div
-              key={i}
-              className="absolute w-2 h-2 rounded-full bg-[#5ABB4A]"
-              animate={{
-                 scale: [1, 2, 1],
-                 opacity: [0.2, 1, 0.2],
-              }}
-              transition={{
-                 duration: 2 + i,
-                 repeat: Infinity,
-                 ease: "easeInOut",
-                 delay: i * 0.5
-              }}
-              style={{
-                 top: `${Math.random() * 80 + 10}%`,
-                 left: `${Math.random() * 80 + 10}%`,
-                 boxShadow: "0 0 10px 2px rgba(90, 187, 74, 0.5)"
-              }}
-           />
-        ))}
+    <section id="final-cta" className="bg-[#1A1A2E] py-20 sm:py-24 lg:py-28">
+      {/* Static glows — SSR-safe, no Math.random */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute left-1/4 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-primary/10 blur-[120px]" />
+        <div className="absolute right-1/4 top-1/2 h-80 w-80 -translate-y-1/2 rounded-full bg-blue-600/8 blur-[120px]" />
       </div>
 
-      <div className="max-w-4xl mx-auto relative z-10 text-center">
-        <motion.h2 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-5xl md:text-6xl font-bold text-white mb-8"
-        >
-          Ready To Build Your Data Pipeline?
-        </motion.h2>
+      <div className="container relative z-10 px-6">
+        <div className="mx-auto max-w-3xl rounded-[28px] border border-white/8 bg-white/[0.04] px-6 py-12 text-center sm:px-10 sm:py-14">
+          <span className="inline-flex items-center rounded-full border border-white/10 bg-white/5 px-3 py-1 text-sm font-semibold text-primary">
+            Free Pipeline Scoping
+          </span>
 
-        <motion.p 
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-xl text-gray-300 max-w-2xl mx-auto mb-12"
-        >
-          We create scalable extraction systems designed for automation, accuracy, and growth.
-        </motion.p>
+          <h2 className="mt-6 text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+            Ready to build your data pipeline?
+          </h2>
 
-        <motion.button
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(90, 187, 74, 0.6)" }}
-          whileTap={{ scale: 0.95 }}
-          className="bg-[#5ABB4A] hover:bg-[#4ea83f] text-white rounded-full px-10 py-5 text-lg font-medium transition-all duration-300"
-        >
-          Book A Consultation
-        </motion.button>
+          <p className="mt-4 text-base leading-8 text-white/40 sm:text-lg">
+            Tell us the sources and the output format you have in mind. We will
+            scope the pipeline, estimate the cost, and deliver a working proof
+            of concept — within 48 hours, no commitment required.
+          </p>
+
+          <div className="mt-10 flex justify-center">
+            <Link
+              href="/contact"
+              className={cn(
+                "group relative inline-flex items-center justify-center overflow-hidden rounded-full",
+                "border border-white/20 bg-white/5 px-8 py-3.5 text-sm font-semibold text-white",
+                "transition-all duration-300 hover:border-primary/60",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-[#1A1A2E]",
+              )}
+            >
+              <span
+                aria-hidden
+                className="absolute inset-0 origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
+              />
+              <span className="relative z-10 inline-flex items-center gap-2">
+                Book a Consultation
+                <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+              </span>
+            </Link>
+          </div>
+
+          <p className="mt-6 text-sm text-white/20">
+            No commitment required &middot; POC delivered in 48 hours
+          </p>
+
+          <div className="mt-10 flex flex-wrap justify-center gap-6 border-t border-white/8 pt-8">
+            {[
+              "Any public data source",
+              "JSON, CSV, or direct DB",
+              "Fully managed pipeline",
+              "No maintenance on your team",
+            ].map((item) => (
+              <span key={item} className="text-xs font-medium text-white/20">
+                ✦ {item}
+              </span>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );

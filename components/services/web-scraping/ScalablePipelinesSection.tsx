@@ -1,119 +1,193 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { Clock, ShieldAlert, Cpu, Network } from "lucide-react";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 
-const features = [
-  { icon: Clock, title: "Automated Scheduling", desc: "Run daily, hourly, or minute-by-minute." },
-  { icon: ShieldAlert, title: "Anti-Block Systems", desc: "IP rotation and headless browser evasion." },
-  { icon: Cpu, title: "Infinite Scalability", desc: "From 1,000 to 10M+ records seamlessly." },
-  { icon: Network, title: "Proxy Management", desc: "Residential and datacenter proxy routing." },
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const LOG_LINES = [
+  '[INF] Node_3: Extracted { id: "a1", price: "$49.99" }',
+  '[INF] Node_1: Rotating proxy → 104.21.x.x',
+  '[INF] Node_2: Saved 50 rows to PostgreSQL',
+  '[SUC] Node_4: CAPTCHA solved in 1.2s',
+  '[INF] Node_3: Extracted { id: "a2", price: "$59.99" }',
+  '[INF] Node_1: Dedup removed 12 records',
+  '[SUC] Node_2: Schema valid — pushed to queue',
+  '[INF] Node_4: Next page → offset=250',
 ];
 
-export function ScalablePipelinesSection() {
-  const [count, setCount] = useState(1450392);
+const BAR_HEIGHTS = [40, 65, 45, 80, 50, 95, 60, 85, 70, 100];
 
+function LiveDashboard() {
+  const [count, setCount] = useState(1_450_392);
+  const [logIdx, setLogIdx] = useState(0);
+  const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
+
+  // Live counter — SSR-safe: starts only on client
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCount(prev => prev + Math.floor(Math.random() * 50) + 10);
-    }, 1500);
-    return () => clearInterval(interval);
+    const t = setInterval(() => {
+      setCount((p) => p + Math.floor(22 + Math.random() * 38));
+    }, 1400);
+    return () => clearInterval(t);
+  }, []);
+
+  // Rolling log stream
+  useEffect(() => {
+    const t = setInterval(() => {
+      setLogIdx((prev) => {
+        const next = (prev + 1) % LOG_LINES.length;
+        setVisibleLogs((logs) => {
+          const updated = [...logs, LOG_LINES[next]];
+          return updated.slice(-4); // keep last 4 visible
+        });
+        return next;
+      });
+    }, 1600);
+    return () => clearInterval(t);
   }, []);
 
   return (
-    <section className="bg-white py-24 px-6 lg:py-32">
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          
-          {/* Left Visual: Dashboard */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="order-2 lg:order-1 bg-gray-50 border border-gray-200 rounded-3xl p-6 shadow-2xl relative overflow-hidden h-[500px] flex flex-col"
-          >
-            {/* Mock Header */}
-            <div className="flex justify-between items-center mb-8 border-b border-gray-200 pb-4">
-              <div className="font-bold text-gray-800">Pipeline Status</div>
-              <div className="flex space-x-2">
-                <span className="flex h-3 w-3 relative">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                </span>
-                <span className="text-xs text-green-600 font-medium">LIVE</span>
-              </div>
-            </div>
+    <div className="overflow-hidden rounded-[24px] border border-[#E5E7EB] bg-white shadow-[0_24px_60px_-20px_rgba(15,23,42,0.18)]">
+      {/* Dashboard header */}
+      <div className="flex items-center justify-between border-b border-[#F3F4F6] px-6 py-4">
+        <p className="text-sm font-semibold text-foreground">Pipeline Status</p>
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2.5 w-2.5">
+            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-60" />
+            <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
+          </span>
+          <span className="text-xs font-semibold text-primary">LIVE</span>
+        </div>
+      </div>
 
-            {/* Live Counter */}
-            <div className="mb-8">
-              <div className="text-sm text-gray-500 mb-1 font-medium uppercase tracking-wider">Records Extracted (24h)</div>
-              <div className="text-5xl font-mono font-bold text-gray-900 tracking-tight">
-                {count.toLocaleString()}
-              </div>
-            </div>
+      <div className="p-6 space-y-6">
+        {/* Live counter */}
+        <div>
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-[#9CA3AF]">
+            Records extracted (24h)
+          </p>
+          <p className="mt-2 font-mono text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
+            {count.toLocaleString()}
+          </p>
+        </div>
 
-            {/* Simulated Chart/Bars */}
-            <div className="flex items-end space-x-2 h-40 mb-6 w-full">
-              {[40, 65, 45, 80, 50, 95, 60, 85, 70, 100].map((height, i) => (
-                <motion.div
+        {/* Bar chart */}
+        <div className="flex items-end gap-1.5 h-28">
+          {BAR_HEIGHTS.map((h, i) => (
+            <motion.div
+              key={i}
+              className="flex-1 rounded-t-sm bg-gradient-to-t from-primary to-primary/50"
+              initial={{ scaleY: 0, originY: 1 }}
+              whileInView={{ scaleY: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, delay: i * 0.07, ease: "easeOut" }}
+              style={{ height: `${h}%` }}
+            />
+          ))}
+        </div>
+
+        {/* Rolling log stream */}
+        <div className="relative overflow-hidden rounded-xl border border-[#F3F4F6] bg-[#0d1117]">
+          <div className="flex items-center gap-1.5 border-b border-white/5 px-4 py-2.5">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
+            <span className="font-mono text-[10px] text-white/25 tracking-wider">live-log</span>
+          </div>
+          <div className="relative h-[88px] overflow-hidden px-4 py-3">
+            <motion.div
+              key={logIdx}
+              initial={{ y: 16, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="space-y-1.5"
+            >
+              {visibleLogs.map((line, i) => (
+                <p
                   key={i}
-                  initial={{ height: 0 }}
-                  whileInView={{ height: `${height}%` }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 1, delay: i * 0.1, ease: "easeOut" }}
-                  className="flex-1 bg-gradient-to-t from-[#5ABB4A] to-green-300 rounded-t-sm opacity-80"
-                />
+                  className={`font-mono text-[11px] leading-4 ${
+                    line.startsWith("[SUC]") ? "text-primary/70" : "text-white/40"
+                  }`}
+                >
+                  {line}
+                </p>
               ))}
-            </div>
+            </motion.div>
+            {/* Fade out top */}
+            <div className="pointer-events-none absolute inset-x-0 top-0 h-6 bg-gradient-to-b from-[#0d1117] to-transparent" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 
-            {/* Flowing Records */}
-            <div className="mt-auto border-t border-gray-200 pt-4 overflow-hidden relative h-16">
-               <motion.div
-                 animate={{ y: [0, -40] }}
-                 transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
-                 className="flex flex-col space-y-2 text-xs font-mono text-gray-600"
-               >
-                 <div>{`[INF] Node_3: Extracted { id: "a1", price: "$49" }`}</div>
-                 <div>{`[INF] Node_1: Bypassing captcha...`}</div>
-                 <div>{`[INF] Node_2: Saved 50 rows to Postgres`}</div>
-                 <div>{`[INF] Node_3: Extracted { id: "a2", price: "$59" }`}</div>
-               </motion.div>
-               <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-50 pointer-events-none" />
-            </div>
+const STATS = [
+  { value: "10M+",  label: "Records / day capacity" },
+  { value: "99.7%", label: "Pipeline uptime SLA"    },
+  { value: "0",     label: "Downtime incidents YTD"  },
+];
+
+export function ScalablePipelinesSection() {
+  return (
+    <section className="bg-[#F4F3F0] py-20 sm:py-24 lg:py-28">
+      <div className="container px-6">
+        <div className="grid items-center gap-14 lg:grid-cols-2 lg:gap-20">
+
+          {/* LEFT — live dashboard */}
+          <motion.div
+            initial={{ opacity: 0, x: -24 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.65, ease: EASE }}
+            className="order-2 lg:order-1"
+          >
+            <LiveDashboard />
           </motion.div>
 
-          {/* Right Content */}
+          {/* RIGHT — copy */}
           <motion.div
-            initial={{ opacity: 0, x: 30 }}
+            initial={{ opacity: 0, x: 24 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.65, ease: EASE, delay: 0.1 }}
             className="order-1 lg:order-2"
           >
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight">
-              Built For Scale, Speed & Reliability.
+            <span className="text-sm font-semibold text-primary">Built for Scale</span>
+            <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl lg:text-[2.6rem] lg:leading-[1.12]">
+              Enterprise-grade infrastructure that never sleeps
             </h2>
-            <p className="text-lg text-gray-600 mb-10 leading-relaxed">
-              We design enterprise-grade scraping infrastructure. Whether you need thousands of pages a day or millions an hour, our distributed systems handle JavaScript-heavy sites, captchas, and dynamic layouts with zero downtime.
+            <p className="mt-5 text-base leading-8 text-[#6B7280] sm:text-lg">
+              Whether you need thousands of pages a day or millions an hour,
+              our distributed architecture handles JavaScript-heavy sites,
+              CAPTCHAs, and dynamic layouts — with zero downtime and full
+              observability.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {features.map((feature, i) => (
-                <div key={i} className="flex space-x-4">
-                  <div className="flex-shrink-0 mt-1">
-                    <div className="w-10 h-10 rounded-lg bg-green-50 flex items-center justify-center text-[#5ABB4A]">
-                      <feature.icon className="w-5 h-5" />
-                    </div>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-1">{feature.title}</h4>
-                    <p className="text-sm text-gray-600">{feature.desc}</p>
-                  </div>
+            {/* Stat strip */}
+            <div className="mt-10 grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-[#E5E7EB] bg-[#E5E7EB]">
+              {STATS.map((s) => (
+                <div key={s.label} className="bg-white px-4 py-5 text-center">
+                  <p className="text-2xl font-semibold text-foreground">{s.value}</p>
+                  <p className="mt-1 text-[10px] uppercase tracking-[0.12em] text-[#9CA3AF]">
+                    {s.label}
+                  </p>
                 </div>
               ))}
             </div>
+
+            {/* Feature list */}
+            <ul className="mt-8 space-y-3">
+              {[
+                "Distributed across multiple worker nodes",
+                "Auto-scaling based on queue depth",
+                "Alerting on extraction failures within 60s",
+                "Full audit log of every record processed",
+              ].map((item) => (
+                <li key={item} className="flex items-start gap-3 text-sm text-[#374151] sm:text-base">
+                  <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
+                  {item}
+                </li>
+              ))}
+            </ul>
           </motion.div>
 
         </div>

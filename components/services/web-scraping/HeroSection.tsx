@@ -1,172 +1,282 @@
 "use client";
 
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, Code, Database, FileJson, Server } from "lucide-react";
+import { ArrowRight, Zap, Database, ShieldCheck } from "lucide-react";
+import { cn } from "@/lib/utils";
 
-const codeSnippets = [
-  `{\n  "company": "Acme Inc",\n  "email": "contact@acme.com"\n}`,
-  `<div class="product-card">\n  <span class="price">$99.99</span>\n</div>`,
-  `SELECT * FROM products\nWHERE category = 'tech';`,
-  `["data", "extraction", "pipeline"]`,
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+/* ── scrolling data rows that act as the page texture ── */
+const ROWS = [
+  ["product_name","price","in_stock","rating","sku","last_updated"],
+  ["MacBook Pro M4","$2,499","true","4.8","MBP-M4-16","2024-11-14"],
+  ["Dell XPS 15","$1,799","true","4.6","XPS-9530","2024-11-14"],
+  ["company","revenue","employees","founded","hq","funding"],
+  ["Stripe","$14.4B","8,000+","2010","San Francisco","$2.3B"],
+  ["NovaTech Inc","$4.2M","38","2018","Austin","Series A"],
+  ["title","source","published","sentiment","category","url"],
+  ["Fed holds rates","Reuters","2024-11-14","neutral","finance","reuters.com/..."],
+  ["AI spending up 40%","FT","2024-11-13","positive","tech","ft.com/..."],
+  ["ticker","price","pe_ratio","volume","52w_high","analyst"],
+  ["NVDA","$138.42","64.2","42.1M","$140.76","Buy"],
+  ["AAPL","$229.00","34.8","51.3M","$237.23","Hold"],
 ];
 
-export function HeroSection() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: "easeOut" },
-    },
-  };
-
+function DataTexture() {
   return (
-    <section className="relative overflow-hidden bg-[#FAFAF8] py-24 px-6 lg:py-32">
-      {/* Background Visualization */}
-      <div className="absolute inset-0 z-0 overflow-hidden opacity-20 pointer-events-none">
-        {codeSnippets.map((snippet, i) => (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
+      {/* Fade masks */}
+      <div className="absolute inset-0 z-10 bg-gradient-to-b from-white/0 via-white/55 to-white" />
+      <div className="absolute inset-0 z-10 bg-gradient-to-r from-white via-transparent to-white" />
+
+      {ROWS.map((row, ri) => (
+        <motion.div
+          key={ri}
+          className="absolute flex items-center gap-2 whitespace-nowrap"
+          style={{ top: `${(ri / ROWS.length) * 100}%` }}
+          animate={{ x: ri % 2 === 0 ? ["0%", "-25%"] : ["-20%", "5%"] }}
+          transition={{
+            duration: 35 + ri * 4,
+            repeat: Infinity,
+            ease: "linear",
+            repeatType: "reverse",
+          }}
+        >
+          {row.map((cell, ci) => (
+            <span
+              key={ci}
+              className={cn(
+                "inline-flex items-center rounded-md border px-2.5 py-1 font-mono text-[11px] leading-none",
+                ci === 0
+                  ? "border-primary/25 bg-primary/6 text-primary/50 font-semibold"
+                  : "border-slate-200 bg-white/80 text-slate-400"
+              )}
+            >
+              {cell}
+            </span>
+          ))}
+        </motion.div>
+      ))}
+    </div>
+  );
+}
+
+export function HeroSection() {
+  return (
+    /*
+      Background: warm white — never used as a hero bg across the site.
+      No dark overlay. No grid texture. No green glow blur.
+      The data rows ARE the visual atmosphere.
+    */
+    <section className="relative min-h-[94vh] overflow-hidden bg-white pt-32 pb-20 flex items-center sm:pt-36">
+      <DataTexture />
+
+      <div className="container relative z-20 px-6">
+        <div className="grid items-center gap-14 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12">
+          <div className="max-w-2xl">
+
+          {/* Badge */}
           <motion.div
-            key={i}
-            className="absolute text-xs md:text-sm font-mono text-gray-500 whitespace-pre"
-            initial={{ opacity: 0, x: -50 }}
-            animate={{
-              opacity: [0, 0.5, 0],
-              x: [0, 100],
-              y: [0, i % 2 === 0 ? 50 : -50],
-            }}
-            transition={{
-              duration: 15 + i * 5,
-              repeat: Infinity,
-              ease: "linear",
-              delay: i * 2,
-            }}
-            style={{
-              top: `${20 + i * 20}%`,
-              left: `${10 + i * 15}%`,
-              filter: "blur(1px)",
-            }}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.45, ease: EASE }}
           >
-            {snippet}
-          </motion.div>
-        ))}
-      </div>
-
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-          {/* Left Content */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            className="flex flex-col items-start space-y-8"
-          >
-            <motion.span
-              variants={itemVariants}
-              className="uppercase tracking-widest text-[#5ABB4A] font-semibold text-sm"
-            >
-              Web Scraping Services
-            </motion.span>
-            
-            <motion.h1
-              variants={itemVariants}
-              className="text-5xl md:text-6xl lg:text-7xl font-bold text-black leading-tight"
-            >
-              Turn The Web <br />
-              Into Structured <br />
-              Data.
-            </motion.h1>
-
-            <motion.p
-              variants={itemVariants}
-              className="text-lg text-gray-600 leading-relaxed max-w-xl"
-            >
-              We build scalable web scraping systems that extract, clean, and deliver structured data from complex web sources in real time.
-            </motion.p>
-
-            <motion.button
-              variants={itemVariants}
-              whileHover={{ scale: 1.05, boxShadow: "0px 0px 20px rgba(90, 187, 74, 0.4)" }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-[#5ABB4A] text-white rounded-full px-8 py-4 font-medium transition-colors duration-300 hover:bg-[#4ea83f]"
-            >
-              Start Data Extraction
-            </motion.button>
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3.5 py-1.5 text-sm font-semibold text-primary shadow-sm">
+              <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-primary" />
+              Web Scraping &amp; Data Extraction
+            </span>
           </motion.div>
 
-          {/* Right Visual */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            className="relative hidden md:block h-[500px]"
+          {/* Headline — no centering, strong left-anchored editorial feel */}
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.65, ease: EASE, delay: 0.1 }}
+            className="mt-7 text-5xl font-semibold tracking-tight text-foreground sm:text-6xl lg:text-[4.2rem] lg:leading-[1.04]"
           >
-            {/* Pipeline Container */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center space-y-6">
-              {[
-                { icon: Server, label: "Website Source", color: "text-blue-500", bg: "bg-blue-50" },
-                { icon: Code, label: "Extraction Engine", color: "text-[#5ABB4A]", bg: "bg-green-50" },
-                { icon: Database, label: "Data Cleaning", color: "text-purple-500", bg: "bg-purple-50" },
-                { icon: FileJson, label: "Structured Output", color: "text-orange-500", bg: "bg-orange-50" },
-              ].map((step, i) => (
-                <div key={i} className="flex flex-col items-center">
-                  <motion.div
-                    animate={{ y: [0, -10, 0] }}
-                    transition={{ duration: 3, repeat: Infinity, delay: i * 0.2, ease: "easeInOut" }}
-                    className={`flex items-center space-x-4 bg-white p-4 rounded-xl shadow-lg border border-gray-100 z-10 w-64`}
-                  >
-                    <div className={`p-3 rounded-lg ${step.bg}`}>
-                      <step.icon className={`w-6 h-6 ${step.color}`} />
-                    </div>
-                    <span className="font-semibold text-gray-800">{step.label}</span>
-                  </motion.div>
-                  
-                  {i < 3 && (
-                    <motion.div
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: 30 }}
-                      transition={{ duration: 0.5, delay: i * 0.5 + 0.5 }}
-                      className="w-0.5 bg-gradient-to-b from-gray-300 to-[#5ABB4A] my-2 relative"
-                    >
-                       <motion.div 
-                          className="absolute w-2 h-2 rounded-full bg-[#5ABB4A] -left-[3px]"
-                          animate={{ top: ["0%", "100%"], opacity: [0, 1, 0] }}
-                          transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
-                       />
-                    </motion.div>
-                  )}
-                </div>
-              ))}
-            </div>
+            Turn any website
+            <br />
+            into{" "}
+            <span className="relative inline-block">
+              <span className="relative z-10 text-primary">structured data</span>
+              <motion.span
+                aria-hidden
+                className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-primary/25"
+                initial={{ scaleX: 0, originX: 0 }}
+                animate={{ scaleX: 1 }}
+                transition={{ duration: 0.9, ease: EASE, delay: 0.75 }}
+              />
+            </span>
+          </motion.h1>
 
-            {/* Floating code elements */}
-            <motion.div
-               animate={{ y: [0, 20, 0], x: [0, -10, 0], rotate: [0, -5, 0] }}
-               transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-               className="absolute top-10 left-0 bg-white p-3 rounded-lg shadow-xl border border-gray-100 text-xs font-mono text-gray-600"
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.22 }}
+            className="mt-6 max-w-lg text-base leading-8 text-[#4B5563] sm:text-lg"
+          >
+            Production-grade scraping pipelines that extract, clean, and
+            deliver web data at scale — reliably, legally, and without
+            maintenance overhead on your team.
+          </motion.p>
+
+          {/* Feature pills */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.32 }}
+            className="mt-7 flex flex-wrap gap-2"
+          >
+            {[
+              { icon: Zap,         label: "Real-time extraction"  },
+              { icon: Database,    label: "Structured JSON / CSV" },
+              { icon: ShieldCheck, label: "Anti-block & proxy"    },
+            ].map(({ icon: Icon, label }) => (
+              <span
+                key={label}
+                className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2 text-sm font-medium text-[#374151] shadow-sm"
+              >
+                <Icon className="h-3.5 w-3.5 text-primary" strokeWidth={2} />
+                {label}
+              </span>
+            ))}
+          </motion.div>
+
+          {/* CTAs */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, ease: EASE, delay: 0.42 }}
+            className="mt-9 flex flex-wrap items-center gap-4"
+          >
+            <Link
+              href="/contact"
+              className={cn(
+                "inline-flex items-center justify-center rounded-full bg-primary px-7 py-3.5 text-sm font-semibold text-white",
+                "shadow-[0_16px_30px_-18px_rgba(90,187,74,0.95)] transition-all duration-300",
+                "hover:-translate-y-0.5 hover:shadow-[0_20px_38px_-18px_rgba(90,187,74,0.9)]",
+                "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+              )}
             >
-              {"<div>Product</div>"}
-            </motion.div>
-            
-            <motion.div
-               animate={{ y: [0, -20, 0], x: [0, 10, 0], rotate: [0, 5, 0] }}
-               transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-               className="absolute bottom-20 right-0 bg-gray-900 text-green-400 p-3 rounded-lg shadow-xl border border-gray-800 text-xs font-mono"
+              Start Extracting Data
+            </Link>
+            <Link
+              href="#scraping-pipeline"
+              className="group inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-5 py-3.5 text-sm font-semibold text-foreground shadow-sm transition-all duration-300 hover:border-primary/40 hover:text-primary"
             >
-              {`{ "status": 200 }`}
-            </motion.div>
+              See how it works
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+            </Link>
+          </motion.div>
+
+          {/* Stat strip */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.6, ease: EASE, delay: 0.56 }}
+            className="mt-12 flex flex-wrap gap-10 border-t border-slate-100 pt-8"
+          >
+            {[
+              { value: "50M+",  label: "Records extracted monthly" },
+              { value: "99.7%", label: "Pipeline uptime SLA"       },
+              { value: "<2s",   label: "Avg. page extraction time"  },
+            ].map((s) => (
+              <div key={s.label}>
+                <p className="text-2xl font-semibold text-foreground">{s.value}</p>
+                <p className="mt-0.5 text-xs text-[#6B7280]">{s.label}</p>
+              </div>
+            ))}
+          </motion.div>
+        </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.65, ease: EASE, delay: 0.1 }}
+            className="relative mx-auto hidden h-[400px] w-full max-w-[500px] lg:block"
+          >
+            <ScrapingVisual />
           </motion.div>
         </div>
       </div>
     </section>
+  );
+}
+
+function ScrapingVisual({ className }: { className?: string }) {
+  return (
+    <div className={cn("relative h-full w-full", className)}>
+      <motion.div
+        animate={{ y: [0, -8, 0] }}
+        transition={{ duration: 6.4, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-x-4 top-10 rounded-2xl border border-slate-200 bg-white/95 p-5 shadow-[0_28px_70px_-34px_rgba(15,23,42,0.15)] backdrop-blur"
+      >
+        <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+          <div className="flex items-center gap-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#FCA5A5]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#FCD34D]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#86EFAC]" />
+          </div>
+          <span className="text-[10px] font-medium uppercase tracking-wider text-slate-400">
+            Extraction Task
+          </span>
+        </div>
+        
+        <div className="mt-4 font-mono text-[11px] leading-relaxed text-slate-600">
+          <p className="text-primary">{`>`} Connecting to target_url...</p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 1, duration: 0.5 }}
+          >
+            {`>`} Bypass successful (200 OK)
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 2, duration: 0.5 }}
+          >
+            {`>`} Locating product nodes...
+          </motion.p>
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 3, duration: 0.5 }}
+            className="text-amber-500"
+          >
+            {`>`} Found 1,248 matching records.
+          </motion.p>
+        </div>
+      </motion.div>
+
+      <motion.div
+        animate={{ y: [0, 10, 0] }}
+        transition={{ duration: 5.8, repeat: Infinity, ease: "easeInOut", delay: 0.4 }}
+        className="absolute -right-4 bottom-12 w-[280px] rounded-2xl border border-slate-200 bg-[#0F172A] p-4 shadow-[0_26px_50px_-32px_rgba(15,23,42,0.36)] backdrop-blur sm:-right-8"
+      >
+        <div className="flex items-center justify-between">
+          <p className="text-xs font-medium uppercase tracking-[0.16em] text-slate-400">
+            Structured Output
+          </p>
+          <span className="rounded-full bg-primary/20 px-2 py-1 text-[10px] font-semibold text-primary">
+            JSON
+          </span>
+        </div>
+        <div className="mt-4 font-mono text-[11px] text-[#86EFAC]">
+          <p>{"{"}</p>
+          <p className="mt-1 ml-4 text-white">"items": [</p>
+          <p className="mt-1 ml-8 text-white">{"{"}</p>
+          <p className="mt-1 ml-12">"id": <span className="text-amber-300">"PRD-892"</span>,</p>
+          <p className="mt-1 ml-12">"title": <span className="text-amber-300">"MacBook Pro M4"</span>,</p>
+          <p className="mt-1 ml-12">"price": <span className="text-amber-300">2499.00</span>,</p>
+          <p className="mt-1 ml-12">"in_stock": <span className="text-amber-300">true</span></p>
+          <p className="mt-1 ml-8 text-white">{"}"}</p>
+          <p className="mt-1 ml-4 text-white">]</p>
+          <p className="mt-1">{"}"}</p>
+        </div>
+      </motion.div>
+    </div>
   );
 }

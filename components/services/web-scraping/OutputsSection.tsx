@@ -1,61 +1,79 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Database, FileJson, FileSpreadsheet, Server, Cloud, TableProperties, Sheet } from "lucide-react";
+import {
+  FileJson, FileSpreadsheet, Database,
+  Sheet, TableProperties, Server, Cloud, Webhook,
+} from "lucide-react";
 
-const integrations = [
-  { name: "JSON / XML", icon: FileJson },
-  { name: "CSV / Excel", icon: FileSpreadsheet },
-  { name: "PostgreSQL", icon: Database },
-  { name: "Google Sheets", icon: Sheet },
-  { name: "Airtable", icon: TableProperties },
-  { name: "REST APIs", icon: Server },
-  { name: "BigQuery", icon: Cloud },
+const EASE = [0.22, 1, 0.36, 1] as const;
+
+const OUTPUTS = [
+  { icon: FileJson,        name: "JSON / XML",      desc: "Standard structured output for any application."    },
+  { icon: FileSpreadsheet, name: "CSV / Excel",      desc: "Spreadsheet-ready flat files for analysts."         },
+  { icon: Database,        name: "PostgreSQL",       desc: "Direct insertion into your relational database."     },
+  { icon: Sheet,           name: "Google Sheets",    desc: "Sync directly to a live spreadsheet."               },
+  { icon: TableProperties, name: "Airtable",         desc: "Push records into Airtable bases and views."        },
+  { icon: Server,          name: "REST API",         desc: "Query your data via a managed REST endpoint."        },
+  { icon: Cloud,           name: "BigQuery / S3",    desc: "Bulk delivery to cloud data warehouses."            },
 ];
 
 export function OutputsSection() {
   return (
-    <section className="bg-white py-24 px-6 lg:py-32">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-bold text-gray-900 mb-6"
-          >
-            Outputs & Integrations
-          </motion.h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            We deliver pristine, structured data exactly where your team needs it. Seamlessly push to your databases, CRMs, or raw files.
+    <section className="bg-white py-20 sm:py-24 lg:py-28">
+      <div className="container px-6">
+        <div className="mx-auto max-w-3xl text-center">
+          <span className="text-sm font-semibold text-primary">Delivery</span>
+          <h2 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Outputs &amp; integrations
+          </h2>
+          <p className="mt-4 text-base leading-8 text-[#6B7280] sm:text-lg">
+            We deliver clean, structured data exactly where your team needs it —
+            no manual export steps, no format negotiation.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
-          {integrations.map((item, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: i * 0.1 }}
-              whileHover={{ y: -5, boxShadow: "0 10px 30px -10px rgba(0,0,0,0.1)" }}
-              className="bg-gray-50 border border-gray-100 hover:border-[#5ABB4A]/30 rounded-2xl p-6 flex flex-col items-center justify-center text-center transition-all duration-300 group cursor-pointer"
-            >
-              <item.icon className="w-10 h-10 text-gray-400 group-hover:text-[#5ABB4A] mb-4 transition-colors" />
-              <span className="font-semibold text-gray-800">{item.name}</span>
-            </motion.div>
-          ))}
-          
+        <div className="mt-12 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+          {OUTPUTS.map((item, i) => {
+            const Icon = item.icon;
+            return (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true, amount: 0.25 }}
+                transition={{ duration: 0.4, ease: EASE, delay: i * 0.06 }}
+                className="group flex flex-col items-center gap-3 rounded-[20px] border border-[#E5E7EB] bg-white p-5 text-center shadow-[0_4px_20px_-8px_rgba(15,23,42,0.08)] transition-all duration-300 hover:-translate-y-1 hover:border-primary/40 hover:shadow-[0_16px_32px_-12px_rgba(90,187,74,0.15)]"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#F3F4F6] text-[#6B7280] transition-colors duration-300 group-hover:bg-primary/10 group-hover:text-primary">
+                  <Icon className="h-5 w-5" strokeWidth={2} />
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-foreground transition-colors duration-300 group-hover:text-primary">
+                    {item.name}
+                  </p>
+                  <p className="mt-1 text-xs leading-5 text-[#6B7280]">{item.desc}</p>
+                </div>
+              </motion.div>
+            );
+          })}
+
+          {/* Custom webhooks — dark accent card */}
           <motion.div
-             initial={{ opacity: 0, scale: 0.9 }}
-             whileInView={{ opacity: 1, scale: 1 }}
-             viewport={{ once: true }}
-             transition={{ duration: 0.4, delay: integrations.length * 0.1 }}
-             className="bg-[#0B1120] rounded-2xl p-6 flex flex-col items-center justify-center text-center text-white col-span-2 md:col-span-1 lg:col-span-1"
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.25 }}
+            transition={{ duration: 0.4, ease: EASE, delay: OUTPUTS.length * 0.06 }}
+            className="flex flex-col items-center justify-center gap-3 rounded-[20px] bg-foreground p-5 text-center"
           >
-             <span className="text-sm font-medium text-gray-400 mb-1">Need something else?</span>
-             <span className="font-bold text-[#5ABB4A]">Custom Webhooks</span>
+            <span className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/20 text-primary">
+              <Webhook className="h-5 w-5" strokeWidth={2} />
+            </span>
+            <div>
+              <p className="text-xs text-white/35">Need something else?</p>
+              <p className="mt-0.5 text-sm font-semibold text-primary">Custom Webhooks</p>
+              <p className="mt-1 text-xs text-white/30">Any endpoint you control.</p>
+            </div>
           </motion.div>
         </div>
       </div>
