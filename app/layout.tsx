@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "@/styles/globals.css";
 import { Navbar } from "@/components/Navbar";
 import { SITE_CONFIG } from "@/constants/site";
+import CookiePreferences from "@/components/cookies/CookiePreferences";
+import ChatWidget from "@/components/chat/ChatWidget";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,6 +33,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={inter.variable}>
         <Navbar />
         {children}
+        <CookiePreferences />
+        <ChatWidget />
       </body>
     </html>
   );

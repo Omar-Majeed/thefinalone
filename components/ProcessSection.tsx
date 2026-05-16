@@ -261,7 +261,7 @@ function StepRail({
           -ms-overflow-style: none;
           -webkit-overflow-scrolling: touch;
           cursor: grab;
-          touch-action: pan-y;
+          touch-action: pan-x pan-y;
           overscroll-behavior-x: contain;
         }
         .process-rail::-webkit-scrollbar { display: none; }
