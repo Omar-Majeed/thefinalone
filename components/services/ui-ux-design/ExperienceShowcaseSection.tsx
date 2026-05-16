@@ -130,7 +130,7 @@ export function ExperienceShowcaseSection() {
           onPointerCancel={endDrag}
           onPointerLeave={endDrag}
           className="showcase-rail -mx-6 mt-4 flex items-stretch gap-6 overflow-x-auto px-6 pb-4 md:mx-0 md:px-0"
-          style={{ WebkitUserDrag: "none", userSelect: "none", touchAction: "pan-x" } as React.CSSProperties}
+          style={{ userSelect: "none", touchAction: "pan-x" }}
         >
           {PANELS.map((panel, i) => {
             const Mockup = panel.mockup;

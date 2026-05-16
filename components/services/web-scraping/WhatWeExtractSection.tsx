@@ -138,7 +138,7 @@ export function WhatWeExtractSection() {
           onPointerCancel={endDrag}
           onPointerLeave={endDrag}
           className="extract-rail -mx-6 mt-4 flex items-stretch gap-5 overflow-x-auto px-6 pb-4 md:mx-0 md:px-0"
-          style={{ WebkitUserDrag: "none", userSelect: "none", touchAction: "pan-x" }}
+          style={{ userSelect: "none", touchAction: "pan-x" } as React.CSSProperties}
         >
           {CARDS.map((card, i) => {
             const Icon = card.icon;
