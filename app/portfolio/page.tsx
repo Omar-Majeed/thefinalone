@@ -1350,7 +1350,7 @@ type Testimonial = {
 const TESTIMONIALS: Testimonial[] = [
   {
     quote:
-      "CodeVox delivered our platform 2 weeks early. Conversion rates jumped the day we launched — the attention to performance was exceptional.",
+      "Axenity delivered our platform 2 weeks early. Conversion rates jumped the day we launched — the attention to performance was exceptional.",
     name: "Sarah Mitchell",
     role: "CTO",
     company: "NexaRetail",
@@ -1398,7 +1398,7 @@ const TESTIMONIALS: Testimonial[] = [
   },
   {
     quote:
-      "25,000 users in week one. The app CodeVox built is something our team is genuinely proud of — it feels premium from the first tap.",
+      "25,000 users in week one. The app Axenity built is something our team is genuinely proud of — it feels premium from the first tap.",
     name: "Ama Asante",
     role: "Founder",
     company: "UrbanNest",

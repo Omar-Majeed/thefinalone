@@ -16,7 +16,7 @@ export const FOOTER_SERVICES: FooterLink[] = [
 ];
 
 export const FOOTER_CONTACT = {
-  email: "hello@thefinalone.dev",
+  email: "contact@axenity.com",
   phone: "+1 (555) 010-2026",
   location: "Remote · Worldwide",
 } as const;

@@ -23,7 +23,7 @@ export function Navbar() {
           className="text-xl font-bold tracking-tight text-foreground"
           onClick={() => setMobileOpen(false)}
         >
-          Omar<span className="text-primary">Tech</span>
+          Axe<span className="text-primary">nity</span>
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">

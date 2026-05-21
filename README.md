@@ -1,4 +1,4 @@
-# The Final One
+# Axenity
 
 Production-ready Next.js (App Router) + TypeScript + Tailwind CSS scaffold.
 

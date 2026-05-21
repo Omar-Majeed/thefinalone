@@ -411,7 +411,7 @@ const FAQS: FAQ[] = [
   },
   {
     q: "Do you do development as well, or only design?",
-    a: "We specialize in design but work hand-in-hand with development teams — including CodeVox's own dev teams. If you need full-stack delivery, we can scope a combined design+development engagement.",
+    a: "We specialize in design but work hand-in-hand with development teams — including Axenity's own dev teams. If you need full-stack delivery, we can scope a combined design+development engagement.",
   },
   {
     q: "What's your design tool stack?",
