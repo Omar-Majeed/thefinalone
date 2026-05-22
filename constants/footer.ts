@@ -17,8 +17,8 @@ export const FOOTER_SERVICES: FooterLink[] = [
 
 export const FOOTER_CONTACT = {
   email: "contact@axenity.com",
-  phone: "+1 (555) 010-2026",
-  location: "Remote · Worldwide",
+  phone: "0410090600",
+  location: "Harris Park, NSW Australia",
 } as const;
 
 export const FOOTER_SOCIALS: { label: string; href: string }[] = [
