@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { NAV_LINKS, type NavLink } from "@/constants/navigation";
 import { cn } from "@/lib/utils";
@@ -20,10 +21,17 @@ export function Navbar() {
       <div className="container mx-auto flex h-16 items-center justify-between">
         <Link
           href="/"
-          className="text-xl font-bold tracking-tight text-foreground"
+          className="shrink-0"
           onClick={() => setMobileOpen(false)}
         >
-          Axe<span className="text-primary">nity</span>
+          <Image
+            src="/images/axenity-logo.png"
+            alt="Axenity"
+            width={320}
+            height={80}
+            className="h-20 w-auto object-contain"
+            priority
+          />
         </Link>
 
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
