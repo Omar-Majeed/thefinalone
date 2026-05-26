@@ -14,16 +14,68 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  /* ── Title ──────────────────────────────────────────────────────── */
   title: {
-    default: SITE_CONFIG.name,
-    template: `%s | ${SITE_CONFIG.name}`,
+    default: `${SITE_CONFIG.name} — ${SITE_CONFIG.tagline}`,
+    template: `%s — ${SITE_CONFIG.name}`,
   },
+
+  /* ── Core SEO ──────────────────────────────────────────────────── */
   description: SITE_CONFIG.description,
+  keywords: [...SITE_CONFIG.keywords],
   metadataBase: new URL(SITE_CONFIG.url),
+
+  /* ── Favicon & Icons ───────────────────────────────────────────── */
+  icons: {
+    icon: [
+      { url: SITE_CONFIG.icon, type: "image/png", sizes: "any" },
+    ],
+    shortcut: SITE_CONFIG.icon,
+    apple: [
+      { url: SITE_CONFIG.icon, type: "image/png", sizes: "180x180" },
+    ],
+  },
+
+  /* ── Open Graph ────────────────────────────────────────────────── */
+  openGraph: {
+    type: "website",
+    siteName: SITE_CONFIG.name,
+    title: `${SITE_CONFIG.name} — ${SITE_CONFIG.tagline}`,
+    description: SITE_CONFIG.description,
+    url: SITE_CONFIG.url,
+    images: [
+      {
+        url: SITE_CONFIG.icon,
+        width: 512,
+        height: 512,
+        alt: `${SITE_CONFIG.name} logo`,
+      },
+    ],
+    locale: "en_US",
+  },
+
+  /* ── Twitter / X ───────────────────────────────────────────────── */
+  twitter: {
+    card: "summary",
+    title: `${SITE_CONFIG.name} — ${SITE_CONFIG.tagline}`,
+    description: SITE_CONFIG.description,
+    images: [SITE_CONFIG.icon],
+  },
+
+  /* ── Misc ──────────────────────────────────────────────────────── */
+  applicationName: SITE_CONFIG.name,
+  appleWebApp: {
+    capable: true,
+    title: SITE_CONFIG.name,
+    statusBarStyle: "black-translucent",
+  },
+  formatDetection: {
+    telephone: false,
+  },
 };
 
 export const viewport: Viewport = {
-  themeColor: "#FFFFFF",
+  themeColor: SITE_CONFIG.themeColor,
   width: "device-width",
   initialScale: 1,
 };

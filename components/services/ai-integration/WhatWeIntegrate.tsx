@@ -26,8 +26,6 @@ const CAPABILITIES = [
 ];
 
 export function WhatWeIntegrate() {
-  const R = 130; // orbit radius in px
-
   return (
     <section className="bg-background py-20 sm:py-24 lg:py-28">
       <div className="container px-6">
