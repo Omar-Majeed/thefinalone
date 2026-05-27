@@ -6,6 +6,7 @@ import { SITE_CONFIG } from "@/constants/site";
 import CookiePreferences from "@/components/cookies/CookiePreferences";
 import ChatWidget from "@/components/chat/ChatWidget";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -89,6 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <CookiePreferences />
         <ChatWidget />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
