@@ -56,11 +56,10 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { value: "50K", label: "Daily transactions" },
       { value: "0.8s", label: "Median page load" },
     ],
-    cover:
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1600&q=80",
+    cover: "/portfolio/nexa-commerce-cover.jpg",
     gallery: [
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1200&q=80",
-      "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
+      "/portfolio/nexa-commerce-1.jpg",
+      "/portfolio/nexa-commerce-2.jpg",
     ],
     accent: "text-primary",
     featured: true,
@@ -86,11 +85,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { value: "92%", label: "Provider utilization" },
       { value: "24/7", label: "Coverage" },
     ],
-    cover:
-      "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&w=1200&q=80",
-    ],
+    cover: "/portfolio/medi-track-cover.jpg",
+    gallery: ["/portfolio/medi-track-1.jpg"],
     accent: "text-primary",
     featured: true,
   },
@@ -115,11 +111,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { value: "-52%", label: "Onboarding time" },
       { value: "4", label: "Products powered" },
     ],
-    cover:
-      "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=1600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80",
-    ],
+    cover: "/portfolio/fin-vault-cover.jpg",
+    gallery: ["/portfolio/fin-vault-1.jpg"],
     accent: "text-primary",
     featured: true,
   },
@@ -144,11 +137,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { value: "4.8", label: "Store rating" },
       { value: "3.1x", label: "Session depth" },
     ],
-    cover:
-      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=1600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
-    ],
+    cover: "/portfolio/urban-nest-cover.jpg",
+    gallery: ["/portfolio/urban-nest-1.jpg"],
     accent: "text-primary",
     featured: false,
   },
@@ -173,11 +163,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { value: "6x", label: "Organic pipeline" },
       { value: "+212%", label: "Domain rating" },
     ],
-    cover:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1543286386-2e659306cd6c?auto=format&fit=crop&w=1200&q=80",
-    ],
+    cover: "/portfolio/greenleaf-cover.jpg",
+    gallery: ["/portfolio/greenleaf-1.jpg"],
     accent: "text-primary",
     featured: false,
   },
@@ -202,11 +189,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { value: "500/day", label: "Documents reviewed" },
       { value: "10x", label: "Throughput" },
     ],
-    cover:
-      "https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&w=1600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&w=1200&q=80",
-    ],
+    cover: "/portfolio/lex-ai-cover.jpg",
+    gallery: ["/portfolio/lex-ai-1.jpg"],
     accent: "text-primary",
     featured: false,
   },
@@ -231,11 +215,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { value: "+58%", label: "Mobile ARPU" },
       { value: "-42%", label: "Abandonment" },
     ],
-    cover:
-      "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?auto=format&fit=crop&w=1200&q=80",
-    ],
+    cover: "/portfolio/swift-shop-cover.jpg",
+    gallery: ["/portfolio/swift-shop-1.jpg"],
     accent: "text-primary",
     featured: false,
   },
@@ -260,11 +241,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { value: "18%", label: "Lead CVR" },
       { value: "<2mo", label: "Payback" },
     ],
-    cover:
-      "https://images.unsplash.com/photo-1432888622747-4eb9a8efeb07?auto=format&fit=crop&w=1600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=1200&q=80",
-    ],
+    cover: "/portfolio/pulse-media-cover.jpg",
+    gallery: ["/portfolio/pulse-media-1.jpg"],
     accent: "text-primary",
     featured: false,
   },
@@ -289,11 +267,8 @@ export const PORTFOLIO_ITEMS: PortfolioItem[] = [
       { value: "-63%", label: "Project overrun" },
       { value: "99.99%", label: "Uptime" },
     ],
-    cover:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1600&q=80",
-    gallery: [
-      "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1200&q=80",
-    ],
+    cover: "/portfolio/build-track-cover.jpg",
+    gallery: ["/portfolio/build-track-1.jpg"],
     accent: "text-primary",
     featured: false,
   },

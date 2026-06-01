@@ -1,6 +1,6 @@
 export type TechLogo = {
   name: string;
-  /** simpleicons.org slug */
+  /** Filename (without extension) under /public/tech-logos/ */
   slug: string;
 };
 

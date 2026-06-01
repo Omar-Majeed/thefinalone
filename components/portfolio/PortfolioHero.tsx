@@ -10,7 +10,7 @@ const EASE = [0.22, 1, 0.36, 1] as const;
 
 const FLOATING_PANELS = [
   {
-    src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=900&q=80",
+    src: "/portfolio/nexa-commerce-cover.jpg",
     alt: "Analytics dashboard preview",
     className:
       "left-[4%] top-[18%] h-40 w-64 sm:h-52 sm:w-80 lg:h-60 lg:w-96",
@@ -19,7 +19,7 @@ const FLOATING_PANELS = [
     delay: 0.1,
   },
   {
-    src: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=600&q=80",
+    src: "/portfolio/swift-shop-cover.jpg",
     alt: "Mobile commerce preview",
     className:
       "right-[6%] top-[12%] h-44 w-32 sm:h-56 sm:w-40 lg:h-72 lg:w-52",
@@ -28,7 +28,7 @@ const FLOATING_PANELS = [
     delay: 0.2,
   },
   {
-    src: "https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?auto=format&fit=crop&w=900&q=80",
+    src: "/portfolio/fin-vault-cover.jpg",
     alt: "Fintech UI surface",
     className:
       "right-[10%] bottom-[14%] h-36 w-56 sm:h-44 sm:w-72 lg:h-52 lg:w-80",
@@ -37,7 +37,7 @@ const FLOATING_PANELS = [
     delay: 0.35,
   },
   {
-    src: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=700&q=80",
+    src: "/portfolio/medi-track-cover.jpg",
     alt: "AI interface preview",
     className:
       "left-[8%] bottom-[10%] h-36 w-48 sm:h-44 sm:w-64 lg:h-52 lg:w-72",

@@ -12,8 +12,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     title: "Custom Software Development for Scalable Systems",
     description:
       "We design and build resilient platforms that grow with your business — from architecture to launch.",
-    image:
-      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1600&q=80",
+    image: "/hero/slide-1.jpg",
     imageAlt: "Engineers collaborating on scalable software architecture",
   },
   {
@@ -21,8 +20,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     title: "AI Integration & Automation Solutions",
     description:
       "Embed intelligent workflows into your product with production-ready AI pipelines and automation.",
-    image:
-      "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1600&q=80",
+    image: "/hero/slide-2.jpg",
     imageAlt: "Abstract neural network visualization",
   },
   {
@@ -30,8 +28,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     title: "High-Performance Web & Mobile Applications",
     description:
       "Lightning-fast, accessible, and beautifully crafted experiences across every device and platform.",
-    image:
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=1600&q=80",
+    image: "/hero/slide-3.jpg",
     imageAlt: "Modern responsive interface on multiple devices",
   },
   {
@@ -39,8 +36,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     title: "Expand Your Reach with SEO & Digital Marketing Solutions",
     description:
       "Data-driven strategies that turn visibility into measurable revenue across organic and paid channels.",
-    image:
-      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1600&q=80",
+    image: "/portfolio/greenleaf-cover.jpg",
     imageAlt: "Analytics dashboard showing growth metrics",
   },
 ];

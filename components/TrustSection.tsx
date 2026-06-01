@@ -29,11 +29,10 @@ export function TrustSection() {
               aria-hidden={i >= TECH_LOGOS.length ? true : undefined}
             >
               <Image
-                src={`https://cdn.simpleicons.org/${tech.slug}`}
+                src={`/tech-logos/${tech.slug}.svg`}
                 alt={i < TECH_LOGOS.length ? tech.name : ""}
                 width={48}
                 height={48}
-                unoptimized
                 className="h-9 w-auto opacity-60 grayscale transition duration-300 ease-out hover:opacity-100 hover:grayscale-0 sm:h-10"
               />
             </li>
