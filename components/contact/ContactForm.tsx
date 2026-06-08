@@ -1,58 +1,33 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { type FormEvent } from "react";
 import { motion } from "framer-motion";
-import { Check, ChevronDown } from "lucide-react";
+import { AlertCircle, Check, ChevronDown, Loader2 } from "lucide-react";
 import { CONTACT_COPY, PROJECT_TYPES, type ProjectType } from "@/constants/contact";
+import { useContactForm } from "@/hooks/useContactForm";
+import { TurnstileWidget } from "@/components/contact/TurnstileWidget";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-type FormState = {
-  name: string;
-  email: string;
-  company: string;
-  projectType: ProjectType | "";
-  message: string;
-};
-
-type FormErrors = Partial<Record<keyof FormState, string>>;
 
 export function ContactForm() {
-  const [form, setForm] = useState<FormState>({
-    name: "",
-    email: "",
-    company: "",
-    projectType: "",
-    message: "",
-  });
-  const [errors, setErrors] = useState<FormErrors>({});
-  const [submitted, setSubmitted] = useState(false);
-
-  function validate(state: FormState): FormErrors {
-    const next: FormErrors = {};
-    if (!state.name.trim()) next.name = "Please enter your name.";
-    if (!state.email.trim()) next.email = "Please enter your email.";
-    else if (!EMAIL_RE.test(state.email)) next.email = "Enter a valid email address.";
-    if (!state.projectType) next.projectType = "Select a service.";
-    if (!state.message.trim()) next.message = "Tell us a bit about your project.";
-    return next;
-  }
-
-  function handleChange<K extends keyof FormState>(key: K, value: FormState[K]) {
-    setForm((prev) => ({ ...prev, [key]: value }));
-    if (errors[key]) setErrors((prev) => ({ ...prev, [key]: undefined }));
-  }
+  const {
+    form,
+    errors,
+    isSubmitting,
+    isSuccess,
+    serverError,
+    setToken,
+    resetToken,
+    setField,
+    submit,
+  } = useContactForm();
 
   function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const found = validate(form);
-    setErrors(found);
-    if (Object.keys(found).length > 0) return;
-    setSubmitted(true);
+    void submit();
   }
 
-  if (submitted) return <SuccessState />;
+  if (isSuccess) return <SuccessState />;
 
   return (
     <motion.form
@@ -63,6 +38,19 @@ export function ContactForm() {
       transition={{ duration: 0.5, ease: EASE }}
       className="space-y-5"
     >
+      {/* Honeypot — visually hidden, off-screen, never tab-focusable. */}
+      <div aria-hidden className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
+        <label htmlFor="contact-website">Website</label>
+        <input
+          id="contact-website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={form.website ?? ""}
+          onChange={(e) => setField("website", e.target.value)}
+        />
+      </div>
+
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <FloatingInput
           id="contact-name"
@@ -70,7 +58,7 @@ export function ContactForm() {
           type="text"
           autoComplete="name"
           value={form.name}
-          onChange={(v) => handleChange("name", v)}
+          onChange={(v) => setField("name", v)}
           error={errors.name}
         />
         <FloatingInput
@@ -79,7 +67,7 @@ export function ContactForm() {
           type="email"
           autoComplete="email"
           value={form.email}
-          onChange={(v) => handleChange("email", v)}
+          onChange={(v) => setField("email", v)}
           error={errors.email}
         />
       </div>
@@ -90,7 +78,7 @@ export function ContactForm() {
         type="text"
         autoComplete="organization"
         value={form.company}
-        onChange={(v) => handleChange("company", v)}
+        onChange={(v) => setField("company", v)}
         error={errors.company}
       />
 
@@ -98,7 +86,7 @@ export function ContactForm() {
         id="contact-project"
         label="Service interested"
         value={form.projectType}
-        onChange={(v) => handleChange("projectType", v as ProjectType)}
+        onChange={(v) => setField("projectType", v as ProjectType)}
         error={errors.projectType}
         options={PROJECT_TYPES}
       />
@@ -107,12 +95,22 @@ export function ContactForm() {
         id="contact-message"
         label="Tell us about your project"
         value={form.message}
-        onChange={(v) => handleChange("message", v)}
+        onChange={(v) => setField("message", v)}
         error={errors.message}
       />
 
+      <TurnstileWidget
+        className="pt-1"
+        onVerify={setToken}
+        onExpire={resetToken}
+      />
+
+      {serverError ? <FormError message={serverError} /> : null}
+
       <div className="pt-2">
-        <FillButton type="submit">{CONTACT_COPY.ctaLabel}</FillButton>
+        <FillButton type="submit" loading={isSubmitting}>
+          {isSubmitting ? "Sending…" : CONTACT_COPY.ctaLabel}
+        </FillButton>
       </div>
     </motion.form>
   );
@@ -132,11 +130,28 @@ function SuccessState() {
         <Check className="h-8 w-8" strokeWidth={2.5} aria-hidden />
       </span>
       <h3 className="mt-6 text-2xl font-semibold text-foreground">
-        Message sent
+        Thank you for contacting Axenity
       </h3>
       <p className="mt-3 max-w-sm text-base leading-7 text-[#6B7280]">
-        {CONTACT_COPY.successMessage}
+        Your inquiry has been successfully received. Our team will review your
+        request and get back to you shortly.
       </p>
+    </motion.div>
+  );
+}
+
+/* ── Form-level error banner ── */
+function FormError({ message }: { message: string }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -4 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
+      role="alert"
+      className="flex items-start gap-2.5 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700"
+    >
+      <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
+      <span>{message}</span>
     </motion.div>
   );
 }
@@ -231,14 +246,27 @@ function FloatingSelect({
   );
 }
 
-function FillButton({ type = "button", children }: { type?: "button" | "submit"; children: React.ReactNode }) {
+function FillButton({
+  type = "button",
+  children,
+  loading = false,
+}: {
+  type?: "button" | "submit";
+  children: React.ReactNode;
+  loading?: boolean;
+}) {
   return (
     <button
       type={type}
-      className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-full border border-primary bg-white px-8 py-3.5 text-sm font-semibold text-primary transition-colors duration-300 ease-out hover:text-white sm:text-base"
+      disabled={loading}
+      aria-busy={loading}
+      className="group relative inline-flex w-full items-center justify-center overflow-hidden rounded-full border border-primary bg-white px-8 py-3.5 text-sm font-semibold text-primary transition-colors duration-300 ease-out hover:text-white disabled:cursor-not-allowed disabled:opacity-70 disabled:hover:text-primary sm:text-base"
     >
-      <span aria-hidden className="absolute inset-0 -z-0 origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100" />
-      <span className="relative z-10">{children}</span>
+      <span aria-hidden className="absolute inset-0 -z-0 origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100 group-disabled:scale-x-0" />
+      <span className="relative z-10 inline-flex items-center gap-2">
+        {loading ? <Loader2 className="h-4 w-4 animate-spin" aria-hidden /> : null}
+        {children}
+      </span>
     </button>
   );
 }
