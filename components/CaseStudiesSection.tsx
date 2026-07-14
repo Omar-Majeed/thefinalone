@@ -31,7 +31,7 @@ export function CaseStudiesSection() {
             <p className="max-w-xl text-base leading-relaxed text-[#6B7280] sm:text-lg">
               Discover the transformative impact we have had on top global brands like yours as we craft groundbreaking digital journeys that redefine the future of customer experience. Explore our client success stories to see how we turn challenges into success stories.
             </p>
-            <SlideButton href="/case-studies">All Case Studies</SlideButton>
+            <SlideButton href="/portfolio">All Case Studies</SlideButton>
           </div>
         </div>
 
