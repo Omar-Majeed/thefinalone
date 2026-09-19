@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   devIndicators: false,
+  // Load the Node sanitizer natively so jsdom's worker files are not bundled
+  // into the contact route and executed as part of its initialization.
+  serverExternalPackages: ["isomorphic-dompurify"],
   images: {
     formats: ["image/avif", "image/webp"],
   },
