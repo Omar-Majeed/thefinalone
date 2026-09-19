@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { HeroSection }     from "@/components/services/digital-marketing/HeroSection";
 import { ServicesTabs }    from "@/components/services/digital-marketing/ServicesTabs";
 import { BentoChannels }   from "@/components/services/digital-marketing/BentoChannels";
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   title: "Digital Marketing Services",
   description:
     "Full-funnel digital marketing — paid ads, social media, email, content strategy, and analytics — engineered to generate qualified demand and compound returns.",
+  alternates: canonical("/services/digital-marketing"),
 };
 
 export default function DigitalMarketingPage() {

@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { track } from "@vercel/analytics/server";
 
 import { sendContactEmails } from "@/lib/contact/email";
 import { getClientIp } from "@/lib/contact/ip";
@@ -89,6 +90,15 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("[contact] Unexpected send failure:", error);
     return json({ success: false, error: GENERIC_ERROR }, 500);
+  }
+
+  try {
+    await track("lead_submitted", {
+      source: "contact_form",
+      projectType: fields.projectType,
+    });
+  } catch (error) {
+    console.error("[contact] Analytics track failed (non-fatal):", error);
   }
 
   return json(

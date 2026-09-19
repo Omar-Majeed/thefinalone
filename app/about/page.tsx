@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { AboutHero }        from "@/components/about/AboutHero";
 import { WhoWeAre }         from "@/components/about/WhoWeAre";
 import { HowWeThink }       from "@/components/about/HowWeThink";
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
   title: "About Us | Digital Agency",
   description:
     "We combine engineering, strategy, and modern design to create scalable digital experiences that help brands grow sustainably.",
+  alternates: canonical("/about"),
 };
 
 export default function AboutPage() {

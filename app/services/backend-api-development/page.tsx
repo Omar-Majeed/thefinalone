@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { ArchitectureSection } from "@/components/services/backend-api-development/ArchitectureSection";
 import { CTASection } from "@/components/services/backend-api-development/CTASection";
 import { FeaturesList } from "@/components/services/backend-api-development/FeaturesList";
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
   title: "Backend & API Development",
   description:
     "Robust, scalable backend systems and APIs engineered for performance, security, and long-term reliability.",
+  alternates: canonical("/services/backend-api-development"),
 };
 
 export default function BackendApiDevelopmentPage() {

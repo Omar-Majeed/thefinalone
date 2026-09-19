@@ -1,27 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
-
-function useCountUp(target: number, duration: number = 2000, inView: boolean = false) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    let start = 0;
-    const step = target / (duration / 16);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) {
-        setCount(target);
-        clearInterval(timer);
-      } else {
-        setCount(Math.floor(start));
-      }
-    }, 16);
-    return () => clearInterval(timer);
-  }, [inView, target, duration]);
-  return count;
-}
+import { motion } from "framer-motion";
 
 const metrics = [
   { label: "Organic Traffic Increase", value: 312, suffix: "%", icon: "📈" },
@@ -38,16 +17,9 @@ const bars = [
 ];
 
 export default function GrowthDashboard() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
-  const v1 = useCountUp(312, 2000, inView);
-  const v2 = useCountUp(1400, 2000, inView);
-  const v3 = useCountUp(33, 2000, inView);
-  const counts = [v1, v2, v3];
 
   return (
-    <section ref={ref} className="bg-[#0c0c0c] py-24 px-6">
+    <section className="bg-[#0c0c0c] py-24 px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <motion.div
@@ -91,7 +63,7 @@ export default function GrowthDashboard() {
                   <span className="text-3xl">{m.icon}</span>
                   <div>
                     <div className="text-4xl font-semibold text-white">
-                      {counts[i].toLocaleString()}
+                      {m.value.toLocaleString("en-AU")}
                       <span className="text-[#5ABB4A]">{m.suffix}</span>
                     </div>
                     <div className="text-xs text-gray-400 mt-0.5 font-medium">{m.label}</div>

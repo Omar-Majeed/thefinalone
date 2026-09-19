@@ -1,26 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { TrendingUp, Target, ShieldCheck } from "lucide-react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-function useCountUp(target: number, inView: boolean, duration = 1800) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    let start = 0;
-    const step = target / (duration / 16);
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) { setCount(target); clearInterval(timer); }
-      else setCount(Math.floor(start));
-    }, 16);
-    return () => clearInterval(timer);
-  }, [inView, target, duration]);
-  return count;
-}
 
 const METRICS = [
   { icon: TrendingUp, label: "Organic Traffic Increase", value: 312, suffix: "%", caption: "average across all clients" },
@@ -37,16 +20,9 @@ const BARS = [
 ];
 
 export function GrowthDashboard() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-100px" });
-
-  const v0 = useCountUp(312,  inView);
-  const v1 = useCountUp(1400, inView);
-  const v2 = useCountUp(33,   inView);
-  const counts = [v0, v1, v2];
 
   return (
-    <section ref={ref} className="bg-background-alt py-20 sm:py-24 lg:py-28">
+    <section className="bg-background-alt py-20 sm:py-24 lg:py-28">
       <div className="container px-6">
         <div className="mx-auto max-w-3xl text-center">
           <span className="text-sm font-semibold text-primary">Real Results. Real Data.</span>
@@ -76,7 +52,7 @@ export function GrowthDashboard() {
                   <Icon className="h-5 w-5" strokeWidth={2} />
                 </span>
                 <p className="mt-5 text-4xl font-semibold tracking-tight text-foreground">
-                  {counts[i].toLocaleString()}
+                  {m.value.toLocaleString("en-AU")}
                   <span className="text-primary">{m.suffix}</span>
                 </p>
                 <p className="mt-2 text-base font-semibold tracking-tight text-foreground">

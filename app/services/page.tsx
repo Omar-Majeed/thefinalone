@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { CTASection } from "@/components/services/CTASection";
 import { ProcessStep } from "@/components/services/ProcessStep";
 import { ServiceCard } from "@/components/services/ServiceCard";
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
   title: "Services",
   description:
     "Explore the digital services we offer, from product design and engineering to marketing, SEO, and AI integration.",
+  alternates: canonical("/services"),
 };
 
 export default function ServicesPage() {

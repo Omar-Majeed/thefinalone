@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { TrustPanel } from "@/components/contact/TrustPanel";
 import { ContactForm } from "@/components/contact/ContactForm";
 
@@ -7,6 +8,7 @@ export const metadata: Metadata = {
   title: "Contact Us | Let's Build Together",
   description:
     "Start a conversation about your next project. We review every message personally and respond within one business day.",
+  alternates: canonical("/contact"),
 };
 
 export default function ContactPage() {

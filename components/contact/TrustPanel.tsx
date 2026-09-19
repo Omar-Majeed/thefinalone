@@ -1,26 +1,9 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { Clock, ShieldCheck, Star, Users } from "lucide-react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-function useCountUp(target: number, inView: boolean, duration = 1600) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    let v = 0;
-    const step = target / (duration / 16);
-    const t = setInterval(() => {
-      v += step;
-      if (v >= target) { setCount(target); clearInterval(t); }
-      else setCount(Math.floor(v));
-    }, 16);
-    return () => clearInterval(t);
-  }, [inView, target, duration]);
-  return count;
-}
 
 const STATS = [
   { value: 120, suffix: "+", label: "Projects delivered" },
@@ -47,16 +30,9 @@ const TESTIMONIAL = {
 };
 
 export function TrustPanel() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-60px" });
-
-  const c0 = useCountUp(120, inView);
-  const c1 = useCountUp(94, inView);
-  const c2 = useCountUp(48, inView);
-  const counts = [c0, c1, c2];
 
   return (
-    <div ref={ref} className="flex h-full flex-col justify-between gap-10 py-2">
+    <div className="flex h-full flex-col justify-between gap-10 py-2">
 
       {/* Eyebrow + heading */}
       <motion.div
@@ -83,10 +59,10 @@ export function TrustPanel() {
         transition={{ duration: 0.55, ease: EASE, delay: 0.1 }}
         className="grid grid-cols-3 gap-px overflow-hidden rounded-2xl border border-white/8 bg-white/8"
       >
-        {STATS.map((s, i) => (
+        {STATS.map((s) => (
           <div key={s.label} className="flex flex-col items-center bg-white/[0.03] px-3 py-5 text-center">
             <p className="text-3xl font-semibold text-white">
-              {counts[i]}
+              {s.value}
               <span className="text-primary">{s.suffix}</span>
             </p>
             <p className="mt-1 text-[11px] uppercase tracking-[0.14em] text-white/30">

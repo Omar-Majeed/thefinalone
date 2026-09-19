@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, MapPin, Phone } from "lucide-react";
+import { track } from "@vercel/analytics";
 import { SITE_CONFIG } from "@/constants/site";
 import {
   FOOTER_CONTACT,
@@ -113,6 +114,7 @@ export function Footer() {
             <li>
               <a
                 href={`mailto:${FOOTER_CONTACT.email}`}
+                onClick={() => track("email_click", { location: "footer" })}
                 className="group inline-flex items-start gap-2.5 text-sm text-[#9CA3AF] transition-colors duration-200 ease-out hover:text-primary"
               >
                 <Mail className="mt-0.5 h-4 w-4 shrink-0 text-primary/80" aria-hidden />
@@ -122,6 +124,7 @@ export function Footer() {
             <li>
               <a
                 href={`tel:${FOOTER_CONTACT.phone.replace(/\s|\(|\)|-/g, "")}`}
+                onClick={() => track("phone_click", { location: "footer" })}
                 className="group inline-flex items-start gap-2.5 text-sm text-[#9CA3AF] transition-colors duration-200 ease-out hover:text-primary"
               >
                 <Phone className="mt-0.5 h-4 w-4 shrink-0 text-primary/80" aria-hidden />

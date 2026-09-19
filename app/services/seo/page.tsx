@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { HeroSection } from "@/components/services/seo/HeroSection";
 import { GrowthDashboard } from "@/components/services/seo/GrowthDashboard";
 import { WhatWeDo } from "@/components/services/seo/WhatWeDo";
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
   title: "SEO Services",
   description:
     "Data-driven SEO strategies that put your business at the top of search results and keep it there. Technical SEO, content strategy, link building, and more.",
+  alternates: canonical("/services/seo"),
 };
 
 export default function SEOPage() {

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PhilosophyStrip } from "@/components/portfolio/PhilosophyStrip";
 import { FeaturedShowcase } from "@/components/portfolio/FeaturedShowcase";
@@ -15,6 +16,7 @@ export const metadata: Metadata = {
   title: "Portfolio",
   description:
     "A cinematic showcase of the products, agents and platforms Axenity has shipped for ambitious teams across commerce, fintech, healthcare and AI.",
+  alternates: canonical("/portfolio"),
 };
 
 export default function PortfolioPage() {

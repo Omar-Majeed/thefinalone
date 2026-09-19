@@ -1,25 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
-
-function useCountUp(target: number, inView: boolean, duration = 1800) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    let v = 0;
-    const step = target / (duration / 16);
-    const t = setInterval(() => {
-      v += step;
-      if (v >= target) { setCount(target); clearInterval(t); }
-      else setCount(Math.floor(v));
-    }, 16);
-    return () => clearInterval(t);
-  }, [inView, target, duration]);
-  return count;
-}
 
 const METRICS = [
   { value: 120, suffix: "+",    label: "Projects delivered",      sub: "Across web, mobile, and marketing" },
@@ -29,17 +12,9 @@ const METRICS = [
 ];
 
 export function MetricsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  const c0 = useCountUp(120, inView);
-  const c1 = useCountUp(99,  inView);
-  const c2 = useCountUp(8,   inView);
-  const c3 = useCountUp(94,  inView);
-  const counts = [c0, c1, c2, c3];
 
   return (
-    <section ref={ref} className="relative isolate overflow-hidden bg-foreground py-20 sm:py-24 lg:py-28">
+    <section className="relative isolate overflow-hidden bg-foreground py-20 sm:py-24 lg:py-28">
       {/* Glow */}
       <div
         aria-hidden
@@ -81,7 +56,7 @@ export function MetricsSection() {
               </p>
               <div className="mt-6">
                 <p className="text-7xl font-semibold tracking-tight text-white leading-none sm:text-8xl">
-                  {counts[i]}
+                  {m.value}
                   <span className="text-primary">{m.suffix}</span>
                 </p>
                 <p className="mt-4 text-sm leading-6 text-white/35">{m.sub}</p>

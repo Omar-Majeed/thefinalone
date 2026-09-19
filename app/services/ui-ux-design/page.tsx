@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { HeroSection } from "@/components/services/ui-ux-design/HeroSection";
 import { PhilosophySection } from "@/components/services/ui-ux-design/PhilosophySection";
 import { ExperienceShowcaseSection } from "@/components/services/ui-ux-design/ExperienceShowcaseSection";
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
   title: "UI/UX Design Services",
   description:
     "We design intuitive, conversion-focused digital experiences that combine aesthetics, usability, and performance into products users genuinely enjoy using.",
+  alternates: canonical("/services/ui-ux-design"),
 };
 
 export default function UIUXDesignPage() {

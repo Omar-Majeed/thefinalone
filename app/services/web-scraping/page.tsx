@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { HeroSection }             from "@/components/services/web-scraping/HeroSection";
 import { WhyItMattersSection }     from "@/components/services/web-scraping/WhyItMattersSection";
 import { WhatWeExtractSection }    from "@/components/services/web-scraping/WhatWeExtractSection";
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   title: "Web Scraping & Data Extraction Services",
   description:
     "Turn the web into structured data. We build scalable web scraping pipelines that extract, clean, and deliver structured data from complex sources in real time.",
+  alternates: canonical("/services/web-scraping"),
 };
 
 export default function WebScrapingPage() {

@@ -3,7 +3,9 @@ export const SITE_CONFIG = {
   tagline: "Building Intelligent Experiences",
   description:
     "Axenity is a premium digital agency delivering modern web development, UI/UX design, AI-powered solutions, automation, SEO, mobile applications, and scalable digital experiences.",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  // Canonicals and discovery files always identify the public site, including
+  // in local and preview builds. They must never inherit a localhost URL.
+  url: "https://www.axenity.com",
   keywords: [
     "Axenity",
     "web development",

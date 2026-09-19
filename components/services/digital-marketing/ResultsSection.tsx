@@ -1,42 +1,15 @@
 "use client";
 
-import { useRef } from "react";
-import { useInView, motion } from "framer-motion";
-import { useEffect, useState } from "react";
-
+import { motion } from "framer-motion";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-function useCountUp(target: number, inView: boolean, duration = 1600) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    let v = 0;
-    const step = target / (duration / 16);
-    const t = setInterval(() => {
-      v += step;
-      if (v >= target) { setCount(target); clearInterval(t); }
-      else setCount(Math.floor(v));
-    }, 16);
-    return () => clearInterval(t);
-  }, [inView, target, duration]);
-  return count;
-}
-
 
 export function ResultsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  const inView = useInView(ref, { once: true, margin: "-80px" });
-
-  const c0 = useCountUp(48, inView);   // 4.8 → displayed as c0/10
-  const c1 = useCountUp(42, inView);
-  const c2 = useCountUp(120, inView);
-  const c3 = useCountUp(68, inView);
-  const c4 = useCountUp(340, inView);
-  const counts = [c0, c1, c2, c3, c4];
+  const counts = [48, 42, 120, 68, 340];
 
   return (
-    <section ref={ref} className="bg-background-alt py-20 sm:py-24 lg:py-28">
+    <section className="bg-background-alt py-20 sm:py-24 lg:py-28">
       <div className="container px-6">
         <div className="mx-auto max-w-3xl text-center">
           <span className="text-sm font-semibold text-primary">Results We Deliver</span>

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { canonical } from "@/lib/seo";
 import { Accordion } from "@/components/services/web-development/Accordion";
 import { CaseStudy } from "@/components/services/web-development/CaseStudy";
 import { CTASection } from "@/components/services/web-development/CTASection";
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
   title: "Web Development",
   description:
     "Build fast, scalable, and modern web applications with a delivery process focused on performance, security, and long-term growth.",
+  alternates: canonical("/services/web-development"),
 };
 
 export default function WebDevelopmentPage() {
