@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { canonical } from "@/lib/seo";
 import { HeroSection }             from "@/components/services/web-scraping/HeroSection";
 import { WhyItMattersSection }     from "@/components/services/web-scraping/WhyItMattersSection";
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
 export default function WebScrapingPage() {
   return (
     <main className="bg-background text-foreground">
+      <Breadcrumb path="/services/web-scraping" />
       <HeroSection />
       <WhyItMattersSection />
       <WhatWeExtractSection />

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { canonical } from "@/lib/seo";
 import { HeroSection } from "@/components/services/seo/HeroSection";
 import { GrowthDashboard } from "@/components/services/seo/GrowthDashboard";
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
 export default function SEOPage() {
   return (
     <main className="bg-background text-foreground">
+      <Breadcrumb path="/services/seo" />
       <HeroSection />
       <GrowthDashboard />
       <WhatWeDo />

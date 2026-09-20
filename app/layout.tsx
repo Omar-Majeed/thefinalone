@@ -82,29 +82,24 @@ export const metadata: Metadata = {
   // slot at public/images/logo.png (1.45 MB) which was too heavy.
 
   /* ── Open Graph ────────────────────────────────────────────────── */
+  // og:image itself is emitted from app/opengraph-image.tsx (Next.js file
+  // convention — 1200×630 branded landscape card generated at build time).
   openGraph: {
     type: "website",
     siteName: SITE_CONFIG.name,
     title: `${SITE_CONFIG.name} — ${SITE_CONFIG.tagline}`,
     description: SITE_CONFIG.description,
     url: SITE_CONFIG.url,
-    images: [
-      {
-        url: SITE_CONFIG.icon,
-        width: 1024,
-        height: 1024,
-        alt: `${SITE_CONFIG.name} logo`,
-      },
-    ],
     locale: "en_US",
   },
 
   /* ── Twitter / X ───────────────────────────────────────────────── */
+  // Upgraded to summary_large_image so the 1200×630 OG card renders
+  // prominently in the tweet preview.
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: `${SITE_CONFIG.name} — ${SITE_CONFIG.tagline}`,
     description: SITE_CONFIG.description,
-    images: [SITE_CONFIG.icon],
   },
 
   /* ── Misc ──────────────────────────────────────────────────────── */

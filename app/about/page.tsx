@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { canonical } from "@/lib/seo";
 import { AboutHero }        from "@/components/about/AboutHero";
 import { WhoWeAre }         from "@/components/about/WhoWeAre";
@@ -21,6 +22,7 @@ export const metadata: Metadata = {
 export default function AboutPage() {
   return (
     <main className="bg-background text-foreground">
+      <Breadcrumb path="/about" />
       <AboutHero />
       <WhoWeAre />
       <HowWeThink />

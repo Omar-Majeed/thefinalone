@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { canonical } from "@/lib/seo";
 import { FOOTER_CONTACT } from "@/constants/footer";
 
@@ -16,6 +17,7 @@ const LAST_UPDATED = "16 September 2026";
 export default function PrivacyPolicyPage() {
   return (
     <main className="bg-background text-foreground">
+        <Breadcrumb path="/privacy" />
       <article className="mx-auto max-w-3xl px-6 py-20 sm:py-24 lg:py-28">
         <header className="mb-12 border-b border-white/10 pb-8">
           <p className="text-sm font-semibold text-primary">Legal</p>

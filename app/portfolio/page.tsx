@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { Footer } from "@/components/Footer";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { canonical } from "@/lib/seo";
 import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PhilosophyStrip } from "@/components/portfolio/PhilosophyStrip";
@@ -24,6 +25,7 @@ export default function PortfolioPage() {
 
   return (
     <main className="bg-background">
+      <Breadcrumb path="/portfolio" />
       <PortfolioHero />
       <PhilosophyStrip />
       <FeaturedShowcase items={featured} />

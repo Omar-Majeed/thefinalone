@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { canonical } from "@/lib/seo";
 import { HeroSection }     from "@/components/services/digital-marketing/HeroSection";
 import { ServicesTabs }    from "@/components/services/digital-marketing/ServicesTabs";
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
 export default function DigitalMarketingPage() {
   return (
     <main className="bg-background text-foreground">
+      <Breadcrumb path="/services/digital-marketing" />
       <HeroSection />
       <ServicesTabs />
       <BentoChannels />

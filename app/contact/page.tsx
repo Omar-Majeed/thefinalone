@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { canonical } from "@/lib/seo";
 import { TrustPanel } from "@/components/contact/TrustPanel";
 import { ContactForm } from "@/components/contact/ContactForm";
@@ -14,6 +15,7 @@ export const metadata: Metadata = {
 export default function ContactPage() {
   return (
     <main className="bg-background text-foreground">
+      <Breadcrumb path="/contact" />
       <ContactSplit />
       <Footer />
     </main>

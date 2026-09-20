@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { canonical } from "@/lib/seo";
 import { CTASection } from "@/components/services/CTASection";
 import { ProcessStep } from "@/components/services/ProcessStep";
@@ -17,6 +18,8 @@ export const metadata: Metadata = {
 export default function ServicesPage() {
   return (
     <main className="bg-background text-foreground">
+
+      <Breadcrumb path="/services" />
       <ServicesHero />
 
       <section id="services-grid" className="bg-background py-20 sm:py-24 lg:py-28">

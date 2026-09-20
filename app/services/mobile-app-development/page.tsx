@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { canonical } from "@/lib/seo";
 import { Accordion } from "@/components/services/mobile-app-development/Accordion";
 import { AppShowcase } from "@/components/services/mobile-app-development/AppShowcase";
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
 export default function MobileAppDevelopmentPage() {
   return (
     <main className="bg-background text-foreground">
+      <Breadcrumb path="/services/mobile-app-development" />
       <HeroSection />
       <PlatformCards />
       <ProblemSolution />
