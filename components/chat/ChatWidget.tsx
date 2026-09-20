@@ -15,18 +15,22 @@ import ChatMessages from "./ChatMessages";
 import ChatOptions from "./ChatOptions";
 import RestartButton from "./RestartButton";
 
+type LeadStatus = "idle" | "sending" | "ok" | "error";
+
 export default function ChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  
+
   const [machineState, setMachineState] = useState<MachineState>(INITIAL_STATE);
   const [groups, setGroups] = useState<ChatMessageGroup[]>([]);
-  
+
   // Pending messages for typewriter effect
   const [pendingMessages, setPendingMessages] = useState<Omit<ChatMessage, "id" | "timestamp">[]>([]);
   const [isTyping, setIsTyping] = useState(false);
 
   const [showTooltip, setShowTooltip] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+
+  const [leadStatus, setLeadStatus] = useState<LeadStatus>("idle");
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -85,23 +89,44 @@ export default function ChatWidget() {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [groups, isTyping]);
 
-  // API Call on COMPLETE
-  useEffect(() => {
-    if (machineState.currentState === "COMPLETE") {
-      const sendLead = async () => {
-        try {
-          await fetch("/api/leads", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(machineState.userData),
-          });
-        } catch (error) {
-          console.error("Failed to send lead", error);
-        }
-      };
-      sendLead();
+  const sendLead = useCallback(async () => {
+    setLeadStatus("sending");
+    try {
+      const res = await fetch("/api/leads", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(machineState.userData),
+      });
+
+      const payload = await res
+        .json()
+        .catch(() => ({ ok: false }) as { ok: boolean });
+
+      if (res.ok && payload.ok === true) {
+        setLeadStatus("ok");
+      } else {
+        console.error("Chat lead persistence failed", res.status, payload);
+        setLeadStatus("error");
+      }
+    } catch (error) {
+      console.error("Failed to send lead", error);
+      setLeadStatus("error");
     }
-  }, [machineState.currentState, machineState.userData]);
+  }, [machineState.userData]);
+
+  // Persist on COMPLETE (fires once per completion).
+  useEffect(() => {
+    if (machineState.currentState !== "COMPLETE") return;
+    if (leadStatus !== "idle") return;
+    sendLead();
+  }, [machineState.currentState, leadStatus, sendLead]);
+
+  // Reset lead status when the flow restarts.
+  useEffect(() => {
+    if (machineState.currentState !== "COMPLETE" && leadStatus !== "idle") {
+      setLeadStatus("idle");
+    }
+  }, [machineState.currentState, leadStatus]);
 
   const addMessage = (msg: Omit<ChatMessage, "id" | "timestamp">) => {
     const newMessage: ChatMessage = {
@@ -237,6 +262,46 @@ export default function ChatWidget() {
                 <ChatMessages groups={groups} isTyping={isTyping} />
                 <div ref={messagesEndRef} />
               </div>
+
+              {/* Lead-delivery status banner (only visible on failure or during retry) */}
+              {machineState.currentState === "COMPLETE" && leadStatus === "error" && (
+                <div
+                  role="alert"
+                  className="shrink-0 border-t border-red-100 bg-red-50 px-4 py-3 text-sm text-red-800"
+                >
+                  <p className="font-medium">
+                    We couldn&apos;t deliver your message.
+                  </p>
+                  <p className="mt-0.5 text-xs text-red-700">
+                    Your details are still here — please retry, or email us at{" "}
+                    <a
+                      className="underline decoration-red-400 hover:text-red-900"
+                      href="mailto:contact@axenity.com"
+                    >
+                      contact@axenity.com
+                    </a>
+                    .
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setLeadStatus("idle");
+                      sendLead();
+                    }}
+                    className="mt-2 inline-flex items-center gap-1 rounded-full bg-red-600 px-3 py-1 text-xs font-semibold text-white shadow-sm hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-red-600"
+                  >
+                    Retry
+                  </button>
+                </div>
+              )}
+              {machineState.currentState === "COMPLETE" && leadStatus === "sending" && (
+                <div
+                  className="shrink-0 border-t border-gray-100 bg-gray-50 px-4 py-3 text-xs text-gray-600"
+                  aria-live="polite"
+                >
+                  Sending your details…
+                </div>
+              )}
 
               {/* Input Area / Options / Footer */}
               <div className="shrink-0 bg-white border-t border-gray-100 px-4 py-4">
