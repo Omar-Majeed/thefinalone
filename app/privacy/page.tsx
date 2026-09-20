@@ -210,13 +210,6 @@ export default function PrivacyPolicyPage() {
             </p>
           </section>
 
-          <aside className="mt-12 rounded-lg border border-foreground/10 bg-background-alt p-6 text-sm leading-6 text-foreground/60">
-            This document is an operational privacy statement, not legal
-            advice. If your business is subject to specific regulatory
-            regimes (Australian Privacy Act, GDPR, CCPA), you should have this
-            statement reviewed by qualified counsel before treating it as
-            your final published policy.
-          </aside>
         </div>
       </article>
       <Footer />

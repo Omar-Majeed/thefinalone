@@ -196,12 +196,6 @@ export default function TermsPage() {
             </p>
           </section>
 
-          <aside className="mt-12 rounded-lg border border-foreground/10 bg-background-alt p-6 text-sm leading-6 text-foreground/60">
-            This document is operational, not legal advice. Have qualified
-            counsel review it before you rely on it as your final published
-            terms, especially if you begin selling packaged services online
-            or engaging with jurisdictions outside Australia.
-          </aside>
         </div>
       </article>
       <Footer />
