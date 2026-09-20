@@ -63,7 +63,7 @@ export function FeaturedShowcase({ project }: { project: PortfolioProject }) {
           {/* Copy column */}
           <div>
             <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-foreground/60">
-              <span className={"font-semibold uppercase tracking-[0.14em] " + project.accent}>
+              <span className="font-semibold uppercase tracking-[0.14em] text-primary">
                 {project.categories[0]}
               </span>
               <span aria-hidden>·</span>

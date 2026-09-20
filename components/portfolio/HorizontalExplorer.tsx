@@ -123,40 +123,40 @@ function ProjectCard({
         href={`/portfolio/${project.slug}`}
         className="relative block aspect-[16/10] w-full overflow-hidden bg-background-alt"
       >
-        <div
-          className={
-            "absolute inset-0 flex items-center justify-center " +
-            (isMobile ? "p-6" : "")
-          }
-        >
-          {isMobile ? (
-            <div className="relative h-full max-h-full w-auto max-w-[54%] rounded-[28px] border border-foreground/15 bg-foreground p-1.5 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.5)] transition-transform duration-500 group-hover:scale-[1.03]">
-              <div className="relative h-full overflow-hidden rounded-[22px] bg-foreground">
+        {isMobile ? (
+          <div className="absolute inset-0 flex items-center justify-center py-4">
+            {/*
+              Explicit aspect-ratio on the phone frame so `h-full` computes a
+              proportional width. Without it the frame collapses to zero width
+              (Next.js <Image fill> doesn't feed the parent an intrinsic size).
+            */}
+            <div className="relative aspect-[9/19] h-full max-h-full rounded-[22px] border border-foreground/15 bg-foreground p-1 shadow-[0_18px_40px_-30px_rgba(15,23,42,0.5)] transition-transform duration-500 group-hover:scale-[1.03]">
+              <div className="relative h-full w-full overflow-hidden rounded-[18px] bg-foreground">
                 <Image
                   src={project.screenshot.src}
                   alt={project.screenshot.alt}
                   fill
-                  sizes="(min-width: 1024px) 20vw, 40vw"
+                  sizes="(min-width: 1024px) 120px, 80px"
                   className="object-cover object-top"
                 />
               </div>
             </div>
-          ) : (
-            <Image
-              src={project.screenshot.src}
-              alt={project.screenshot.alt}
-              fill
-              sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
-              className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
-            />
-          )}
-        </div>
+          </div>
+        ) : (
+          <Image
+            src={project.screenshot.src}
+            alt={project.screenshot.alt}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 768px) 50vw, 100vw"
+            className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+          />
+        )}
       </Link>
 
       {/* Body */}
       <div className="flex flex-1 flex-col gap-4 p-6">
         <div className="flex flex-wrap items-center gap-2 text-xs">
-          <span className={"font-semibold uppercase tracking-[0.14em] " + project.accent}>
+          <span className="font-semibold uppercase tracking-[0.14em] text-primary">
             {project.categories[0]}
           </span>
           <span aria-hidden className="text-foreground/25">·</span>

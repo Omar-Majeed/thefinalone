@@ -88,7 +88,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
       "Photography gallery tuned for social + Google Images discovery",
       "Directions + trading-hours block for foot-traffic follow-through",
     ],
-    techStack: ["Next.js", "Tailwind CSS", "Vercel"],
+    techStack: ["Next.js", "Tailwind CSS"],
     screenshot: {
       src: "/portfolio/ammoun-sweets/cover.webp",
       alt: "Ammoun Sweets — editorial Lebanese dessert brand, hero with arched pistachio pastry photograph",
@@ -118,7 +118,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
       "Sticky CALL CTA persistent across every breakpoint",
       "Live Google reviews strip for local trust",
     ],
-    techStack: ["Next.js", "Tailwind CSS", "LLM Agent", "PostgreSQL", "Vercel"],
+    techStack: ["Next.js", "Tailwind CSS", "LLM Agent", "PostgreSQL"],
     screenshot: {
       src: "/portfolio/tyre-express/cover.webp",
       alt: "Tyre Express — South Granville tyre workshop, hero with 'Premium Tyres. Properly Fitted.' headline",
@@ -148,7 +148,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
       "Trust-forward layout surfacing real celebrant credentials",
       "Mobile-optimised for late-night couple browsing",
     ],
-    techStack: ["Next.js", "Tailwind CSS", "Vercel"],
+    techStack: ["Next.js", "Tailwind CSS"],
     screenshot: {
       src: "/portfolio/qazi/cover.webp",
       alt: "Qazi Marriage Celebrant — Sydney Islamic Nikah celebrant hero with mosque silhouette",
@@ -178,7 +178,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
       "Directions + Google-reviews trust strip",
       "Installable as a PWA — no App Store submission needed",
     ],
-    techStack: ["Next.js", "Tailwind CSS", "PWA", "Vercel"],
+    techStack: ["Next.js", "Tailwind CSS", "PWA"],
     screenshot: {
       src: "/portfolio/philliez/cover.webp",
       alt: "Philliez — Chester Hill Philly cheesesteak PWA, mobile hero with 'Home of the Philly Cheesesteak' headline",
@@ -208,7 +208,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
       "Catering enquiry with event date + guest count",
       "Trust strip surfacing Google rating + trading hours",
     ],
-    techStack: ["Next.js", "Tailwind CSS", "Vercel"],
+    techStack: ["Next.js", "Tailwind CSS"],
     screenshot: {
       src: "/portfolio/aladdin-shawarma/cover.webp",
       alt: "Aladdin Shawarma — Blacktown Middle-Eastern kitchen hero with menu carousel and 'Home of the Magic Carpet' headline",
@@ -238,7 +238,7 @@ export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
       "Local-SEO metadata for the Rockhampton service area",
       "Real business address embedded for Google Maps discovery",
     ],
-    techStack: ["Next.js", "Tailwind CSS", "Vercel"],
+    techStack: ["Next.js", "Tailwind CSS"],
     screenshot: {
       src: "/portfolio/hohmanns/cover.webp",
       alt: "Hohmanns Plumbing Services — Rockhampton plumber & gasfitter hero with sticky call CTA",

@@ -92,11 +92,7 @@ export default async function PortfolioDetailPage({ params }: Params) {
             {/* Copy column */}
             <div>
               <div className="flex flex-wrap items-center gap-2 text-xs">
-                <span
-                  className={
-                    "font-semibold uppercase tracking-[0.14em] " + project.accent
-                  }
-                >
+                <span className="font-semibold uppercase tracking-[0.14em] text-primary">
                   {project.categories[0]}
                 </span>
                 <span aria-hidden className="text-foreground/25">·</span>
@@ -240,7 +236,7 @@ export default async function PortfolioDetailPage({ params }: Params) {
                     />
                   </div>
                   <div className="p-5">
-                    <div className={"text-xs font-semibold uppercase tracking-[0.14em] " + p.accent}>
+                    <div className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
                       {p.categories[0]}
                     </div>
                     <p className="mt-2 text-base font-semibold tracking-tight text-foreground group-hover:text-primary">
