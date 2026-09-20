@@ -9,9 +9,9 @@ export type HeroSlide = {
 export const HERO_SLIDES: HeroSlide[] = [
   {
     eyebrow: "Engineering",
-    title: "Custom Software Development for Scalable Systems",
+    title: "Custom software, from first draft to live in production.",
     description:
-      "We design and build resilient platforms that grow with your business — from architecture to launch.",
+      "We don't stop at pitch decks. Every engagement ends with real code deployed for real users — architected, shipped, and running.",
     image: "/hero/slide-1.jpg",
     imageAlt: "Engineers collaborating on scalable software architecture",
   },

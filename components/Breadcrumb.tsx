@@ -33,6 +33,7 @@ const ROUTE_LABELS: Record<string, string> = {
   "services/web-scraping": "Web Scraping",
   privacy: "Privacy Policy",
   terms: "Terms of Service",
+  blog: "Blog",
   // Portfolio detail slugs → friendly names.
   "portfolio/ammoun-sweets": "Ammoun Sweets",
   "portfolio/tyre-express": "Tyre Express",
@@ -40,6 +41,10 @@ const ROUTE_LABELS: Record<string, string> = {
   "portfolio/philliez": "Philliez",
   "portfolio/aladdin-shawarma": "Aladdin Shawarma",
   "portfolio/hohmanns": "Hohmanns Plumbing Services",
+  // Blog post slugs → short human-readable labels.
+  "blog/ai-booking-agent-tyre-shop": "AI booking agent for a tyre shop",
+  "blog/pwa-vs-native-app-for-restaurants":
+    "PWA vs native app for restaurants",
 };
 
 interface Crumb {

@@ -4,6 +4,7 @@ export const FOOTER_NAV: FooterLink[] = [
   { label: "Home", href: "/" },
   { label: "Services", href: "/services" },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
 ];
 

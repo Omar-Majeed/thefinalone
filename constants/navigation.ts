@@ -21,5 +21,6 @@ export const NAV_LINKS: NavLink[] = [
     ],
   },
   { label: "Portfolio", href: "/portfolio" },
+  { label: "Blog", href: "/blog" },
   { label: "About", href: "/about" },
 ];

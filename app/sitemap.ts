@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
 import { SITE_CONFIG } from "@/constants/site";
 import { PORTFOLIO_PROJECTS } from "@/constants/portfolio";
+import { BLOG_POSTS } from "@/constants/blog";
 
 /**
  * Sitemap contains 13 real routes.
@@ -29,6 +30,7 @@ const ROUTES: Array<{
   { path: "services/seo", changeFrequency: "monthly", priority: 0.8 },
   { path: "services/web-scraping", changeFrequency: "monthly", priority: 0.8 },
   { path: "portfolio", changeFrequency: "weekly", priority: 0.7 },
+  { path: "blog", changeFrequency: "weekly", priority: 0.7 },
   { path: "contact", changeFrequency: "yearly", priority: 0.6 },
 ];
 
@@ -50,5 +52,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticEntries, ...projectEntries];
+  // Individual blog post routes — one per published post.
+  const postEntries: MetadataRoute.Sitemap = BLOG_POSTS.map((p) => ({
+    url: `${base}/blog/${p.slug}`,
+    changeFrequency: "yearly",
+    priority: 0.6,
+    lastModified: new Date(p.updatedDate ?? p.publishedDate),
+  }));
+
+  return [...staticEntries, ...projectEntries, ...postEntries];
 }
