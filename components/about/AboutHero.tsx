@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { METRICS } from "@/constants/metrics";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
@@ -110,9 +111,9 @@ export function AboutHero() {
               className="mt-14 flex flex-wrap gap-8 border-t border-white/8 pt-8"
             >
               {[
-                { value: "120+", label: "Projects delivered" },
-                { value: "8+",   label: "Years of craft" },
-                { value: "94%",  label: "Client retention" },
+                { value: `${METRICS.projectsDelivered}+`,  label: "Projects delivered" },
+                { value: `${METRICS.yearsOfCraft}+`,        label: "Years of craft" },
+                { value: `${METRICS.clientRetentionPct}%`, label: "Client retention" },
               ].map((s) => (
                 <div key={s.label}>
                   <p className="text-2xl font-semibold text-white">{s.value}</p>

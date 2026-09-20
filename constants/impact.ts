@@ -11,11 +11,13 @@ export type Metric = {
   label: string;
 };
 
+import { METRICS } from "./metrics";
+
 export const IMPACT_METRICS: Metric[] = [
-  { id: "projects", value: 50, suffix: "+", label: "Projects Delivered" },
-  { id: "uptime", value: 99.9, decimals: 1, suffix: "%", label: "System Uptime" },
-  { id: "users", value: 1, suffix: "M+", label: "Users Impacted" },
-  { id: "support", static: "24/7", label: "Support & Monitoring" },
+  { id: "projects", value: METRICS.projectsDelivered, suffix: "+",  label: "Projects Delivered" },
+  { id: "uptime",   value: METRICS.systemUptimePct,   decimals: 1, suffix: "%",  label: "System Uptime" },
+  { id: "users",    value: METRICS.usersImpactedM,                 suffix: "M+", label: "Users Impacted" },
+  { id: "support",  static: "24/7", label: "Support & Monitoring" },
 ];
 
 export const IMPACT_COPY = {

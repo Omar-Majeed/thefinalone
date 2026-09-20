@@ -2,13 +2,14 @@
 
 import { motion } from "framer-motion";
 import { Clock, ShieldCheck, Star, Users } from "lucide-react";
+import { METRICS } from "@/constants/metrics";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
 const STATS = [
-  { value: 120, suffix: "+", label: "Projects delivered" },
-  { value: 94,  suffix: "%", label: "Client retention rate" },
-  { value: 48,  suffix: "h", label: "Avg. first response" },
+  { value: METRICS.projectsDelivered,     suffix: "+", label: "Projects delivered" },
+  { value: METRICS.clientRetentionPct,    suffix: "%", label: "Client retention rate" },
+  { value: METRICS.avgFirstResponseHours, suffix: "h", label: "Avg. first response" },
 ];
 
 const SERVICES_LIST = [

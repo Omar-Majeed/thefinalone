@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { METRICS, RESPONSE_TIME } from "@/constants/metrics";
 
 export function AboutCTA() {
   return (
@@ -59,14 +60,14 @@ export function AboutCTA() {
           </div>
 
           <p className="mt-6 text-sm text-white/25">
-            No commitment required &middot; Reply within one business day
+            No commitment required &middot; Reply within {RESPONSE_TIME.prose}
           </p>
 
           {/* Trust strip */}
           <div className="mt-12 flex flex-wrap justify-center gap-8 border-t border-white/8 pt-10">
             {[
-              "120+ projects delivered",
-              "94% client retention",
+              `${METRICS.projectsDelivered}+ projects delivered`,
+              `${METRICS.clientRetentionPct}% client retention`,
               "Full-stack capability",
               "No lock-in contracts",
             ].map((item) => (

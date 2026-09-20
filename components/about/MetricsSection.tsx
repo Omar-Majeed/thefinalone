@@ -1,14 +1,35 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { METRICS } from "@/constants/metrics";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-const METRICS = [
-  { value: 120, suffix: "+",    label: "Projects delivered",      sub: "Across web, mobile, and marketing" },
-  { value: 99,  suffix: ".9%",  label: "Performance focus",       sub: "Target Lighthouse score on every build" },
-  { value: 8,   suffix: "+",     label: "Years of craft",          sub: "Building digital products since 2016" },
-  { value: 94,  suffix: "%",    label: "Client retention rate",   sub: "Clients who return for the next project" },
+const METRIC_CARDS = [
+  {
+    value: METRICS.projectsDelivered,
+    suffix: "+",
+    label: "Projects delivered",
+    sub: "Across web, mobile, and marketing",
+  },
+  {
+    value: METRICS.lighthousePerfTargetPct,
+    suffix: "%",
+    label: "Performance focus",
+    sub: "Target Lighthouse score on every build",
+  },
+  {
+    value: METRICS.yearsOfCraft,
+    suffix: "+",
+    label: "Years of craft",
+    sub: `Building digital products since ${METRICS.yearsSince}`,
+  },
+  {
+    value: METRICS.clientRetentionPct,
+    suffix: "%",
+    label: "Client retention rate",
+    sub: "Clients who return for the next project",
+  },
 ];
 
 export function MetricsSection() {
@@ -37,7 +58,7 @@ export function MetricsSection() {
 
         {/* Metrics grid — editorial mosaic */}
         <div className="mt-14 grid grid-cols-1 gap-px bg-white/8 overflow-hidden rounded-[28px] border border-white/8 sm:grid-cols-2">
-          {METRICS.map((m, i) => (
+          {METRIC_CARDS.map((m, i) => (
             <motion.div
               key={m.label}
               initial={{ opacity: 0 }}

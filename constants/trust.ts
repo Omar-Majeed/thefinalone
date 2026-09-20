@@ -23,9 +23,11 @@ export type TrustStat = {
   label: string;
 };
 
+import { METRICS } from "./metrics";
+
 export const TRUST_STATS: TrustStat[] = [
-  { value: 50, suffix: "+", label: "Projects Built" },
-  { value: 2, suffix: "+", label: "Years Experience" },
-  { value: 6, suffix: "+", label: "Technologies" },
-  { value: 100, suffix: "%", label: "Scalable Systems" },
+  { value: METRICS.projectsDelivered,   suffix: "+", label: "Projects Built" },
+  { value: METRICS.yearsOfCraft,        suffix: "+", label: "Years Experience" },
+  { value: METRICS.technologies,        suffix: "+", label: "Technologies" },
+  { value: METRICS.scalableSystemsPct,  suffix: "%", label: "Scalable Systems" },
 ];
