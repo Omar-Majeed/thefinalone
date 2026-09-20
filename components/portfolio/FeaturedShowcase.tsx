@@ -2,193 +2,141 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { useRef } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowUpRight, MapPin } from "lucide-react";
 
-import type { PortfolioItem } from "@/constants/portfolio";
+import type { PortfolioProject } from "@/constants/portfolio";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-type Props = { items: PortfolioItem[] };
+/**
+ * Featured project — the largest card on the portfolio page.
+ *
+ * Accepts a single project and renders it as a wide bento tile with
+ * hero image (framed by device chrome), name/industry/location, short
+ * description, capability tag chips, and a link into the detail route.
+ *
+ * The featured slot is set on one `PortfolioProject` via `featured: true`
+ * in constants/portfolio.ts; the parent page picks that one.
+ */
+export function FeaturedShowcase({ project }: { project: PortfolioProject }) {
+  const isMobile = project.screenshot.orientation === "mobile";
 
-export function FeaturedShowcase({ items }: Props) {
   return (
-    <section
-      id="featured-work"
-      className="relative isolate overflow-hidden bg-white py-24 text-foreground sm:py-32"
-    >
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10"
-        style={{
-          background:
-            "radial-gradient(60% 40% at 0% 0%, rgba(90,187,74,0.05) 0%, rgba(255,255,255,0) 70%), radial-gradient(50% 40% at 100% 100%, rgba(99,102,241,0.04) 0%, rgba(255,255,255,0) 70%)",
-        }}
-      />
+    <section id="featured-work" className="bg-background py-20 sm:py-24 lg:py-28">
       <div className="container px-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-15%" }}
-          transition={{ duration: 0.7, ease: EASE }}
-          className="mx-auto mb-20 max-w-3xl text-center sm:mb-28"
-        >
-          <span className="text-[11px] font-medium uppercase tracking-[0.32em] text-primary">
-            Featured Work
-          </span>
-          <h2 className="mt-5 text-3xl font-semibold tracking-tight text-foreground sm:text-5xl">
-            Three stories.{" "}
-            <span className="text-[#9CA3AF]">Three measurable outcomes.</span>
+        <div className="mx-auto mb-14 max-w-3xl text-center">
+          <span className="text-sm font-semibold text-primary">Featured Project</span>
+          <h2 className="mt-3 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Work we&apos;re proud of
           </h2>
-        </motion.div>
-
-        <div className="space-y-28 sm:space-y-36">
-          {items.map((item, i) => (
-            <FeaturedBlock key={item.id} item={item} index={i} />
-          ))}
         </div>
+
+        <motion.article
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: EASE }}
+          className="mx-auto grid max-w-6xl gap-8 rounded-[32px] border border-foreground/10 bg-background-alt p-8 shadow-[0_28px_60px_-40px_rgba(15,23,42,0.28)] sm:p-12 lg:grid-cols-[1.15fr_1fr] lg:items-center"
+        >
+          {/* Image column */}
+          <div
+            className={
+              "relative " +
+              (isMobile
+                ? "mx-auto w-full max-w-[320px]"
+                : "w-full")
+            }
+          >
+            <DeviceFrame variant={isMobile ? "mobile" : "desktop"}>
+              <Image
+                src={project.screenshot.src}
+                alt={project.screenshot.alt}
+                width={isMobile ? 750 : 1440}
+                height={isMobile ? 1624 : 900}
+                priority
+                className="h-full w-full object-cover object-top"
+              />
+            </DeviceFrame>
+          </div>
+
+          {/* Copy column */}
+          <div>
+            <div className="flex flex-wrap items-center gap-2 text-xs font-medium text-foreground/60">
+              <span className={"font-semibold uppercase tracking-[0.14em] " + project.accent}>
+                {project.categories[0]}
+              </span>
+              <span aria-hidden>·</span>
+              <span>{project.industry}</span>
+            </div>
+
+            <h3 className="mt-4 text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+              {project.productName}
+            </h3>
+
+            <p className="mt-2 inline-flex items-center gap-1.5 text-sm text-foreground/50">
+              <MapPin className="h-3.5 w-3.5" aria-hidden />
+              {project.location} · {project.year}
+            </p>
+
+            <p className="mt-6 text-base leading-8 text-foreground/70 sm:text-lg">
+              {project.shortDescription}
+            </p>
+
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {project.categories.slice(0, 4).map((c) => (
+                <li
+                  key={c}
+                  className="inline-flex items-center rounded-full border border-foreground/10 bg-background px-3 py-1 text-xs font-medium text-foreground/70"
+                >
+                  {c}
+                </li>
+              ))}
+            </ul>
+
+            <Link
+              href={`/portfolio/${project.slug}`}
+              className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary transition-colors hover:text-primary/80"
+            >
+              Read the full case study
+              <ArrowUpRight className="h-4 w-4" aria-hidden />
+            </Link>
+          </div>
+        </motion.article>
       </div>
     </section>
   );
 }
 
-function FeaturedBlock({ item, index }: { item: PortfolioItem; index: number }) {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const reverse = index % 2 === 1;
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1.08, 1.0]);
-
-  return (
-    <div
-      ref={ref}
-      className={`grid items-center gap-10 lg:grid-cols-12 lg:gap-16 ${
-        reverse ? "lg:[&>*:first-child]:order-2" : ""
-      }`}
-    >
-      {/* Visual */}
-      <motion.div style={{ y }} className="relative lg:col-span-7">
-        <div className="group relative aspect-[16/11] overflow-hidden rounded-3xl border border-[#E5E7EB] bg-[#F9F9F9] shadow-[0_40px_90px_-40px_rgba(15,23,42,0.35)]">
-          <motion.div style={{ scale: imageScale }} className="absolute inset-0">
-            <Image
-              src={item.cover}
-              alt={`${item.title} preview`}
-              fill
-              sizes="(max-width:1024px) 100vw, 60vw"
-              className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]"
-              priority={index === 0}
-            />
-          </motion.div>
-          <div className="absolute inset-0 bg-gradient-to-tr from-white/40 via-transparent to-transparent" />
-          <div className="absolute inset-0 ring-1 ring-inset ring-black/5" />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute -inset-px rounded-3xl opacity-0 transition-opacity duration-700 group-hover:opacity-100"
-            style={{
-              background:
-                "radial-gradient(60% 60% at 50% 50%, rgba(90,187,74,0.18) 0%, transparent 70%)",
-              filter: "blur(20px)",
-            }}
-          />
-          {item.gallery[0] && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-10%" }}
-              transition={{ duration: 0.9, ease: EASE, delay: 0.3 }}
-              className="absolute -bottom-8 -right-6 hidden h-40 w-64 overflow-hidden rounded-2xl border border-[#E5E7EB] bg-white shadow-[0_30px_60px_-30px_rgba(15,23,42,0.45)] sm:block lg:h-48 lg:w-80"
-            >
-              <Image
-                src={item.gallery[0]}
-                alt={`${item.title} secondary view`}
-                fill
-                sizes="(max-width:1024px) 40vw, 25vw"
-                className="object-cover"
-              />
-            </motion.div>
-          )}
+/**
+ * Subtle device chrome around a screenshot — desktop = browser bar with
+ * traffic-light dots, mobile = phone bezel. Keeps portfolio cards visually
+ * anchored so the raw screenshot doesn't feel like a floating rectangle.
+ */
+function DeviceFrame({
+  variant,
+  children,
+}: {
+  variant: "desktop" | "mobile";
+  children: React.ReactNode;
+}) {
+  if (variant === "mobile") {
+    return (
+      <div className="relative rounded-[42px] border border-foreground/15 bg-foreground p-2 shadow-[0_30px_60px_-40px_rgba(15,23,42,0.5)]">
+        <div className="overflow-hidden rounded-[34px] bg-foreground">
+          {children}
         </div>
-      </motion.div>
-
-      {/* Content */}
-      <div className="relative lg:col-span-5">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-15%" }}
-          transition={{ duration: 0.8, ease: EASE }}
-          className="space-y-7"
-        >
-          <div className="flex items-center gap-3 text-[11px] uppercase tracking-[0.28em] text-[#9CA3AF]">
-            <span className="text-primary">{item.category}</span>
-            <span aria-hidden className="h-px w-6 bg-[#E5E7EB]" />
-            <span>{item.year}</span>
-          </div>
-          <h3 className="text-3xl font-semibold leading-tight tracking-tight text-foreground sm:text-4xl lg:text-[2.6rem]">
-            {item.title}
-          </h3>
-          <p className="text-base text-[#6B7280]">{item.tagline}</p>
-
-          <div className="space-y-5 border-l border-[#E5E7EB] pl-5">
-            <StoryRow label="Challenge" body={item.challenge} />
-            <StoryRow label="Solution" body={item.solution} />
-            <StoryRow label="Outcome" body={item.outcome} />
-          </div>
-
-          <div className="grid grid-cols-3 gap-3 pt-2">
-            {item.metrics.map((m) => (
-              <div
-                key={m.label}
-                className="rounded-xl border border-[#E5E7EB] bg-white px-4 py-3 shadow-[0_8px_24px_-18px_rgba(15,23,42,0.18)]"
-              >
-                <div className="text-lg font-semibold tracking-tight text-primary sm:text-xl">
-                  {m.value}
-                </div>
-                <div className="mt-1 text-[10px] uppercase tracking-[0.18em] text-[#9CA3AF]">
-                  {m.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="flex flex-wrap items-center gap-2 pt-1">
-            {item.tech.map((t) => (
-              <span
-                key={t}
-                className="rounded-full border border-[#E5E7EB] bg-[#F9F9F9] px-3 py-1 text-xs text-[#4B5563]"
-              >
-                {t}
-              </span>
-            ))}
-          </div>
-
-          <div className="pt-3">
-            <Link
-              href="/contact"
-              className="group inline-flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-primary"
-            >
-              Discuss a similar build
-              <ArrowUpRight className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-        </motion.div>
       </div>
-    </div>
-  );
-}
-
-function StoryRow({ label, body }: { label: string; body: string }) {
+    );
+  }
   return (
-    <div>
-      <div className="text-[10px] uppercase tracking-[0.24em] text-[#9CA3AF]">
-        {label}
+    <div className="overflow-hidden rounded-2xl border border-foreground/10 bg-background shadow-[0_30px_60px_-40px_rgba(15,23,42,0.35)]">
+      <div className="flex items-center gap-1.5 border-b border-foreground/10 bg-foreground/[0.03] px-4 py-2.5">
+        <span className="h-2.5 w-2.5 rounded-full bg-[#FF5F57]" aria-hidden />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#FEBC2E]" aria-hidden />
+        <span className="h-2.5 w-2.5 rounded-full bg-[#28C840]" aria-hidden />
       </div>
-      <p className="mt-1.5 text-sm leading-relaxed text-[#4B5563]">{body}</p>
+      {children}
     </div>
   );
 }

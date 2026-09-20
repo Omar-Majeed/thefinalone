@@ -7,32 +7,30 @@ import { PortfolioHero } from "@/components/portfolio/PortfolioHero";
 import { PhilosophyStrip } from "@/components/portfolio/PhilosophyStrip";
 import { FeaturedShowcase } from "@/components/portfolio/FeaturedShowcase";
 import { HorizontalExplorer } from "@/components/portfolio/HorizontalExplorer";
-import { ImpactMetrics } from "@/components/portfolio/ImpactMetrics";
 import { TechCapabilities } from "@/components/portfolio/TechCapabilities";
-import { ClientQuotes } from "@/components/portfolio/ClientQuotes";
 import { FinalCTA } from "@/components/portfolio/FinalCTA";
-import { PORTFOLIO_ITEMS } from "@/constants/portfolio";
+import { PORTFOLIO_PROJECTS } from "@/constants/portfolio";
 
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "A cinematic showcase of the products, agents and platforms Axenity has shipped for ambitious teams across commerce, fintech, healthcare and AI.",
+    "Real client work Axenity has shipped across Australia — restaurants, trades, marriage celebrancy, auto service, and an internal AI booking agent.",
   alternates: canonical("/portfolio"),
 };
 
 export default function PortfolioPage() {
-  const featured = PORTFOLIO_ITEMS.filter((i) => i.featured);
+  const featured = PORTFOLIO_PROJECTS.find((p) => p.featured);
+  // Everything except the featured one goes into the explorer grid.
+  const rest = PORTFOLIO_PROJECTS.filter((p) => !p.featured);
 
   return (
     <main className="bg-background">
       <Breadcrumb path="/portfolio" />
       <PortfolioHero />
       <PhilosophyStrip />
-      <FeaturedShowcase items={featured} />
-      <HorizontalExplorer items={PORTFOLIO_ITEMS} />
-      <ImpactMetrics />
+      {featured && <FeaturedShowcase project={featured} />}
+      <HorizontalExplorer projects={rest} />
       <TechCapabilities />
-      <ClientQuotes />
       <FinalCTA />
       <Footer />
     </main>

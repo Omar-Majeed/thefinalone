@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { SITE_CONFIG } from "@/constants/site";
+import { PORTFOLIO_PROJECTS } from "@/constants/portfolio";
 
 /**
  * Sitemap contains 13 real routes.
@@ -34,9 +35,20 @@ const ROUTES: Array<{
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = SITE_CONFIG.url.replace(/\/$/, "");
 
-  return ROUTES.map(({ path, changeFrequency, priority }) => ({
-    url: path ? `${base}/${path}` : base,
-    changeFrequency,
-    priority,
+  const staticEntries: MetadataRoute.Sitemap = ROUTES.map(
+    ({ path, changeFrequency, priority }) => ({
+      url: path ? `${base}/${path}` : base,
+      changeFrequency,
+      priority,
+    }),
+  );
+
+  // Individual portfolio detail routes — one per real client project.
+  const projectEntries: MetadataRoute.Sitemap = PORTFOLIO_PROJECTS.map((p) => ({
+    url: `${base}/portfolio/${p.slug}`,
+    changeFrequency: "monthly",
+    priority: 0.6,
   }));
+
+  return [...staticEntries, ...projectEntries];
 }

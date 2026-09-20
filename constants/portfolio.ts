@@ -1,3 +1,13 @@
+/**
+ * Portfolio — six real client projects, all live and shippable.
+ *
+ * Every entry below is a verifiable production build for a real Australian
+ * business (five NSW, one QLD). No fabricated companies, no invented metrics.
+ * Categories are multi-tag so a single project can populate more than one
+ * capability filter — e.g. Tyre Express is both a Web Development build and
+ * an Agentic AI engagement.
+ */
+
 export const PORTFOLIO_CATEGORIES = [
   "All",
   "Web Development",
@@ -10,334 +20,240 @@ export const PORTFOLIO_CATEGORIES = [
 
 export type PortfolioCategory = (typeof PORTFOLIO_CATEGORIES)[number];
 
-export type PortfolioMetric = {
-  value: string;
-  label: string;
-};
-
-export type PortfolioItem = {
-  id: string;
-  title: string;
-  subtitle: string;
-  category: PortfolioCategory;
+export type PortfolioProject = {
+  /** URL slug — becomes /portfolio/<slug>. */
+  slug: string;
+  /** Real client business name. */
+  clientName: string;
+  /** How the project is named on the portfolio card. */
+  productName: string;
+  /** Human-readable industry label. */
+  industry: string;
+  /** City + state code. */
+  location: string;
+  /**
+   * All categories this project satisfies. First entry is the primary
+   * ("headline") category shown on the card. Every entry participates in
+   * the /portfolio filter so one project can surface under multiple tabs.
+   */
+  categories: PortfolioCategory[];
+  /** Broad service type — one of the four labels shown on the card. */
+  serviceType: "Website" | "Mobile App" | "E-commerce" | "Landing Page";
+  /** Year we shipped it. */
   year: string;
-  tagline: string;
-  description: string;
-  challenge: string;
-  solution: string;
-  outcome: string;
-  tech: string[];
-  metrics: PortfolioMetric[];
-  cover: string;
-  gallery: string[];
-  accent: string;
+  /** One-sentence teaser used on the portfolio grid card. */
+  shortDescription: string;
+  /** Two-to-three sentence summary used on the detail page hero. */
+  longDescription: string;
+  /** Three-to-five real, buildable features that shipped. */
+  keyFeatures: string[];
+  /** Stack we used to ship it. */
+  techStack: string[];
+  /** Single hero screenshot per project. */
+  screenshot: {
+    src: string;
+    alt: string;
+    orientation: "desktop" | "mobile";
+  };
+  /**
+   * Live deployment URL — stored for internal reference and Service schema
+   * only. Never rendered as a clickable link to keep visitors on Axenity's
+   * portfolio.
+   */
+  liveUrl: string;
+  /** True for the single featured hero card on the portfolio grid. */
   featured: boolean;
+  /** Tailwind text-color class used as the project's accent. */
+  accent: string;
 };
 
-export const PORTFOLIO_ITEMS: PortfolioItem[] = [
+export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
   {
-    id: "nexa-commerce",
-    title: "NexaCommerce",
-    subtitle: "Headless commerce platform",
-    category: "E-Commerce",
+    slug: "ammoun-sweets",
+    clientName: "Ammoun Sweets",
+    productName: "Ammoun Sweets — Bass Hill",
+    industry: "Restaurant & Dessert",
+    location: "Bass Hill, NSW",
+    categories: ["Web Development", "E-Commerce", "UI/UX Design", "SEO & Marketing"],
+    serviceType: "E-commerce",
     year: "2025",
-    tagline: "A composable storefront engineered for scale.",
-    description:
-      "An enterprise commerce platform processing fifty-thousand transactions a day with real-time inventory, edge personalization and an AI-powered recommendation layer.",
-    challenge:
-      "Legacy monolith bottlenecked at peak traffic, with stale inventory and a checkout that lost customers at scale.",
-    solution:
-      "We rebuilt the storefront on a headless edge architecture with event-driven inventory sync, a unified content layer and an ML personalization engine trained on session intent.",
-    outcome:
-      "Sub-second page loads worldwide, a redesigned checkout converting at industry-leading rates, and a system that scales linearly on every promotional spike.",
-    tech: ["Next.js", "Stripe", "PostgreSQL", "Redis", "Vercel"],
-    metrics: [
-      { value: "+340%", label: "Conversion rate" },
-      { value: "50K", label: "Daily transactions" },
-      { value: "0.8s", label: "Median page load" },
+    shortDescription:
+      "Editorial dessert brand for a Lebanese sweets shop on the Hume Highway, with online ordering and a catering funnel.",
+    longDescription:
+      "Deep forest-green and warm gold visual identity, arched hero photography, integrated online ordering, catering & events enquiry, and a photography gallery. Built to convert Bass Hill's sweet-tooth traffic into online orders instead of drop-ins alone — while giving the brand the editorial feel of a specialty patisserie, not a takeaway.",
+    keyFeatures: [
+      "Deep forest-green + gold editorial visual identity",
+      "Integrated online ordering with catalogue imagery",
+      "Catering & events enquiry funnel with date + guest count",
+      "Photography gallery tuned for social + Google Images discovery",
+      "Directions + trading-hours block for foot-traffic follow-through",
     ],
-    cover: "/portfolio/nexa-commerce-cover.jpg",
-    gallery: [
-      "/portfolio/nexa-commerce-1.jpg",
-      "/portfolio/nexa-commerce-2.jpg",
-    ],
-    accent: "text-primary",
+    techStack: ["Next.js", "Tailwind CSS", "Vercel"],
+    screenshot: {
+      src: "/portfolio/ammoun-sweets/cover.webp",
+      alt: "Ammoun Sweets — editorial Lebanese dessert brand, hero with arched pistachio pastry photograph",
+      orientation: "desktop",
+    },
+    liveUrl: "https://ammoun-sweets.vercel.app/",
     featured: true,
+    accent: "text-emerald-500",
   },
   {
-    id: "medi-track",
-    title: "MediTrack",
-    subtitle: "Autonomous clinical scheduling agent",
-    category: "Agentic AI",
+    slug: "tyre-express",
+    clientName: "Tyre Express",
+    productName: "Tyre Express + AI Booking Agent",
+    industry: "Auto Service",
+    location: "South Granville, NSW",
+    categories: ["Agentic AI", "Web Development", "E-Commerce", "UI/UX Design"],
+    serviceType: "Website",
     year: "2025",
-    tagline: "An AI agent that runs a clinic's calendar without breaking stride.",
-    description:
-      "A multi-step reasoning agent that books, reschedules and routes patients across providers, integrated with EHR systems and a soft-voice phone interface.",
-    challenge:
-      "Front-desk teams were drowning in scheduling, no-shows were over 22%, and provider utilization sat below 60%.",
-    solution:
-      "We orchestrated a LangGraph agent over GPT-4 with secure EHR tool calls, intent classification, and a fallback escalation path to human staff.",
-    outcome:
-      "Patient wait times cut by sixty percent and provider utilization above ninety, with a seven-figure annual saving in administrative overhead.",
-    tech: ["LangGraph", "GPT-4", "FastAPI", "Twilio", "HIPAA"],
-    metrics: [
-      { value: "-60%", label: "Patient wait time" },
-      { value: "92%", label: "Provider utilization" },
-      { value: "24/7", label: "Coverage" },
+    shortDescription:
+      "Tyre & wheel-alignment workshop with a search-by-size storefront and an internal AI agent that auto-assigns bookings to free technicians.",
+    longDescription:
+      "Customer-facing product catalogue with a search-by-tyre-size flow, quote request, sticky CALL CTA, and a real Google-reviews trust strip. Behind the scenes, an AI booking agent ingests every appointment request, checks live technician availability, and auto-assigns the next-free worker — so front-desk staff never manually route bookings and no request goes uncovered.",
+    keyFeatures: [
+      "Search-by-tyre-size storefront with car → tyre catalogue",
+      "AI booking agent — ingests requests, checks technician availability, auto-assigns",
+      "Quote request funnel with vehicle detail capture",
+      "Sticky CALL CTA persistent across every breakpoint",
+      "Live Google reviews strip for local trust",
     ],
-    cover: "/portfolio/medi-track-cover.jpg",
-    gallery: ["/portfolio/medi-track-1.jpg"],
-    accent: "text-primary",
-    featured: true,
-  },
-  {
-    id: "fin-vault",
-    title: "FinVault",
-    subtitle: "B2B fintech command center",
-    category: "UI/UX Design",
-    year: "2024",
-    tagline: "A dashboard that turns financial complexity into clarity.",
-    description:
-      "A ground-up redesign of a B2B treasury platform — full design system, refined data visualizations, and an information architecture rebuilt around the operator's day.",
-    challenge:
-      "Operators wrangled six tools to close a single workflow; the original UI hid critical signals behind dense tables.",
-    solution:
-      "We ran deep contextual research, rebuilt the navigation around task flows, and shipped a tokenized design system with accessible data viz primitives.",
-    outcome:
-      "Task completion improved forty-five percent, onboarding time halved, and the design system now powers four downstream products.",
-    tech: ["Figma", "Design Tokens", "Storybook", "WCAG AA"],
-    metrics: [
-      { value: "+45%", label: "Task completion" },
-      { value: "-52%", label: "Onboarding time" },
-      { value: "4", label: "Products powered" },
-    ],
-    cover: "/portfolio/fin-vault-cover.jpg",
-    gallery: ["/portfolio/fin-vault-1.jpg"],
-    accent: "text-primary",
-    featured: true,
-  },
-  {
-    id: "urban-nest",
-    title: "UrbanNest",
-    subtitle: "Real estate discovery, reimagined",
-    category: "Mobile Apps",
-    year: "2024",
-    tagline: "An app that turns house-hunting into a cinematic experience.",
-    description:
-      "A cross-platform property discovery app with augmented-reality room visualization, intelligent search and a mortgage simulator built natively into the flow.",
-    challenge:
-      "Buyers were toggling between five disconnected apps to evaluate a property, and listings felt static and impersonal.",
-    solution:
-      "We shipped a React Native app with ARKit-powered room previews, semantic search over listings, and a guided financing module.",
-    outcome:
-      "Twenty-five thousand active users in the first week of launch and a four-point-eight star rating across both stores.",
-    tech: ["React Native", "ARKit", "Node.js", "MongoDB"],
-    metrics: [
-      { value: "25K+", label: "Active users (wk 1)" },
-      { value: "4.8", label: "Store rating" },
-      { value: "3.1x", label: "Session depth" },
-    ],
-    cover: "/portfolio/urban-nest-cover.jpg",
-    gallery: ["/portfolio/urban-nest-1.jpg"],
-    accent: "text-primary",
+    techStack: ["Next.js", "Tailwind CSS", "LLM Agent", "PostgreSQL", "Vercel"],
+    screenshot: {
+      src: "/portfolio/tyre-express/cover.webp",
+      alt: "Tyre Express — South Granville tyre workshop, hero with 'Premium Tyres. Properly Fitted.' headline",
+      orientation: "desktop",
+    },
+    liveUrl: "https://tyreexpress-work.vercel.app/",
     featured: false,
+    accent: "text-orange-500",
   },
   {
-    id: "greenleaf-seo",
-    title: "GreenLeaf",
-    subtitle: "SEO overhaul for a sustainability SaaS",
-    category: "SEO & Marketing",
-    year: "2024",
-    tagline: "From page six to number one in under four months.",
-    description:
-      "A full-spectrum technical and editorial SEO program — site architecture, content engine and authority building — for a fast-growing sustainability platform.",
-    challenge:
-      "Organic visibility stagnated despite consistent publishing; the technical foundation leaked link equity and crawl budget.",
-    solution:
-      "We rebuilt the information architecture, shipped a structured content engine, and ran a programmatic internal-link and backlink campaign.",
-    outcome:
-      "Number-one rankings across forty high-intent keywords and a six-fold increase in qualified organic pipeline.",
-    tech: ["Technical SEO", "GA4", "Ahrefs", "Schema.org"],
-    metrics: [
-      { value: "#1", label: "On 40+ keywords" },
-      { value: "6x", label: "Organic pipeline" },
-      { value: "+212%", label: "Domain rating" },
-    ],
-    cover: "/portfolio/greenleaf-cover.jpg",
-    gallery: ["/portfolio/greenleaf-1.jpg"],
-    accent: "text-primary",
-    featured: false,
-  },
-  {
-    id: "lex-ai",
-    title: "LexAI",
-    subtitle: "Multi-agent legal review system",
-    category: "Agentic AI",
+    slug: "qazi",
+    clientName: "Qazi Marriage Celebrant",
+    productName: "Qazi Marriage Celebrant",
+    industry: "Religious & Legal Services",
+    location: "Sydney, NSW",
+    categories: ["Web Development", "UI/UX Design", "SEO & Marketing"],
+    serviceType: "Website",
     year: "2025",
-    tagline: "Five hundred contracts a day, reviewed at senior-associate accuracy.",
-    description:
-      "A crew of cooperating agents that ingest, classify, redline and summarize legal contracts, plugged directly into a firm's document management system.",
-    challenge:
-      "Junior teams spent eighty percent of their week on low-leverage contract review with inconsistent risk flagging.",
-    solution:
-      "We orchestrated specialized CrewAI agents — extractor, redliner, risk scorer, summarizer — coordinated by a supervisor with human-in-the-loop checkpoints.",
-    outcome:
-      "Ninety-four percent accuracy versus senior associates and a ten-fold throughput increase per reviewer.",
-    tech: ["CrewAI", "Claude API", "Python", "PostgreSQL"],
-    metrics: [
-      { value: "94%", label: "Accuracy" },
-      { value: "500/day", label: "Documents reviewed" },
-      { value: "10x", label: "Throughput" },
+    shortDescription:
+      "Editorial-luxury site for Sydney's authorised Islamic Nikah & legal marriage celebrant.",
+    longDescription:
+      "Warm serif brand identity, mosque-silhouette hero, and clearly explained services help Google disambiguate the specific 'Islamic Nikah Sydney' intent and route the right couples straight to a booking enquiry. Every content block is written to answer a pre-hire question so browsers don't need to leave.",
+    keyFeatures: [
+      "Editorial serif typography + warm cream/gold palette",
+      "Structured content targeting 'Islamic Nikah Sydney' search intent",
+      "Booking enquiry flow with celebrant availability capture",
+      "Trust-forward layout surfacing real celebrant credentials",
+      "Mobile-optimised for late-night couple browsing",
     ],
-    cover: "/portfolio/lex-ai-cover.jpg",
-    gallery: ["/portfolio/lex-ai-1.jpg"],
-    accent: "text-primary",
+    techStack: ["Next.js", "Tailwind CSS", "Vercel"],
+    screenshot: {
+      src: "/portfolio/qazi/cover.webp",
+      alt: "Qazi Marriage Celebrant — Sydney Islamic Nikah celebrant hero with mosque silhouette",
+      orientation: "desktop",
+    },
+    liveUrl: "https://www.qazi.com.au/",
     featured: false,
+    accent: "text-amber-500",
   },
   {
-    id: "swift-shop",
-    title: "SwiftShop",
-    subtitle: "Mobile-first commerce",
-    category: "E-Commerce",
-    year: "2024",
-    tagline: "One-tap commerce that customers actually love.",
-    description:
-      "A mobile-native commerce experience with one-tap checkout, loyalty rewards and a personalized feed powered by on-device ML.",
-    challenge:
-      "Cart abandonment topped seventy percent on mobile and the brand's existing app felt like a webview port.",
-    solution:
-      "A native Flutter rebuild with a native checkout stack, on-device personalization, and a loyalty layer woven through the journey.",
-    outcome:
-      "A four-point-nine star rating in three months and a fifty-eight percent lift in mobile revenue per user.",
-    tech: ["Flutter", "Firebase", "Shopify API", "ML Kit"],
-    metrics: [
-      { value: "4.9", label: "App Store" },
-      { value: "+58%", label: "Mobile ARPU" },
-      { value: "-42%", label: "Abandonment" },
-    ],
-    cover: "/portfolio/swift-shop-cover.jpg",
-    gallery: ["/portfolio/swift-shop-1.jpg"],
-    accent: "text-primary",
-    featured: false,
-  },
-  {
-    id: "pulse-media",
-    title: "PulseMedia",
-    subtitle: "Integrated growth campaign",
-    category: "SEO & Marketing",
-    year: "2024",
-    tagline: "A ninety-day campaign that compounded across every channel.",
-    description:
-      "A coordinated paid, organic and lifecycle campaign that turned a single product launch into a sustained growth engine.",
-    challenge:
-      "A standout product was struggling to break through in a noisy category and channels were siloed.",
-    solution:
-      "We aligned messaging across paid, organic and CRM, built a creative testing loop, and routed signals into a unified attribution model.",
-    outcome:
-      "2.3 million impressions, an eighteen percent qualified lead conversion, and a payback period under two months.",
-    tech: ["Meta Ads", "Google Ads", "HubSpot", "GA4"],
-    metrics: [
-      { value: "2.3M", label: "Impressions" },
-      { value: "18%", label: "Lead CVR" },
-      { value: "<2mo", label: "Payback" },
-    ],
-    cover: "/portfolio/pulse-media-cover.jpg",
-    gallery: ["/portfolio/pulse-media-1.jpg"],
-    accent: "text-primary",
-    featured: false,
-  },
-  {
-    id: "build-track",
-    title: "BuildTrack",
-    subtitle: "Construction SaaS at enterprise scale",
-    category: "Web Development",
+    slug: "philliez",
+    clientName: "Philliez",
+    productName: "Philliez — Mobile-First PWA",
+    industry: "Restaurant / American Comfort Food",
+    location: "Chester Hill, NSW",
+    categories: ["Mobile Apps", "Web Development", "E-Commerce", "UI/UX Design"],
+    serviceType: "Mobile App",
     year: "2025",
-    tagline: "The operating system three hundred contractors run their day on.",
-    description:
-      "A construction-management platform with Gantt orchestration, resource allocation, subcontractor portals and a real-time field interface.",
-    challenge:
-      "Field teams were stuck on whiteboards and spreadsheets while the office ran a different stack — coordination broke daily.",
-    solution:
-      "A unified web and mobile platform with role-tuned interfaces, offline-first field tooling and an analytics layer for executives.",
-    outcome:
-      "Three hundred enterprise contractors onboarded in year one and a sixty-three percent drop in project overrun.",
-    tech: ["React", "D3.js", "Django", "AWS"],
-    metrics: [
-      { value: "300+", label: "Enterprise clients" },
-      { value: "-63%", label: "Project overrun" },
-      { value: "99.99%", label: "Uptime" },
+    shortDescription:
+      "Mobile-first Progressive Web App for a Chester Hill cheesesteak spot — app-like ordering, in the browser.",
+    longDescription:
+      "Dark app-style UI with a persistent bottom-nav bar (Menu / Directions / Order), integrated online ordering, geo-locator for directions, and a personality-forward voice ('Philly sauce is spicy'). Feels like a native ordering app but without the App Store download friction — installable as a PWA and shareable via one link.",
+    keyFeatures: [
+      "App-like bottom-nav (Menu / Directions / Order) persistent on scroll",
+      "Mobile-first dark UI with brand-forward voice",
+      "Integrated online ordering with menu categories",
+      "Directions + Google-reviews trust strip",
+      "Installable as a PWA — no App Store submission needed",
     ],
-    cover: "/portfolio/build-track-cover.jpg",
-    gallery: ["/portfolio/build-track-1.jpg"],
-    accent: "text-primary",
+    techStack: ["Next.js", "Tailwind CSS", "PWA", "Vercel"],
+    screenshot: {
+      src: "/portfolio/philliez/cover.webp",
+      alt: "Philliez — Chester Hill Philly cheesesteak PWA, mobile hero with 'Home of the Philly Cheesesteak' headline",
+      orientation: "mobile",
+    },
+    liveUrl: "https://philliez.vercel.app/",
     featured: false,
+    accent: "text-red-500",
+  },
+  {
+    slug: "aladdin-shawarma",
+    clientName: "Aladdin Shawarma",
+    productName: "Aladdin Shawarma — Blacktown",
+    industry: "Restaurant / Quick-Service",
+    location: "Blacktown, NSW",
+    categories: ["E-Commerce", "Web Development", "Mobile Apps", "UI/UX Design"],
+    serviceType: "E-commerce",
+    year: "2025",
+    shortDescription:
+      "Playful, mobile-first ordering site for Blacktown's Middle Eastern kitchen — 'Home of the Magic Carpet.'",
+    longDescription:
+      "Distinctive dark + gold brand system, a live menu carousel with real prices, integrated ordering, catering funnel, and a pickup/delivery selector. Turns a busy shopfront brand into a mobile-first ordering channel with the same personality customers get in-store.",
+    keyFeatures: [
+      "'Home of the Magic Carpet' branded card carousel",
+      "Live menu carousel showing real per-item prices",
+      "Integrated ordering with pickup / delivery selector",
+      "Catering enquiry with event date + guest count",
+      "Trust strip surfacing Google rating + trading hours",
+    ],
+    techStack: ["Next.js", "Tailwind CSS", "Vercel"],
+    screenshot: {
+      src: "/portfolio/aladdin-shawarma/cover.webp",
+      alt: "Aladdin Shawarma — Blacktown Middle-Eastern kitchen hero with menu carousel and 'Home of the Magic Carpet' headline",
+      orientation: "desktop",
+    },
+    liveUrl: "https://aladdinshawarma.vercel.app/",
+    featured: false,
+    accent: "text-amber-400",
+  },
+  {
+    slug: "hohmanns",
+    clientName: "Hohmanns Plumbing Services",
+    productName: "Hohmanns Plumbing — Rockhampton",
+    industry: "Trade Services (Plumbing & Gasfitting)",
+    location: "Rockhampton, QLD",
+    categories: ["Web Development", "UI/UX Design", "SEO & Marketing"],
+    serviceType: "Website",
+    year: "2025",
+    shortDescription:
+      "Direct-call trade website for a Rockhampton plumber & gasfitter — every path leads to a phone call in one click.",
+    longDescription:
+      "Conversion-focused single-page site with a sticky call CTA in the header, hero + services + enquiry form, real business address embedded, and a mobile-first responsive layout. Built for tradies-on-phones searching for local help who don't want to fill out a long form.",
+    keyFeatures: [
+      "Sticky (07) call-CTA in the header on every scroll position",
+      "Mobile-first responsive layout tuned for one-thumb browsing",
+      "Enquiry form with fast reply-by-email routing",
+      "Local-SEO metadata for the Rockhampton service area",
+      "Real business address embedded for Google Maps discovery",
+    ],
+    techStack: ["Next.js", "Tailwind CSS", "Vercel"],
+    screenshot: {
+      src: "/portfolio/hohmanns/cover.webp",
+      alt: "Hohmanns Plumbing Services — Rockhampton plumber & gasfitter hero with sticky call CTA",
+      orientation: "desktop",
+    },
+    liveUrl: "https://plumberwork-nine.vercel.app/",
+    featured: false,
+    accent: "text-teal-500",
   },
 ];
 
-export const PORTFOLIO_IMPACT = [
-  {
-    value: "+312%",
-    label: "Average conversion lift",
-    detail: "Across launched commerce and SaaS surfaces in the last 18 months.",
-  },
-  {
-    value: "0.9s",
-    label: "Median LCP shipped",
-    detail: "Edge-rendered, image-optimized, instrumented from day one.",
-  },
-  {
-    value: "10x",
-    label: "Operational throughput",
-    detail: "Where agentic AI replaced repetitive human routing work.",
-  },
-  {
-    value: "99.99%",
-    label: "Production uptime",
-    detail: "Across enterprise systems we've built and continue to operate.",
-  },
-  {
-    value: "40+",
-    label: "First-page rankings",
-    detail: "Earned organically through technical and editorial SEO programs.",
-  },
-  {
-    value: "4.9",
-    label: "Average app rating",
-    detail: "Across the mobile experiences we've shipped this year.",
-  },
-];
-
-export const PORTFOLIO_QUOTES = [
-  {
-    quote:
-      "Axenity is the only team we trust with the surfaces our customers actually touch.",
-    author: "Maya Okonkwo",
-    role: "VP Product, NexaCommerce",
-  },
-  {
-    quote:
-      "They shipped a working agent in the time most agencies needed to write a proposal.",
-    author: "Daniel Reyes",
-    role: "Head of Operations, MediTrack",
-  },
-  {
-    quote:
-      "The redesign didn't just look better — it changed how our team works.",
-    author: "Priya Shankar",
-    role: "Chief Product Officer, FinVault",
-  },
-];
-
-export const PORTFOLIO_TECH_NODES = [
-  { label: "Next.js", x: 18, y: 28 },
-  { label: "React", x: 35, y: 14 },
-  { label: "TypeScript", x: 56, y: 22 },
-  { label: "Node.js", x: 78, y: 16 },
-  { label: "Tailwind", x: 88, y: 42 },
-  { label: "Framer Motion", x: 72, y: 58 },
-  { label: "AI Agents", x: 50, y: 50 },
-  { label: "APIs", x: 28, y: 60 },
-  { label: "Automation", x: 14, y: 74 },
-  { label: "Cloud", x: 40, y: 82 },
-  { label: "Databases", x: 66, y: 78 },
-];
+/**
+ * Legacy export names — some existing components import these. Kept as
+ * aliases so the migration to PORTFOLIO_PROJECTS can happen incrementally.
+ * New code should reference PORTFOLIO_PROJECTS directly.
+ */
+export const PORTFOLIO_ITEMS = PORTFOLIO_PROJECTS;
+export type PortfolioItem = PortfolioProject;

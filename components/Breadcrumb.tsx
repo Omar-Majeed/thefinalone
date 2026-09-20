@@ -33,6 +33,13 @@ const ROUTE_LABELS: Record<string, string> = {
   "services/web-scraping": "Web Scraping",
   privacy: "Privacy Policy",
   terms: "Terms of Service",
+  // Portfolio detail slugs → friendly names.
+  "portfolio/ammoun-sweets": "Ammoun Sweets",
+  "portfolio/tyre-express": "Tyre Express",
+  "portfolio/qazi": "Qazi Marriage Celebrant",
+  "portfolio/philliez": "Philliez",
+  "portfolio/aladdin-shawarma": "Aladdin Shawarma",
+  "portfolio/hohmanns": "Hohmanns Plumbing Services",
 };
 
 interface Crumb {

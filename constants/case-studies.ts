@@ -1,4 +1,4 @@
-import { PORTFOLIO_ITEMS } from "@/constants/portfolio";
+import { PORTFOLIO_PROJECTS } from "@/constants/portfolio";
 
 export type CaseStudy = {
   company: string;
@@ -13,15 +13,20 @@ export type CaseStudyTile = {
   study: CaseStudy;
 };
 
-export const CASE_STUDIES: CaseStudy[] = [...PORTFOLIO_ITEMS]
+/**
+ * Homepage case-study surface — pulls the featured project first, then
+ * three more from the real portfolio. Every entry deep-links into its
+ * own /portfolio/[slug] detail page.
+ */
+export const CASE_STUDIES: CaseStudy[] = [...PORTFOLIO_PROJECTS]
   .sort((a, b) => Number(b.featured) - Number(a.featured))
   .slice(0, 4)
-  .map((item) => ({
-    company: item.title,
-    description: item.tagline,
-    href: "/portfolio",
-    image: item.cover,
-    imageAlt: `${item.title} project cover image`,
+  .map((project) => ({
+    company: project.productName,
+    description: project.shortDescription,
+    href: `/portfolio/${project.slug}`,
+    image: project.screenshot.src,
+    imageAlt: project.screenshot.alt,
   }));
 
 export const CASE_STUDY_TILES: CaseStudyTile[] = [
