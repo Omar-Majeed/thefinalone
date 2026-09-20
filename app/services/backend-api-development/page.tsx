@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { ServiceSchema } from "@/components/ServiceSchema";
 import { canonical } from "@/lib/seo";
 import { ArchitectureSection } from "@/components/services/backend-api-development/ArchitectureSection";
 import { CTASection } from "@/components/services/backend-api-development/CTASection";
@@ -25,6 +26,12 @@ export default function BackendApiDevelopmentPage() {
   return (
     <main className="bg-background text-foreground">
       <Breadcrumb path="/services/backend-api-development" />
+      <ServiceSchema
+        name="Backend & API Development"
+        serviceType="Backend API Development"
+        description="Robust, scalable backend systems and APIs engineered for performance, security, and long-term reliability."
+        path="/services/backend-api-development"
+      />
       <HeroSection />
       <WhatWeBuild />
       <ArchitectureSection />

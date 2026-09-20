@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
+import { motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
@@ -78,23 +78,28 @@ export function Accordion() {
                   </span>
                 </button>
 
-                <AnimatePresence initial={false}>
-                  {isOpen ? (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: EASE }}
-                      className="overflow-hidden"
-                    >
-                      <div className="border-t border-[#EEF2F7] px-6 py-5 sm:px-7">
-                        <p className="max-w-2xl text-sm leading-7 text-[#6B7280] sm:text-base">
-                          {item.description}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ) : null}
-                </AnimatePresence>
+                {/*
+                  Panel content is ALWAYS in the DOM so JS-less crawlers
+                  (GPTBot, PerplexityBot, ClaudeBot) index every capability
+                  description instead of only the currently-open one. The
+                  visual toggle happens via height/opacity animation only.
+                */}
+                <motion.div
+                  initial={false}
+                  animate={{
+                    height: isOpen ? "auto" : 0,
+                    opacity: isOpen ? 1 : 0,
+                  }}
+                  transition={{ duration: 0.3, ease: EASE }}
+                  style={{ overflow: "hidden" }}
+                  aria-hidden={!isOpen}
+                >
+                  <div className="border-t border-[#EEF2F7] px-6 py-5 sm:px-7">
+                    <p className="max-w-2xl text-sm leading-7 text-[#6B7280] sm:text-base">
+                      {item.description}
+                    </p>
+                  </div>
+                </motion.div>
               </div>
             );
           })}

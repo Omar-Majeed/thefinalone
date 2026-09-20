@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { ServiceSchema } from "@/components/ServiceSchema";
 import { canonical } from "@/lib/seo";
 import { HeroSection } from "@/components/services/seo/HeroSection";
 import { GrowthDashboard } from "@/components/services/seo/GrowthDashboard";
@@ -22,6 +23,12 @@ export default function SEOPage() {
   return (
     <main className="bg-background text-foreground">
       <Breadcrumb path="/services/seo" />
+      <ServiceSchema
+        name="SEO Services"
+        serviceType="Search Engine Optimization"
+        description="Data-driven SEO strategies that put your business at the top of search results and keep it there. Technical SEO, content strategy, link building, and more."
+        path="/services/seo"
+      />
       <HeroSection />
       <GrowthDashboard />
       <WhatWeDo />

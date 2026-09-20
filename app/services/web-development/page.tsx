@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { ServiceSchema } from "@/components/ServiceSchema";
 import { canonical } from "@/lib/seo";
 import { Accordion } from "@/components/services/web-development/Accordion";
 import { CaseStudy } from "@/components/services/web-development/CaseStudy";
@@ -21,6 +22,12 @@ export default function WebDevelopmentPage() {
   return (
     <main className="bg-background text-foreground">
       <Breadcrumb path="/services/web-development" />
+      <ServiceSchema
+        name="Web Development"
+        serviceType="Web Development"
+        description="Build fast, scalable, and modern web applications with a delivery process focused on performance, security, and long-term growth."
+        path="/services/web-development"
+      />
       <HeroSection />
       <ProblemSolution />
       <Accordion />

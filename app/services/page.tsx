@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { ServiceSchema } from "@/components/ServiceSchema";
 import { canonical } from "@/lib/seo";
 import { CTASection } from "@/components/services/CTASection";
 import { ProcessStep } from "@/components/services/ProcessStep";
@@ -20,6 +21,12 @@ export default function ServicesPage() {
     <main className="bg-background text-foreground">
 
       <Breadcrumb path="/services" />
+      <ServiceSchema
+        name="Digital Services"
+        serviceType="Digital Services"
+        description="Explore the digital services we offer, from product design and engineering to marketing, SEO, and AI integration."
+        path="/services"
+      />
       <ServicesHero />
 
       <section id="services-grid" className="bg-background py-20 sm:py-24 lg:py-28">

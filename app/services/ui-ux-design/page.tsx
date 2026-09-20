@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { ServiceSchema } from "@/components/ServiceSchema";
 import { canonical } from "@/lib/seo";
 import { HeroSection } from "@/components/services/ui-ux-design/HeroSection";
 import { PhilosophySection } from "@/components/services/ui-ux-design/PhilosophySection";
@@ -23,6 +24,12 @@ export default function UIUXDesignPage() {
   return (
     <main className="bg-background text-foreground">
       <Breadcrumb path="/services/ui-ux-design" />
+      <ServiceSchema
+        name="UI/UX Design Services"
+        serviceType="UI UX Design"
+        description="We design intuitive, conversion-focused digital experiences that combine aesthetics, usability, and performance into products users genuinely enjoy using."
+        path="/services/ui-ux-design"
+      />
       <HeroSection />
       <PhilosophySection />
       <ExperienceShowcaseSection />

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import {
   MousePointer2, Mail, Share2, Search, BarChart2, Megaphone,
 } from "lucide-react";
@@ -111,7 +111,6 @@ const TABS = [
 
 export function ServicesTabs() {
   const [active, setActive] = useState(0);
-  const tab = TABS[active];
 
   return (
     <section id="dm-channels" className="bg-background py-20 sm:py-24 lg:py-28">
@@ -158,79 +157,93 @@ export function ServicesTabs() {
           })}
         </div>
 
-        {/* Tab panel */}
+        {/*
+          Every tab panel is rendered in the DOM at all times. Only the
+          active one is visible; the others are hidden via CSS. This way,
+          JS-less crawlers (GPTBot, PerplexityBot, ClaudeBot) and Google's
+          SSR snapshot see every channel's headline, description, points,
+          and stat — not just the "Paid Ads" default tab.
+        */}
         <div className="mt-8">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={tab.id}
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={{ duration: 0.35, ease: EASE }}
-              className="grid gap-6 lg:grid-cols-[1fr_320px]"
-            >
-              {/* Main panel */}
-              <div className="rounded-[28px] border border-[#E5E7EB] bg-white p-7 shadow-[0_22px_50px_-38px_rgba(15,23,42,0.28)] sm:p-9">
-                <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
-                  {(() => { const Icon = tab.icon; return <Icon className="h-5 w-5" strokeWidth={2} />; })()}
-                </span>
-                <h3 className="mt-5 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
-                  {tab.headline}
-                </h3>
-                <p className="mt-4 text-base leading-8 text-[#6B7280]">
-                  {tab.description}
-                </p>
-                <ul className="mt-7 grid gap-3 sm:grid-cols-2">
-                  {tab.points.map((pt) => (
-                    <li key={pt} className="flex items-start gap-3 text-sm text-[#374151] sm:text-base">
-                      <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
-                      <span>{pt}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              {/* Stat sidebar */}
-              <div className="flex flex-col gap-6">
-                <div className="rounded-[28px] bg-foreground p-7 shadow-[0_22px_50px_-38px_rgba(15,23,42,0.5)]">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">
-                    Key Result
+          {TABS.map((t, i) => {
+            const Icon = t.icon;
+            const isActive = i === active;
+            return (
+              <div
+                key={t.id}
+                role="tabpanel"
+                aria-hidden={!isActive}
+                hidden={!isActive}
+                className={cn(
+                  "grid gap-6 lg:grid-cols-[1fr_320px]",
+                )}
+              >
+                {/* Main panel */}
+                <div className="rounded-[28px] border border-[#E5E7EB] bg-white p-7 shadow-[0_22px_50px_-38px_rgba(15,23,42,0.28)] sm:p-9">
+                  <span className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                    <Icon className="h-5 w-5" strokeWidth={2} />
+                  </span>
+                  <h3 className="mt-5 text-2xl font-semibold tracking-tight text-foreground sm:text-3xl">
+                    {t.headline}
+                  </h3>
+                  <p className="mt-4 text-base leading-8 text-[#6B7280]">
+                    {t.description}
                   </p>
-                  <p className="mt-4 text-5xl font-semibold tracking-tight text-white">
-                    {tab.stat.value}
-                  </p>
-                  <p className="mt-3 text-sm leading-7 text-white/50">
-                    {tab.stat.label}
-                  </p>
+                  <ul className="mt-7 grid gap-3 sm:grid-cols-2">
+                    {t.points.map((pt) => (
+                      <li
+                        key={pt}
+                        className="flex items-start gap-3 text-sm text-[#374151] sm:text-base"
+                      >
+                        <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-primary" />
+                        <span>{pt}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
 
-                <div className="rounded-[28px] border border-[#E5E7EB] bg-white p-7 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.24)]">
-                  <p className="text-sm font-semibold text-foreground">
-                    Ready to get started?
-                  </p>
-                  <p className="mt-2 text-sm leading-7 text-[#6B7280]">
-                    Book a free strategy call and we will audit your current
-                    marketing in 48 hours.
-                  </p>
-                  <Link
-                    href="/#contact"
-                    className={cn(
-                      "group relative mt-5 inline-flex w-full items-center justify-center overflow-hidden rounded-full",
-                      "border border-[#D1D5DB] bg-white px-5 py-3 text-sm font-semibold text-foreground",
-                      "transition-colors duration-300 hover:text-white",
-                      "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
-                    )}
-                  >
-                    <span
-                      aria-hidden
-                      className="absolute inset-0 origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
-                    />
-                    <span className="relative z-10">Get a Free Audit</span>
-                  </Link>
+                {/* Stat sidebar */}
+                <div className="flex flex-col gap-6">
+                  <div className="rounded-[28px] bg-foreground p-7 shadow-[0_22px_50px_-38px_rgba(15,23,42,0.5)]">
+                    <p className="text-xs font-semibold uppercase tracking-[0.16em] text-white/40">
+                      Key Result
+                    </p>
+                    <p className="mt-4 text-5xl font-semibold tracking-tight text-white">
+                      {t.stat.value}
+                    </p>
+                    <p className="mt-3 text-sm leading-7 text-white/50">
+                      {t.stat.label}
+                    </p>
+                  </div>
+
+                  <div className="rounded-[28px] border border-[#E5E7EB] bg-white p-7 shadow-[0_18px_40px_-34px_rgba(15,23,42,0.24)]">
+                    <p className="text-sm font-semibold text-foreground">
+                      Ready to get started?
+                    </p>
+                    <p className="mt-2 text-sm leading-7 text-[#6B7280]">
+                      Book a free strategy call and we will audit your current
+                      marketing in 48 hours.
+                    </p>
+                    <Link
+                      href="/#contact"
+                      className={cn(
+                        "group relative mt-5 inline-flex w-full items-center justify-center overflow-hidden rounded-full",
+                        "border border-[#D1D5DB] bg-white px-5 py-3 text-sm font-semibold text-foreground",
+                        "transition-colors duration-300 hover:text-white",
+                        "focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2",
+                      )}
+                    >
+                      <span
+                        aria-hidden
+                        className="absolute inset-0 origin-left scale-x-0 bg-primary transition-transform duration-300 ease-out group-hover:scale-x-100"
+                      />
+                      <span className="relative z-10">Get a Free Audit</span>
+                    </Link>
+                  </div>
                 </div>
               </div>
-            </motion.div>
-          </AnimatePresence>
+            );
+          })}
         </div>
       </div>
     </section>

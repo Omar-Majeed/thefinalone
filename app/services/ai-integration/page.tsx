@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Footer } from "@/components/Footer";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { ServiceSchema } from "@/components/ServiceSchema";
 import { canonical } from "@/lib/seo";
 import { HeroSection }     from "@/components/services/ai-integration/HeroSection";
 import { WhatWeIntegrate } from "@/components/services/ai-integration/WhatWeIntegrate";
@@ -21,6 +22,12 @@ export default function AIIntegrationPage() {
   return (
     <main className="bg-background text-foreground">
       <Breadcrumb path="/services/ai-integration" />
+      <ServiceSchema
+        name="AI Services Integration"
+        serviceType="AI Integration"
+        description="We integrate large language models, computer vision, and ML pipelines directly into your existing systems — so AI becomes a capability, not a side project."
+        path="/services/ai-integration"
+      />
       <HeroSection />
       <WhatWeIntegrate />
       <UseCases />
