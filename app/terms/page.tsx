@@ -17,25 +17,25 @@ const LAST_UPDATED = "16 September 2026";
 export default function TermsPage() {
   return (
     <main className="bg-background text-foreground">
-        <Breadcrumb path="/terms" />
+      <Breadcrumb path="/terms" />
       <article className="mx-auto max-w-3xl px-6 py-20 sm:py-24 lg:py-28">
-        <header className="mb-12 border-b border-white/10 pb-8">
+        <header className="mb-12 border-b border-foreground/10 pb-8">
           <p className="text-sm font-semibold text-primary">Legal</p>
-          <h1 className="mt-3 text-4xl font-semibold tracking-tight sm:text-5xl">
+          <h1 className="mt-3 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl">
             Terms of Service
           </h1>
-          <p className="mt-4 text-sm text-white/50">
+          <p className="mt-4 text-sm text-foreground/50">
             Last updated: {LAST_UPDATED}
           </p>
         </header>
 
-        <div className="prose prose-invert max-w-none space-y-8 text-white/80 leading-relaxed">
+        <div className="max-w-none space-y-10 text-base leading-7 text-foreground/75">
           <section>
-            <h2 className="text-xl font-semibold text-white">1. Agreement</h2>
+            <h2 className="mb-3 text-xl font-semibold text-foreground">1. Agreement</h2>
             <p>
               These terms govern your access to and use of{" "}
               <a
-                className="text-primary underline-offset-4 hover:underline"
+                className="font-medium text-primary underline-offset-4 hover:underline"
                 href="https://www.axenity.com"
               >
                 www.axenity.com
@@ -47,7 +47,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="mb-3 text-xl font-semibold text-foreground">
               2. Nature of the Site
             </h2>
             <p>
@@ -60,11 +60,11 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="mb-3 text-xl font-semibold text-foreground">
               3. Acceptable use
             </h2>
             <p>You agree not to:</p>
-            <ul className="mt-3 list-disc space-y-2 pl-6">
+            <ul className="mt-3 list-disc space-y-2 pl-6 marker:text-primary">
               <li>Use the Site in any way that violates applicable law.</li>
               <li>
                 Attempt to interfere with, disrupt, or damage the Site, its
@@ -87,7 +87,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="mb-3 text-xl font-semibold text-foreground">
               4. Intellectual property
             </h2>
             <p>
@@ -99,7 +99,7 @@ export default function TermsPage() {
               use, including reproduction, republication, or commercial
               redistribution, requires our prior written permission.
             </p>
-            <p>
+            <p className="mt-3">
               Portfolio case studies mention client work only where the client
               has consented to disclosure. If you are a former client and want
               a mention updated or removed, contact us.
@@ -107,7 +107,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="mb-3 text-xl font-semibold text-foreground">
               5. Third-party links
             </h2>
             <p>
@@ -119,9 +119,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
-              6. No warranty
-            </h2>
+            <h2 className="mb-3 text-xl font-semibold text-foreground">6. No warranty</h2>
             <p>
               The Site is provided on an &ldquo;as is&rdquo; and &ldquo;as
               available&rdquo; basis. Performance figures, uptime numbers, and
@@ -134,7 +132,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="mb-3 text-xl font-semibold text-foreground">
               7. Limitation of liability
             </h2>
             <p>
@@ -148,13 +146,11 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
-              8. Privacy
-            </h2>
+            <h2 className="mb-3 text-xl font-semibold text-foreground">8. Privacy</h2>
             <p>
               Use of the Site is also governed by our{" "}
               <a
-                className="text-primary underline-offset-4 hover:underline"
+                className="font-medium text-primary underline-offset-4 hover:underline"
                 href="/privacy"
               >
                 Privacy Policy
@@ -165,7 +161,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
+            <h2 className="mb-3 text-xl font-semibold text-foreground">
               9. Governing law
             </h2>
             <p>
@@ -177,9 +173,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
-              10. Changes
-            </h2>
+            <h2 className="mb-3 text-xl font-semibold text-foreground">10. Changes</h2>
             <p>
               We may update these terms from time to time. Continued use of the
               Site after an update constitutes acceptance of the revised
@@ -189,13 +183,11 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white">
-              11. Contact
-            </h2>
+            <h2 className="mb-3 text-xl font-semibold text-foreground">11. Contact</h2>
             <p>
               Questions about these terms? Email{" "}
               <a
-                className="text-primary underline-offset-4 hover:underline"
+                className="font-medium text-primary underline-offset-4 hover:underline"
                 href={`mailto:${FOOTER_CONTACT.email}`}
               >
                 {FOOTER_CONTACT.email}
@@ -204,14 +196,12 @@ export default function TermsPage() {
             </p>
           </section>
 
-          <section className="mt-12 rounded-lg border border-white/10 bg-white/[0.03] p-6 text-sm text-white/60">
-            <p>
-              This document is operational, not legal advice. Have qualified
-              counsel review it before you rely on it as your final published
-              terms, especially if you begin selling packaged services online
-              or engaging with jurisdictions outside Australia.
-            </p>
-          </section>
+          <aside className="mt-12 rounded-lg border border-foreground/10 bg-background-alt p-6 text-sm leading-6 text-foreground/60">
+            This document is operational, not legal advice. Have qualified
+            counsel review it before you rely on it as your final published
+            terms, especially if you begin selling packaged services online
+            or engaging with jurisdictions outside Australia.
+          </aside>
         </div>
       </article>
       <Footer />

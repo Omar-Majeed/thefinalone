@@ -1,18 +1,20 @@
-import Link from "next/link";
 import { SITE_CONFIG } from "@/constants/site";
 
 /**
- * Breadcrumb trail + matching BreadcrumbList JSON-LD.
+ * BreadcrumbList JSON-LD only — no visible nav.
  *
- * Emits both the visible navigation aid and the Schema.org structured data
- * Google uses to render breadcrumb rich results. Both are derived from the
- * same `path` prop so they cannot drift apart.
+ * Google uses the structured data to render breadcrumb rich results in the
+ * SERP even when the page itself doesn't show a visible breadcrumb trail.
+ * The visible strip was deliberately dropped to keep the site's clean
+ * hero-forward layout intact; the SEO benefit stays.
  *
- * Usage on any non-home page:
+ * ── Usage (unchanged) ──────────────────────────────────────────────────
  *   <Breadcrumb path="/services/backend-api-development" />
  *
- * Add new routes to ROUTE_LABELS below so their trail label is human-
- * readable (rather than kebab-cased from the URL).
+ * ── If you ever want the visible trail back ────────────────────────────
+ * See the git history of this file — commit b8190f0 added the light-
+ * themed <nav aria-label="Breadcrumb"> element. Re-instate it here and
+ * every consuming page picks it up automatically.
  */
 
 const ROUTE_LABELS: Record<string, string> = {
@@ -75,45 +77,10 @@ function trailToJsonLd(trail: Crumb[]) {
 
 export function Breadcrumb({ path }: { path: string }) {
   const trail = buildTrail(path);
-  const lastIndex = trail.length - 1;
-
   return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(trailToJsonLd(trail)) }}
-      />
-      <nav
-        aria-label="Breadcrumb"
-        className="border-b border-white/5 bg-background/95 backdrop-blur-sm"
-      >
-        <ol className="container flex flex-wrap items-center gap-x-2 gap-y-1 px-6 py-3 text-xs text-white/50 sm:text-sm">
-          {trail.map((crumb, i) => {
-            const isLast = i === lastIndex;
-            return (
-              <li key={crumb.href} className="flex items-center gap-2">
-                {isLast ? (
-                  <span aria-current="page" className="font-medium text-white/80">
-                    {crumb.label}
-                  </span>
-                ) : (
-                  <Link
-                    href={crumb.href}
-                    className="transition-colors hover:text-primary"
-                  >
-                    {crumb.label}
-                  </Link>
-                )}
-                {!isLast && (
-                  <span aria-hidden className="text-white/25">
-                    /
-                  </span>
-                )}
-              </li>
-            );
-          })}
-        </ol>
-      </nav>
-    </>
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(trailToJsonLd(trail)) }}
+    />
   );
 }
