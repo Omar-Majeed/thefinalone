@@ -69,36 +69,43 @@ export function HeroSection() {
               UI/UX Design Services
             </motion.span>
 
-            <div className="mt-7 overflow-hidden">
-              <motion.h1
-                initial={{ opacity: 0, y: 60 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
-                className="text-5xl font-bold leading-[0.95] tracking-tight text-[#111827] sm:text-6xl lg:text-7xl"
-              >
-                Design Experiences
-              </motion.h1>
-            </div>
-            <div className="overflow-hidden">
-              <motion.h1
-                initial={{ opacity: 0, y: 60 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
-                className="text-5xl font-bold leading-[0.95] tracking-tight text-[#111827] sm:text-6xl lg:text-7xl"
-              >
-                People{" "}
-                <span className="relative inline-block">
-                  <span className="relative z-10 text-primary">Remember.</span>
-                  <motion.span
-                    aria-hidden
-                    className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-primary/30"
-                    initial={{ scaleX: 0, transformOrigin: "left" }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 1, ease: EASE, delay: 0.9 }}
-                  />
-                </span>
-              </motion.h1>
-            </div>
+            {/*
+              One semantic <h1> per page — the two visually distinct lines
+              are wrapped in spans that animate independently. Preserves the
+              stagger effect without emitting two separate H1 elements.
+            */}
+            <h1 className="mt-7 text-5xl font-bold leading-[0.95] tracking-tight text-[#111827] sm:text-6xl lg:text-7xl">
+              <span className="block overflow-hidden">
+                <motion.span
+                  initial={{ opacity: 0, y: 60 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: EASE, delay: 0.1 }}
+                  className="block"
+                >
+                  Design Experiences
+                </motion.span>
+              </span>
+              <span className="block overflow-hidden">
+                <motion.span
+                  initial={{ opacity: 0, y: 60 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.8, ease: EASE, delay: 0.2 }}
+                  className="block"
+                >
+                  People{" "}
+                  <span className="relative inline-block">
+                    <span className="relative z-10 text-primary">Remember.</span>
+                    <motion.span
+                      aria-hidden
+                      className="absolute -bottom-1 left-0 h-[3px] w-full rounded-full bg-primary/30"
+                      initial={{ scaleX: 0, transformOrigin: "left" }}
+                      animate={{ scaleX: 1 }}
+                      transition={{ duration: 1, ease: EASE, delay: 0.9 }}
+                    />
+                  </span>
+                </motion.span>
+              </span>
+            </h1>
 
             <motion.p
               initial={{ opacity: 0, y: 20 }}

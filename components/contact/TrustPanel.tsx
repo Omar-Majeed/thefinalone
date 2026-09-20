@@ -29,7 +29,14 @@ const TESTIMONIAL = {
   role: "Co-founder, Fintech startup",
 };
 
-export function TrustPanel() {
+/**
+ * Rendered twice on /contact (mobile stack + desktop split). Only one is
+ * visible per viewport, but both live in the DOM at all times — so exactly
+ * one instance must own the `<h1>` and the other must downgrade to `<h2>`.
+ * Pass `as="h2"` to the mobile copy (or whichever you choose to secondary).
+ */
+export function TrustPanel({ as = "h1" }: { as?: "h1" | "h2" }) {
+  const Heading = as;
 
   return (
     <div className="flex h-full flex-col justify-between gap-10 py-2">
@@ -43,9 +50,9 @@ export function TrustPanel() {
         <span className="text-xs font-semibold uppercase tracking-[0.22em] text-primary">
           Get In Touch
         </span>
-        <h1 className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[2.6rem] lg:leading-[1.12]">
+        <Heading className="mt-4 text-3xl font-semibold tracking-tight text-white sm:text-4xl lg:text-[2.6rem] lg:leading-[1.12]">
           Let&apos;s build something that actually performs
-        </h1>
+        </Heading>
         <p className="mt-4 text-base leading-relaxed text-white/50">
           Tell us about your project. We review every message personally and
           reply within one business day — no automated responses.

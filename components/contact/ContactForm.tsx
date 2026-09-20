@@ -9,7 +9,13 @@ import { TurnstileWidget } from "@/components/contact/TurnstileWidget";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
-export function ContactForm() {
+/**
+ * The contact page renders this form twice (once in the mobile stack, once in
+ * the desktop split). Both copies live in the DOM simultaneously, only one is
+ * visible per viewport. Pass a unique `idPrefix` to each instance so form-
+ * field IDs, label htmlFor, and aria-describedby references don't collide.
+ */
+export function ContactForm({ idPrefix = "contact" }: { idPrefix?: string }) {
   const {
     form,
     errors,
@@ -40,9 +46,9 @@ export function ContactForm() {
     >
       {/* Honeypot — visually hidden, off-screen, never tab-focusable. */}
       <div aria-hidden className="absolute left-[-9999px] top-[-9999px] h-0 w-0 overflow-hidden">
-        <label htmlFor="contact-website">Website</label>
+        <label htmlFor={`${idPrefix}-website`}>Website</label>
         <input
-          id="contact-website"
+          id={`${idPrefix}-website`}
           type="text"
           tabIndex={-1}
           autoComplete="off"
@@ -53,7 +59,7 @@ export function ContactForm() {
 
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
         <FloatingInput
-          id="contact-name"
+          id={`${idPrefix}-name`}
           label="Your name"
           type="text"
           autoComplete="name"
@@ -62,7 +68,7 @@ export function ContactForm() {
           error={errors.name}
         />
         <FloatingInput
-          id="contact-email"
+          id={`${idPrefix}-email`}
           label="Email address"
           type="email"
           autoComplete="email"
@@ -73,7 +79,7 @@ export function ContactForm() {
       </div>
 
       <FloatingInput
-        id="contact-company"
+        id={`${idPrefix}-company`}
         label="Company name"
         type="text"
         autoComplete="organization"
@@ -83,7 +89,7 @@ export function ContactForm() {
       />
 
       <FloatingSelect
-        id="contact-project"
+        id={`${idPrefix}-project`}
         label="Service interested"
         value={form.projectType}
         onChange={(v) => setField("projectType", v as ProjectType)}
@@ -92,7 +98,7 @@ export function ContactForm() {
       />
 
       <FloatingTextarea
-        id="contact-message"
+        id={`${idPrefix}-message`}
         label="Tell us about your project"
         value={form.message}
         onChange={(v) => setField("message", v)}

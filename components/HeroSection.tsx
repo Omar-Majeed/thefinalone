@@ -159,9 +159,22 @@ function Slide({ slide, priority }: { slide: HeroSlide; priority?: boolean }) {
             {slide.eyebrow}
           </span>
 
-          <h1 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl lg:text-foreground">
-            {slide.title}
-          </h1>
+          {/*
+            All 4 carousel slides live in the DOM at once; only the active
+            slide is visible. Exactly one instance is the page's semantic
+            H1 — the first slide (also carries `priority` for LCP), since
+            it renders first server-side and is what SSR-only crawlers see.
+            Remaining slides use H2.
+          */}
+          {priority ? (
+            <h1 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl lg:text-foreground">
+              {slide.title}
+            </h1>
+          ) : (
+            <h2 className="mt-5 text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl lg:text-6xl lg:text-foreground">
+              {slide.title}
+            </h2>
+          )}
 
           <p className="mt-5 max-w-lg text-base leading-relaxed text-white/85 sm:text-lg lg:text-foreground/70">
             {slide.description}

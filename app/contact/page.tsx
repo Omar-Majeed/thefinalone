@@ -42,7 +42,12 @@ function ContactSplit() {
               "radial-gradient(55% 40% at 20% 50%, rgba(90,187,74,0.18) 0%, transparent 70%)",
           }}
         />
-        <TrustPanel />
+        {/*
+          Mobile copy uses h2 because the desktop TrustPanel below already
+          owns the page's <h1>. Both live in the DOM simultaneously; only one
+          is visible per viewport.
+        */}
+        <TrustPanel as="h2" />
       </div>
 
       {/* ── Desktop split (lg+) ── */}
@@ -102,7 +107,7 @@ function ContactSplit() {
                 </p>
               </div>
 
-              <ContactForm />
+              <ContactForm idPrefix="contact-desktop" />
             </div>
 
             {/* Below-card reassurance row */}
@@ -137,7 +142,7 @@ function ContactSplit() {
                 We review every submission personally and respond within one business day.
               </p>
             </div>
-            <ContactForm />
+            <ContactForm idPrefix="contact-mobile" />
           </div>
 
           <div className="mt-5 flex flex-wrap justify-center gap-5 text-xs text-[#9CA3AF]">

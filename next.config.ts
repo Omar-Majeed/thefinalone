@@ -53,6 +53,36 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+
+  /**
+   * Security headers applied site-wide.
+   *
+   *   X-Content-Type-Options: nosniff       stop MIME-sniffing exploits
+   *   X-Frame-Options: SAMEORIGIN           block clickjacking iframes
+   *   Referrer-Policy                       don't leak full URL cross-origin
+   *   Permissions-Policy                    disable APIs we don't use
+   *
+   * CSP is intentionally omitted here — Vercel Analytics, Cloudflare
+   * Turnstile, Google Fonts, and the Next.js runtime all need explicit
+   * allow-list entries, so introducing one requires a report-only phase
+   * plus a real audit of every third-party asset. Handled separately.
+   */
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: [
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "X-Frame-Options", value: "SAMEORIGIN" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            key: "Permissions-Policy",
+            value: "camera=(), microphone=(), geolocation=(), interest-cohort=()",
+          },
+        ],
+      },
+    ];
+  },
 };
 
 export default nextConfig;
