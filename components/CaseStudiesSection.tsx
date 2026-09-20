@@ -36,11 +36,12 @@ export function CaseStudiesSection() {
             Case Studies
           </p>
           <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-[2.6rem] lg:leading-[1.15]">
-            Real projects for real Australian businesses
+            Real products, live in production
           </h2>
           <p className="mt-4 text-base leading-relaxed text-[#6B7280] sm:text-lg">
-            From Bass Hill dessert brands to Rockhampton trades, every project
-            is a live production build. No stock demos.
+            Every card below is a live build we shipped for a paying client —
+            from restaurants and trade services to autonomous AI agents. No
+            mockups, no stock demos.
           </p>
         </div>
 

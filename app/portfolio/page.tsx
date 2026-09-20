@@ -14,7 +14,7 @@ import { PORTFOLIO_PROJECTS } from "@/constants/portfolio";
 export const metadata: Metadata = {
   title: "Portfolio",
   description:
-    "Real client work Axenity has shipped across Australia — restaurants, trades, marriage celebrancy, auto service, and an internal AI booking agent.",
+    "Real client work Axenity has shipped — restaurants, trade services, marriage celebrancy, auto service with an internal AI booking agent, and a mobile-first PWA. Every project is live in production.",
   alternates: canonical("/portfolio"),
 };
 
