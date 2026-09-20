@@ -36,7 +36,7 @@ export const HERO_SLIDES: HeroSlide[] = [
     title: "Expand Your Reach with SEO & Digital Marketing Solutions",
     description:
       "Data-driven strategies that turn visibility into measurable revenue across organic and paid channels.",
-    image: "/portfolio/greenleaf-cover.jpg",
-    imageAlt: "Analytics dashboard showing growth metrics",
+    image: "/portfolio/qazi/cover.webp",
+    imageAlt: "Qazi Marriage Celebrant — Sydney editorial landing page",
   },
 ];

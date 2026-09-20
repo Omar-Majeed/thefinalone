@@ -8,10 +8,17 @@ import { useEffect, useRef } from "react";
 
 const EASE = [0.22, 1, 0.36, 1] as const;
 
+/**
+ * Floating parallax panels behind the hero — repointed to the real client
+ * covers after Phase 3.1's portfolio revamp deleted the old fabricated
+ * cover JPGs. The mobile-orientation Philliez shot goes into the narrow
+ * portrait slot on the right; the wide desktop covers fill the landscape
+ * slots.
+ */
 const FLOATING_PANELS = [
   {
-    src: "/portfolio/nexa-commerce-cover.jpg",
-    alt: "Analytics dashboard preview",
+    src: "/portfolio/ammoun-sweets/cover.webp",
+    alt: "Ammoun Sweets — editorial Lebanese dessert brand",
     className:
       "left-[4%] top-[18%] h-40 w-64 sm:h-52 sm:w-80 lg:h-60 lg:w-96",
     depth: 30,
@@ -19,8 +26,8 @@ const FLOATING_PANELS = [
     delay: 0.1,
   },
   {
-    src: "/portfolio/swift-shop-cover.jpg",
-    alt: "Mobile commerce preview",
+    src: "/portfolio/philliez/cover.webp",
+    alt: "Philliez — Chester Hill cheesesteak PWA",
     className:
       "right-[6%] top-[12%] h-44 w-32 sm:h-56 sm:w-40 lg:h-72 lg:w-52",
     depth: -45,
@@ -28,8 +35,8 @@ const FLOATING_PANELS = [
     delay: 0.2,
   },
   {
-    src: "/portfolio/fin-vault-cover.jpg",
-    alt: "Fintech UI surface",
+    src: "/portfolio/tyre-express/cover.webp",
+    alt: "Tyre Express — South Granville tyre workshop",
     className:
       "right-[10%] bottom-[14%] h-36 w-56 sm:h-44 sm:w-72 lg:h-52 lg:w-80",
     depth: 55,
@@ -37,8 +44,8 @@ const FLOATING_PANELS = [
     delay: 0.35,
   },
   {
-    src: "/portfolio/medi-track-cover.jpg",
-    alt: "AI interface preview",
+    src: "/portfolio/hohmanns/cover.webp",
+    alt: "Hohmanns Plumbing Services — Rockhampton trade site",
     className:
       "left-[8%] bottom-[10%] h-36 w-48 sm:h-44 sm:w-64 lg:h-52 lg:w-72",
     depth: -30,
