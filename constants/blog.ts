@@ -33,7 +33,8 @@ export type BlogTag =
   | "Mobile"
   | "SEO"
   | "Product"
-  | "Case Study";
+  | "Case Study"
+  | "Architecture";
 
 export type BlogPostMeta = {
   slug: string;
@@ -58,6 +59,30 @@ export type BlogPostMeta = {
  * components/blog/posts/<slug>.tsx body component.
  */
 export const BLOG_POSTS: BlogPostMeta[] = [
+  {
+    slug: "redis-session-idempotency-race-condition",
+    title:
+      "Idempotency with Redis sessions: a race condition and what we did about it.",
+    description:
+      "A single-use token in a Spring Session + Redis setup is only idempotent if you understand how the session is actually loaded per request. Here's the race condition we hit under concurrency, every attempt that didn't fix it, and the bounded in-memory cache that did.",
+    authorId: "muhammad-omar",
+    publishedDate: "2026-10-04",
+    readTimeMinutes: 11,
+    tags: ["Backend", "Architecture", "Case Study"],
+    relatedServicePath: "/services/backend-api-development",
+  },
+  {
+    slug: "modular-monolith-vs-microservices",
+    title:
+      "Modular monolith vs microservices: a less fashionable architecture that usually wins.",
+    description:
+      "Most 'move to microservices' projects fail because they solve the wrong problem. For organisations enhancing an older monolith, a modular monolith is almost always the better next step. Here's the decision framework we use, and the hidden costs microservices advocates don't mention.",
+    authorId: "muhammad-omar",
+    publishedDate: "2026-10-04",
+    readTimeMinutes: 9,
+    tags: ["Backend", "Architecture", "Product"],
+    relatedServicePath: "/services/backend-api-development",
+  },
   {
     slug: "ai-booking-agent-tyre-shop",
     title:

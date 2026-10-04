@@ -45,6 +45,10 @@ const ROUTE_LABELS: Record<string, string> = {
   "blog/ai-booking-agent-tyre-shop": "AI booking agent for a tyre shop",
   "blog/pwa-vs-native-app-for-restaurants":
     "PWA vs native app for restaurants",
+  "blog/modular-monolith-vs-microservices":
+    "Modular monolith vs microservices",
+  "blog/redis-session-idempotency-race-condition":
+    "Redis session idempotency race condition",
 };
 
 interface Crumb {

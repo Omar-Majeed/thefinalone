@@ -12,6 +12,8 @@ import { SITE_CONFIG } from "@/constants/site";
 
 import AiBookingAgentTyreShop from "@/components/blog/posts/ai-booking-agent-tyre-shop";
 import PwaVsNativeAppForRestaurants from "@/components/blog/posts/pwa-vs-native-app-for-restaurants";
+import ModularMonolithVsMicroservices from "@/components/blog/posts/modular-monolith-vs-microservices";
+import RedisSessionIdempotencyRaceCondition from "@/components/blog/posts/redis-session-idempotency-race-condition";
 
 interface Params {
   params: Promise<{ slug: string }>;
@@ -20,6 +22,8 @@ interface Params {
 const POST_COMPONENTS: Record<string, () => React.ReactElement> = {
   "ai-booking-agent-tyre-shop": AiBookingAgentTyreShop,
   "pwa-vs-native-app-for-restaurants": PwaVsNativeAppForRestaurants,
+  "modular-monolith-vs-microservices": ModularMonolithVsMicroservices,
+  "redis-session-idempotency-race-condition": RedisSessionIdempotencyRaceCondition,
 };
 
 export async function generateStaticParams() {
