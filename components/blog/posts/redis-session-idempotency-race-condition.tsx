@@ -174,22 +174,76 @@ public ResponseEntity<?> savePreferences(
         This looks correct. It isn&apos;t. The problem is that{" "}
         <Code>session</Code> is not a stable Java object across requests.
         Spring Session&apos;s request filter resolves the session from
-        Redis on each request — the handler may receive a different Java
-        object instance each time (depending on the implementation of{" "}
-        <Code>SessionRepository</Code> and the request flow), so{" "}
-        <Code>synchronized(session)</Code> acquires a monitor on a
-        <Em>different</Em> object each time, and no two requests actually
-        contend.
+        Redis on each request — the handler receives a different Java
+        object instance each time, so <Code>synchronized(session)</Code>{" "}
+        acquires a monitor on a <Em>different</Em> object each time, and
+        no two requests actually contend.
       </P>
 
       <P>
-        Even if the session <Em>was</Em> the same JVM object across
-        concurrent requests on one node, we still have the real killer: the
-        application is deployed across multiple nodes behind a load
-        balancer. The LB routes requests to whichever node is least loaded.
-        Two concurrent requests with the same token can land on different
-        nodes. A JVM-level lock cannot coordinate across nodes.
+        Fine, I thought — lock on something stable instead. The session
+        ID is literally the same string every request for a given
+        session, by definition:
       </P>
+
+      <Pre lang="java">{`// Still broken. Different reason this time.
+synchronized (session.getId()) {
+    // ...
+}`}</Pre>
+
+      <P>
+        Also broken, and the reason trips up a lot of Java engineers:{" "}
+        <Code>synchronized</Code> locks on <Em>object identity</Em>{" "}
+        (reference equality, <Code>==</Code>), not on value equality
+        (<Code>.equals()</Code>). Two <Code>String</Code> objects with
+        identical characters are still two different objects in the JVM
+        with two different monitors. <Code>session.getId()</Code> is
+        reconstructed per request — deserialised from Redis, parsed from a
+        cookie, pulled from a UUID generator — so each call returns a{" "}
+        <Em>fresh</Em> <Code>String</Code> object even though
+        {" "}<Code>a.equals(b)</Code> is <Code>true</Code>. Each thread
+        locks a different monitor. Neither waits.
+      </P>
+
+      <P>
+        OK — force interning. <Code>String.intern()</Code> canonicalises
+        the string against the JVM&apos;s string pool, returning the
+        single shared reference for a given value. Two threads calling{" "}
+        <Code>&quot;abc123&quot;.intern()</Code> get the same reference,
+        and therefore the same monitor:
+      </P>
+
+      <Pre lang="java">{`// Finally works! ...on one node.
+synchronized (session.getId().intern()) {
+    // ...
+}`}</Pre>
+
+      <P>
+        This <Em>does</Em> fix the single-JVM race. Load-tested on one
+        node, no more duplicates. We shipped it. Then we deployed to the
+        actual multi-node environment and the duplicates came back.
+      </P>
+
+      <P>
+        The reason: <Strong>the string pool is per-JVM.</Strong> Each node
+        has its own <Code>StringTable</Code>. Node 1&apos;s interned
+        &ldquo;abc123&rdquo; and Node 2&apos;s interned &ldquo;abc123&rdquo;
+        are two different objects living in two different processes on two
+        different machines. With a non-sticky load balancer, two
+        concurrent requests for the same session can land on different
+        nodes, each interning the ID into its own pool, each successfully
+        acquiring its own lock — and neither knowing the other exists.
+      </P>
+
+      <Callout tone="warn" title="Even on one node, .intern() on client input is a quiet DoS vector">
+        <Code>.intern()</Code> adds the string to the JVM&apos;s
+        <Code>StringTable</Code>. A public endpoint that interns every
+        session ID or token it receives is giving an attacker a tool to
+        bloat the string pool at will. Modern JDKs do garbage-collect
+        interned strings, but under sustained adversarial traffic
+        it&apos;s meaningful GC pressure for no payoff. On top of being
+        wrong across nodes, it&apos;s risky even on one.
+      </Callout>
 
       <Figure
         src="/blog/redis-idempotency/multi-node.svg"
@@ -197,23 +251,36 @@ public ResponseEntity<?> savePreferences(
         caption={<>Each JVM successfully <Em>locks its own</Em> session copy. Neither knows the other request exists on the sibling node, so both pass through.</>}
       />
 
-      <Callout tone="danger" title="The three reasons Java locking fails here">
+      <Callout tone="danger" title="The four reasons Java locking failed here">
         <Ol>
           <Li>
-            Spring Session resolves the session per request — the Java
-            object you&apos;re locking on may not be the same instance
-            another request is holding.
+            <Code>synchronized(session)</Code> — Spring Session resolves
+            the session per request, so the Java object you&apos;re
+            locking on is a fresh instance each time. No two requests
+            contend.
           </Li>
           <Li>
-            Even if it were, <Code>synchronized</Code> only coordinates
-            within a single JVM.
+            <Code>synchronized(session.getId())</Code> —{" "}
+            <Code>synchronized</Code> locks on reference identity, not
+            value. Strings reconstructed per request from Redis or a
+            cookie are different objects even when the characters match.
+            Each thread locks a different monitor.
+          </Li>
+          <Li>
+            <Code>synchronized(session.getId().intern())</Code> — fixes
+            the reference-identity problem inside one JVM, but the string
+            pool is per-process. Different nodes maintain different
+            {" "}<Code>StringTable</Code>s. Interned
+            {" "}&ldquo;abc123&rdquo; on Node 1 is a different object
+            from interned &ldquo;abc123&rdquo; on Node 2.
           </Li>
           <Li>
             Across nodes behind a load balancer, you need either{" "}
             <Em>sticky sessions</Em> (so every request for one session
-            lands on the same node) or a distributed lock. Sticky sessions
-            buy you single-node semantics; a distributed lock lives
-            outside the JVM.
+            lands on the same node) or a distributed lock. Sticky
+            sessions buy you single-node semantics; a distributed lock
+            lives outside the JVM. No JVM-local primitive can bridge the
+            gap.
           </Li>
         </Ol>
       </Callout>
