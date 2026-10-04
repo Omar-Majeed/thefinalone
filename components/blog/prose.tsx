@@ -73,8 +73,11 @@ export function Em({ children }: { children: React.ReactNode }) {
 }
 
 export function Ul({ children }: { children: React.ReactNode }) {
+  // `pl-5` is tighter than `pl-6` so the content column keeps enough width
+  // for inline <Code> to breathe on 320–375px mobile viewports when the list
+  // is nested inside a Callout.
   return (
-    <ul className="ml-1 list-disc space-y-2 pl-6 text-base leading-7 text-foreground/75 marker:text-primary sm:text-[17px]">
+    <ul className="ml-1 list-disc space-y-2 pl-5 text-base leading-7 text-foreground/75 marker:text-primary sm:pl-6 sm:text-[17px]">
       {children}
     </ul>
   );
@@ -82,7 +85,7 @@ export function Ul({ children }: { children: React.ReactNode }) {
 
 export function Ol({ children }: { children: React.ReactNode }) {
   return (
-    <ol className="ml-1 list-decimal space-y-2 pl-6 text-base leading-7 text-foreground/75 marker:font-semibold marker:text-primary sm:text-[17px]">
+    <ol className="ml-1 list-decimal space-y-2 pl-5 text-base leading-7 text-foreground/75 marker:font-semibold marker:text-primary sm:pl-6 sm:text-[17px]">
       {children}
     </ol>
   );
@@ -94,7 +97,11 @@ export function Li({ children }: { children: React.ReactNode }) {
 
 export function Code({ children }: { children: React.ReactNode }) {
   return (
-    <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-[0.9em] text-foreground/85">
+    // `break-words` lets long method chains like `session.getId().intern()`
+    // wrap at any character boundary instead of overflowing their parent on
+    // narrow viewports. Without it the token is treated as one unbreakable
+    // "word" and pushes the whole callout past the edge of the screen.
+    <code className="rounded bg-foreground/5 px-1.5 py-0.5 font-mono text-[0.9em] text-foreground/85 [overflow-wrap:anywhere]">
       {children}
     </code>
   );
@@ -170,7 +177,13 @@ export function Callout({
       className={`flex gap-3 rounded-2xl border ${style.border} ${style.bg} p-4 text-[15px] leading-7 text-foreground/80`}
     >
       <span className="mt-1 shrink-0">{style.icon}</span>
-      <div className="flex-1">
+      {/*
+        `min-w-0` is critical: flex children default to `min-width: auto`,
+        which refuses to shrink below the intrinsic size of their content.
+        If a child contains a long inline <code> token the whole callout
+        would overflow its parent on narrow mobile viewports without it.
+      */}
+      <div className="min-w-0 flex-1">
         {title && (
           <p className="mb-1 text-sm font-semibold text-foreground">{title}</p>
         )}
@@ -217,5 +230,9 @@ export function Figure({
 
 /** Wraps a whole post body — spaces every direct child vertically. */
 export function ProseBody({ children }: { children: React.ReactNode }) {
-  return <div className="space-y-6">{children}</div>;
+  // `min-w-0` prevents the body from being stretched by any un-breakable
+  // descendant content (long inline code, long URLs) when it sits inside a
+  // flex column. Belt-and-suspenders with the per-component wrapping we
+  // already apply.
+  return <div className="min-w-0 space-y-6">{children}</div>;
 }
