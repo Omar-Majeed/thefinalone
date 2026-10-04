@@ -3,6 +3,7 @@ import {
   Callout,
   Code,
   Em,
+  Figure,
   H2,
   Li,
   Ol,
@@ -130,6 +131,12 @@ public ResponseEntity<?> savePreferences(
         kicked off the audit write.
       </P>
 
+      <Figure
+        src="/blog/redis-idempotency/race-condition.svg"
+        alt="Sequence diagram showing two concurrent requests both reading the same token from Redis at T₁, both deciding it is valid at T₂, both writing duplicate audit records to the database at T₃, and both trying to invalidate the token at T₄ when it is already too late."
+        caption={<>Both requests enter the “race window” before either has written the invalidation. Classic TOCTOU — the check and the write are not a single atomic step.</>}
+      />
+
       <Callout tone="warn" title="The session is not a shared memory block">
         A fundamental assumption I was carrying from classic in-JVM
         sessions did not survive the move to Redis. The session is not a
@@ -183,6 +190,12 @@ public ResponseEntity<?> savePreferences(
         Two concurrent requests with the same token can land on different
         nodes. A JVM-level lock cannot coordinate across nodes.
       </P>
+
+      <Figure
+        src="/blog/redis-idempotency/multi-node.svg"
+        alt="Two concurrent requests with the same token enter a load balancer with no sticky-session configuration. The LB routes Request A to Node 1 and Request B to Node 2. Each node holds a synchronized(session) lock inside its own JVM. Both nodes read the shared Redis session store independently."
+        caption={<>Each JVM successfully <Em>locks its own</Em> session copy. Neither knows the other request exists on the sibling node, so both pass through.</>}
+      />
 
       <Callout tone="danger" title="The three reasons Java locking fails here">
         <Ol>
@@ -369,6 +382,12 @@ public ResponseEntity<?> savePreferences(
         is a slight loss of idempotency guarantees for the oldest 1,000
         tokens — not an OOM.
       </Callout>
+
+      <Figure
+        src="/blog/redis-idempotency/solutions.svg"
+        alt="Two correct solutions, two different topologies. Left: Redis SETNX works atomically across every node — pick when the deployment is multi-node without sticky sessions. Right: Caffeine with sticky-session load balancing pins arbitration to a single node and avoids a Redis round-trip — pick when sticky sessions are already enforced and the extra round-trip matters."
+        caption={<>The decision isn’t “Redis vs. Caffeine” — it’s a topology question. Both are correct in their own context.</>}
+      />
 
       <H2 id="what-id-reach-for-first-next-time">
         What I&apos;d reach for first next time

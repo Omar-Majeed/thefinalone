@@ -182,6 +182,39 @@ export function Callout({
   );
 }
 
+/**
+ * Figure — a captioned image/diagram inside the post body.
+ *
+ * Pass a plain SVG path from /public (served as a static asset — Next.js
+ * does not re-optimize SVG). The caption renders in muted text below.
+ */
+export function Figure({
+  src,
+  alt,
+  caption,
+}: {
+  src: string;
+  alt: string;
+  caption?: React.ReactNode;
+}) {
+  return (
+    <figure className="my-8 flex flex-col items-stretch">
+      <div className="overflow-hidden rounded-2xl border border-foreground/10 bg-background-alt p-4 sm:p-6">
+        {/* Using <img> rather than next/image: SVGs are already minimal, and
+            next/image's optimizer skips them by default. Keeps responsive
+            scaling simple via width:100%. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={src} alt={alt} className="h-auto w-full" loading="lazy" />
+      </div>
+      {caption && (
+        <figcaption className="mt-3 text-center text-sm leading-6 text-foreground/55">
+          {caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
+
 /** Wraps a whole post body — spaces every direct child vertically. */
 export function ProseBody({ children }: { children: React.ReactNode }) {
   return <div className="space-y-6">{children}</div>;
