@@ -40,21 +40,6 @@ const nextConfig: NextConfig = {
   },
 
   /**
-   * Rewrite so /favicon.ico returns the dynamically-generated icon at 200
-   * (rather than 404). Modern browsers pick up <link rel="icon"> from HTML,
-   * but old bookmark scrapers and some social-preview bots still request
-   * /favicon.ico by name.
-   */
-  async rewrites() {
-    return [
-      {
-        source: "/favicon.ico",
-        destination: "/icon",
-      },
-    ];
-  },
-
-  /**
    * Security headers applied site-wide.
    *
    *   X-Content-Type-Options: nosniff       stop MIME-sniffing exploits
